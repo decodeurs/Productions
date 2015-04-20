@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+<script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+<link href="css/style.css" rel="stylesheet" type="text/css">
+<link href="css/lemonde.css" rel="stylesheet" type="text/css">
+<!-- <link rel="stylesheet" type="text/css" href="http://s1.lemde.fr/bootstrap/www/3d23b8d51dc9a4946fa37b18db59105a.css?m[]=normalize&m[]=fonts&m[]=grille&m[]=base&m[]=header&m[]=footer&m[]=rubrique&m[]=article&m[]=partenaires%2Fpaves&m[]=col_droite&m[]=ticker&m[]=couleurs&m[]=une&m[]=bourse%2Fwidgets&m[]=partenaires%2Fnewsweb%2Fbase&m[]=partenaires%2Fnewsweb%2Fdatabox&m[]=partenaires%2Fnewsweb%2Flivescore_tennis&m[]=partenaires%2Fnewsweb%2Flivescore"> -->
+<style type="text/css">
+#introduction p {
+  margin:5px 0;
+}
+#methodologie{
+  display:none;
+}
+#options {
+  text-align: center;
+}
+#options p{
+  margin:15px 0;
+}
+#options label {
+  
+}
+#options input[type="radio"] {
+  margin-left:10px;
+  width:20px;
+  height:20px;
+}
+  .error {
+    font-weight: bold;
+    color:red;
+  }
+  .error_text {
+    display:none;
+    color:red;
+    padding-left: 10px;
+    font-size: 22pt;
+  }
+  .error_message {
+    display:none;
+    color:red;
+  }
+  .confirme {
+    background-color: #f1f5f8;
+    color: #8b9299;
+    padding: 10px;
+  }
+  .total_orange {
+    position: relative;
+    padding: 10px;
+    background: #FF905B;
+    color: #fff;
+  }
+  .detail div {
+    padding:0 0 10px 0;
+  }
+  .detail p{
+    padding:10px 10px 10px 20px;
+  }
+  .detail table{
+    display:none;
+    list-style: square;
+    margin: 10px 0 0 0;
+    border-top:1px solid #666;
+  }
+
+  .detail table tr td{
+    padding:3px 10px;
+  }
+  .detail table tr td span{
+    font-weight:bold;
+  }
+  .detail table tr td:nth-child(1){
+      width:70%;
+      border-right:1px solid #666;
+  }
+  .detail table tr td:nth-child(2), .detail table tr td:nth-child(3){
+      width:15%;
+      text-align: right;
+  }
+
+  .detail div:nth-child(odd), .reductions .detail:nth-child(odd){
+      background:#e4e6e9;
+  }
+  .detail div:nth-child(even), .reductions .detail:nth-child(even){
+      background:#f1f5f8;
+  }
+  .detail div div.more {
+    width:31px;
+    height:29px;
+    background:url(img/plus.png) no-repeat left 0px;
+    float: right;
+    cursor: pointer;
+    margin: 10px 3px 0 0;
+  }
+  .detail .cice {
+    text-align: center;
+    background-color: white!important;
+  }
+  #resultats {
+    display:none;
+  }
+  .change {
+    width: 23px;
+    height: 20px;
+    background: url(img/changement3.png) left top no-repeat!important;
+    display: block;
+    float: right;
+    margin: 8px 5px 0 0;
+    padding:10px;
+    cursor: pointer;
+  }
+  .change.change2 {
+    width: 23px;
+    height: 20px;
+    background: url(img/changement3.png) left top no-repeat!important;
+    display: inline-block;
+    padding: 0 0 0 10px;
+    cursor: pointer;
+    margin: 8px 5px 0 0;
+    float:left;
+  }
+  .ui-tooltip {
+    padding: 10px;
+    background-color:white;
+    border:2px solid #285a82;
+    width:400px;
+    margin-left:10px;
+  }
+
+.ui-tooltip-content {
+    position: relative;
+}
+.changeoright .ui-tooltip-content::before {
+  border:none;
+}
+  /*.changeo .ui-tooltip-content::after  {
+    top: 5px;
+    left: -30px;
+    border-color: transparent #285a82;
+    border-width: 20px 20px 20px 0;
+    content: '';
+    position: absolute;
+    border-style: solid;
+    display: block;
+}
+.changeoright .ui-tooltip-content::after  {
+    top: 5px;
+    right: -30px;
+    border-color: transparent #285a82;
+    border-width: 20px 0px 20px 20px;
+    content: '';
+    position: absolute;
+    border-style: solid;
+    display: block;
+}*/
+
+#legende {
+  border:1px solid #285a82;
+}
+
+</style>
+
+</head>
+<body>
+
+<div class="_global" id="articleBody">
+
+    <div class="container_18 clearfix mgb16 mgt16 container txt6 pad16 article" id="introduction">
+      <p>Pour relancer l'économie et faire baisser le chômage, François Hollande et son gouvernement ont décidé de réduire drastiquement les cotisations patronales sur les plus bas salaires au moyen du "pacte de responsabilité". Pour vous permettre d'évaluer l'impact concret de ces mesures, nous vous proposons de simuler votre fiche de paie et d'explorer ce qui pourrait changer pour vous d'ici 2017.</p>
+      <p class="lire txt5">Pour tout comprendre sur votre fiche de paie, <a href="http://www.lemonde.fr/les-decodeurs/article/2014/04/29/decodez-votre-fiche-de-paie_4408809_4355770.html" target="_blank">consultez également notre décodage</a></p>
+    </div>
+    <div class="container_18 clearfix mgb16 container txt5 confirmation" id="options">
+            <p class="error_message txt6">Merci de vérifier le(s) champ(s) suivant(s) :</p>
+            <p><label for="salairebrut" class="tt3_capital">Votre salaire brut mensuel (€) </label><input type="text" name="salairebrut" id="salairebrut" class="saisie"><span class="error_text">&laquo;</span></p>
+            <p><label for="statut" class="tt3_capital">Votre statut</label>
+              <input type="radio" name="statut" value="cadre" >Cadre
+              <input type="radio" name="statut" value="noncadre">Non-cadre
+              <span class="error_text">&laquo;</span>
+            </p>
+            <p><label for="taille" class="tt3_capital">La taille de votre entreprise</label>
+              <input type="radio" name="taille" value="moins9">Moins de 9 salariés
+              <input type="radio" name="taille" value="moins20">9-20 salariés
+              <input type="radio" name="taille" value="moins250" >20-250 salariés
+              <input type="radio" name="taille" value="plus250">Plus de 250 salariés
+              <span class="error_text">&laquo;</span>
+            </p>
+            <p><a class="btn_grand" id="submit">Générer la fiche de paie</a></p>
+
+    </div>
+
+    <div class="container_18 clearfix clearfix container" id="resultats">
+     
+      <div class="grid_9 alpha" id="patronales">
+            <div class="grid_9 alpha omega">
+                <p class="tt3_capital" align="center">Votre entreprise est soumise à environ</p>
+            </div>
+            <div class="grid_9 alpha omega">
+                <div class="grid_2 alpha clearfix">&nbsp;</div>
+                <div class="grid_5 pad16 tt3 total_orange" align="center" id="total_cotisations_patronales"></div>
+                <div class="grid_2 omega clearfix">&nbsp;</div>
+            </div>
+            <div class="grid_9 alpha omega">
+              <p class="tt5" align="center">de cotisations patronales,<br>soit <span id="pourcentage_cotisations_patronales"></span>&nbsp;% de votre salaire brut</p>
+            </div>
+            <div class="grid_9 alpha omega detail mgt16" id="detail_patronales">
+              <div class="s">
+                <div class="more"></div>
+              </div>
+              <div class="c">
+                <div class="more"></div>
+              </div>
+              
+              <div class="r">
+                <div class="more"></div>
+                </div>
+              <div class="f">
+                <div class="more"></div>
+                </div>
+                <div class="p">
+                
+                 </div>
+              <div class="m">             
+              </div>
+              
+            </div>
+
+
+      </div>
+      <div class="grid_9 omega" id="salariales">
+          <div class="grid_9 alpha omega">
+                <p class="tt3_capital" align="center">En tant que salarié, vous payez environ</p>
+          </div>
+            <div class="grid_9 alpha omega">
+                <div class="grid_2 alpha clearfix">&nbsp;</div>
+                <div class="grid_5 pad16 tt3 confirmation" align="center" id="total_cotisations_salariales"></div>
+                <div class="grid_2 omega clearfix">&nbsp;</div>
+            </div>
+            <div class="grid_9 alpha omega">
+              <p class="tt5" align="center">de cotisations salariales,<br>soit <span id="pourcentage_cotisations_salariales"></span>&nbsp;% de votre salaire brut</p>
+            </div>
+            <div class="grid_9 alpha omega detail mgt16" id="detail_salariales">
+              <div class="s">
+                <div class="more"></div>
+              </div>
+              <div class="c">
+                <div class="more"></div>
+              </div>
+              
+              <div class="r">
+                <div class="more"></div>
+                </div>
+           
+              <div class="m">             
+              </div>
+            </div>
+            <div class="grid_9 alpha omega mgt32">
+              <div class="grid_1 alpha omega clearfix">&nbsp;</div>
+              <div class="grid_7 tt6 pad16" align="center" id="legende"></div>
+              <div class="grid_1 alpha omega clearfix">&nbsp;</div>
+            </div>
+           
+      </div>
+
+
+
+    </div>
+
+    <div class="container_18 clearfix mgb16 mgt16 container pad16 article bloc_gris_neutre bordt1 pad16" id="methodologie">
+      <h3 class="tt5 intertitre">Notre méthodologie</h3> 
+      <p>Pour réaliser cet outil, nous avons dû simplifier certaines choses. Les cotisations varient en effet selon de très nombreux paramètres : taille de l’entreprise, secteur d’activité, public/privé, etc. Nous n’avons ainsi pas pris en compte les aides sectorielles ou les taxes supplémentaires demandées à certaines activités spécifiques, ni intégré d'éventuels lissages ou rééquilibrages qui interviennent d'une année sur l'autre.</p>
+      <p>De même, toutes les entreprises n’offrent pas à leurs salariés les mêmes avantages, par exemple quant à la part de leur mutuelle prise en charge. Nous avons donc dû simplifier là aussi.</p>
+      <p>Notre outil n’a pas pour but de vous fournir, à l’euro près, le détail des cotisations que vous payez. Il permet néanmoins de se rendre compte de ce que règle votre employeur et de ce que vous cotisez pour différentes caisses.</p>
+      <p class="lire">Pour mieux comprendre comment fonctionner sur votre fiche de paie, nous vous invitons à <a href="http://www.lemonde.fr/les-decodeurs/article/2014/04/29/decodez-votre-fiche-de-paie_4408809_4355770.html" target="_blank">consulter notre décodage</a></p>
+    </div>
+
+
+</div>
+
+	<script type="text/javascript">
+
+
+$(".more").click(function(e){
+  liste = $(this).parent().children("table")
+  if(liste.css("display") == "none") {$(this).css("background-position","left -30px")}
+  else {$(this).css("background-position","left 0px")};
+  liste.toggle({
+    effect:"slide",
+    direction:"up"})
+})
+
+
+
+
+  $("#submit").click(function(e){
+      e.preventDefault();
+      var error = 0;
+      if($.isNumeric($("#salairebrut").val())) { salairebrut = Number($("#salairebrut").val()); }
+      else { salairebrut = null; }
+      statut = $("input:radio[name=statut]:checked").val();
+      taille = $("input:radio[name=taille]:checked").val();
+      if(salairebrut <= 0) {
+        $("label[for=salairebrut]").parent().children(".error_text").css("display","inline-block");
+        error++;
+      }
+      else {
+        $("label[for=salairebrut]").parent().children(".error_text").css("display","none")
+      }
+      if(!statut) {
+        $("label[for=statut]").parent().children(".error_text").css("display","inline-block");
+        error++;
+      }
+      else {
+        $("label[for=statut]").parent().children(".error_text").css("display","none");
+      }
+      if(!taille) {
+        $("label[for=taille]").parent().children(".error_text").css("display","inline-block");       
+        error++;
+      }
+      else {
+        $("label[for=taille]").parent().children(".error_text").css("display","none")
+      }
+      if(error == 0) {
+        if($(".error_message").css("display") == "block") $(".error_message").toggle("fade");
+        $("#options").animate({
+           backgroundColor: "#468847",
+           color: "#FFF"
+        },100).animate({
+           backgroundColor: "#f1f5f8",
+            color: "#8b9299"
+          },400);
+        genererDonnees(salairebrut,statut,taille);
+        $("#resultats").css("display","block").effect("slide")
+      }
+      else {
+        $(".error_message").css("display","block");
+      }
+
+    
+
+    }
+  )
+
+
+function genererDonnees(salairebrut,statut,taille) {
+
+var option = {
+  "2014":{
+    "assiette":{
+    },
+    "constantes":{
+      plafond: 3129,
+      smic:1445.38
+    },
+    "cotisations":{
+      maladie_tt:{
+        nom: "Assurance maladie - toutes tranches",
+        patronales: 12.8,
+        salariales: 0.75,
+        assiette: "tt",
+        ensemble: "s",
+        avenir: "Manuel Valls a annoncé la suppression totale des cotisations patronales à l'Urssaf dès 2015 pour les salariés payés au smic."
+      },
+      vieillesse_tt:{
+        nom: "Assurance vieillesse - toutes tranches",
+        patronales: 1.75,
+        salariales: 0.25,
+        assiette: "tt",
+        ensemble: "s",
+        avenir: "Manuel Valls a annoncé la suppression totale des cotisations patronales à l'Urssaf dès 2015 pour les salariés payés au smic."
+      },
+      vieillesse_ta:{
+        nom: "Assurance vieillesse - tranche A",
+        patronales: 8.45,
+        salariales: 6.8,
+        assiette: "ta",
+        ensemble: "s",
+        avenir: "Manuel Valls a annoncé la suppression totale des cotisations patronales à l'Urssaf dès 2015 pour les salariés payés au smic."
+      },
+      assedic_ta:{
+        nom: "Assedic - tranche A",
+        patronales: 4,
+        salariales: 2.4,
+        assiette: "ta",
+        ensemble: "c"
+      },
+      assedic_tb:{
+        nom: "Assedic - tranche B",
+        patronales: 4,
+        salariales: 2.4,
+        assiette: "tb",
+        ensemble: "c"
+      },
+      agff_t1:{
+        nom: "AGFF (association pour la gestion du fonds de financement Agirc et Arrco) - tranche 1",
+        patronales: 1.2,
+        salariales: 0.8,
+        assiette: "ta",
+        ensemble: "r"
+      },
+      agff_t2:{
+        nom: "AGFF (association pour la gestion du fonds de financement Agirc et Arrco) - tranche 2",
+        patronales: 1.3,
+        salariales: 0.9,
+        assiette: "tb",
+        ensemble: "r"
+      },
+      retraite_complementaire_t1:{
+        nom: "Arrco - tranche A",
+        patronales: 4.58,
+        salariales: 3.05,
+        assiette: "ta",
+        ensemble: "r"
+      },
+      mutuelle:{
+        nom: "Cotisation mutuelle",
+        patronales: 3,
+        salariales: 1.5,
+        assiette: "ta",
+        ensemble: "m"
+      },
+      accident_travail:{
+        nom: "Accident du travail",
+        patronales: 1.47,
+        assiette: "tt",
+        ensemble: "s",
+        avenir: "Manuel Valls a annoncé la suppression totale des cotisations patronales à l'Urssaf dès 2015 pour les salariés payés au smic."
+      },
+      solidarite:{
+        nom: "Solidarité autonomie (personnes âgées et handicapées)",
+        patronales: 0.3,
+        assiette: "tt",
+        ensemble: "s",
+        avenir: "Manuel Valls a annoncé la suppression totale des cotisations patronales à l'Urssaf dès 2015 pour les salariés payés au smic."
+      },
+      allocations_familiales:{
+        nom: "Allocations famille",
+        patronales: 5.25,
+        assiette: "tt",
+        ensemble: "s",
+        avenir: "Selon Manuel Valls, les cotisations famille seront totalement supprimées en 2015 pour les salariés au Smic. En 2016, elles seront baissées de 1,8 points pour les salaires jusqu'à 3,5 smic. Enfin, elles baisseront de 3 points dès 2015 pour les travailleurs indépendants et les artisans."
+      },
+      fnal_ta:{
+        nom: "FNAL (fonds national d'aide au logement) - tranche A",
+        patronales: 0.1,
+        assiette: "ta",
+        ensemble: "s",
+        avenir: "Manuel Valls a annoncé la suppression totale des cotisations patronales à l'Urssaf dès 2015 pour les salariés payés au smic."
+      },
+      ags:{
+        nom: "Association pour la gestion du régime d'assurance des créances des salariés",
+        patronales: 0.3,
+        assiette: "tt",
+        ensemble: "c"
+      },
+      taxe_apprentissage:{
+        nom: "Taxe d'apprentissage et contribution au développement de l'apprentissage (CDA)",
+        patronales: 0.68,
+        assiette: "tt",
+        ensemble: "f"
+      },
+      csg_deductible:{
+        nom: "CSG (contribution sociale généralisée) - part déductible - toutes tranches",
+        salariales: 5.1,
+        assiette: "tt",
+        ensemble: "s"
+      },
+      csg_non_deductible:{
+        nom: "CSG (contribution sociale généralisée) - part non-déductible - toutes tranches",
+        salariales: 2.4,
+        assiette: "tt",
+        ensemble: "s"
+      },
+      crds:{
+        nom: "CRDS (contribution au remboursement de la dette sociale) - toutes tranches",
+        salariales: 0.5,
+        assiette: "tt",
+        ensemble: "s"
+      }
+    },
+    "reductions":{
+    },
+  }
+};
+
+option["salairebrut"] = salairebrut;
+option["statut"] = statut;
+option["taille"] = taille;
+
+// Remise à zéro
+$(".detail div p").remove();
+$(".detail div table").remove()
+$(".detail div.fillon").remove()
+$(".detail div.cice").remove()
+$(".reductions").remove()
+$("#legende").empty()
+$(".more").css("background-position","left -1px");
+$("#methodologie").show()
+
+// Définition des tranches Sécu
+option["2014"]["constantes"]["ta"] = option["2014"]["constantes"]["plafond"];
+option["2014"]["constantes"]["tb"] = option["2014"]["constantes"]["plafond"]*4;
+option["2014"]["constantes"]["tc"] = option["2014"]["constantes"]["plafond"]*8;
+option["2014"]["constantes"]["t2"] = option["2014"]["constantes"]["plafond"]*3;
+
+// Définition des assiettes
+option["2014"]["assiette"]["tt"] = option["salairebrut"]; // TT
+if(option["salairebrut"] < option["2014"]["constantes"]["ta"]) { // TA
+  option["2014"]["assiette"]["ta"] = Math.round(100*option["salairebrut"])/100;
+}
+else {
+   option["2014"]["assiette"]["ta"] = Math.round(100*option["2014"]["constantes"]["ta"])/100;
+}
+if((option["salairebrut"] - option["2014"]["assiette"]["ta"]) < option["2014"]["constantes"]["tb"]) { // TB
+  option["2014"]["assiette"]["tb"] = Math.round(100*(option["salairebrut"] - option["2014"]["assiette"]["ta"]))/100;
+}
+else {
+   option["2014"]["assiette"]["tb"] = Math.round(100*option["2014"]["constantes"]["tb"])/100;
+}
+if((option["salairebrut"] - option["2014"]["assiette"]["ta"] - option["2014"]["assiette"]["tb"]) < option["2014"]["constantes"]["tc"]) { // TC
+  option["2014"]["assiette"]["tc"] = Math.round(100*(option["salairebrut"] - option["2014"]["assiette"]["ta"] - option["2014"]["assiette"]["tb"]))/100;
+}
+else {
+   option["2014"]["assiette"]["tc"] = Math.round(100*option["2014"]["constantes"]["tc"])/100;
+}
+if((option["salairebrut"] - option["2014"]["assiette"]["ta"]) < option["2014"]["constantes"]["t2"]) { // T2
+  option["2014"]["assiette"]["t2"] = Math.round(100*(option["salairebrut"] - option["2014"]["assiette"]["ta"]))/100;
+}
+else {
+   option["2014"]["assiette"]["t2"] = Math.round(100*option["2014"]["constantes"]["t2"])/100;
+}
+
+// Calcul des taux de cotisations variables
+if(option["statut"] == "cadre") { // Cadres seulement
+  option["2014"]["cotisations"]["retraite_complementaire_t2"] = {
+    nom: "Agirc - tranche B",
+    patronales: 12.68,
+    salariales: 7.75,
+    assiette: "tb",
+    ensemble: "r"};
+  option["2014"]["cotisations"]["retraite_complementaire_t3"] = {
+    nom: "Agirc - tranche C",
+    patronales: 12.68,
+    salariales: 7.75,
+    assiette: "tc",
+    ensemble: "r"};
+  option["2014"]["cotisations"]["cotisation_apec_t1"] = {
+    nom: "Cotisation APEC (Association pour l'emploi des cadres en France) - tranche 1",
+    patronales: 0.036,
+    salariales: 0.024,
+    assiette: "ta",
+    ensemble: "c"};
+  option["2014"]["cotisations"]["cotisation_apec_t2"] = {
+    nom: "Cotisation APEC (Association pour l'emploi des cadres en France) - tranche 2",
+    patronales: 0.036,
+    salariales: 0.024,
+    assiette: "tb",
+    ensemble: "c"};
+  option["2014"]["cotisations"]["cet"] = {
+    nom: "CET (contribution exceptionnelle temporaire)",
+    patronales: 0.22,
+    salariales: 0.13,
+    assiette: "tt",
+    ensemble: "r"};
+  option["2014"]["cotisations"]["prevoyance"] = {
+    nom: "Prévoyance (assurance décès)",
+    patronales: 1.5,
+    assiette: "ta",
+    ensemble: "p"};
+}
+else { // Non-cadres seulement
+  option["2014"]["cotisations"]["retraite_complementaire_t2"] = {
+    nom: "Arrco - tranche 2",
+    patronales: 12.08,
+    salariales: 8.05,
+    assiette: "tb",
+    ensemble: "r"};
+}
+
+if(option["taille"] == "plus250") { // Plus de 250 salariés
+  option["2014"]["cotisations"]["csa"] = {
+    nom: "CSA (contribution supplémentaire à l'apprentissage)",
+    patronales: 0.25,
+    assiette: "tt",
+    ensemble: "f"};
+}
+if(option["taille"] == "moins250" || option["taille"] == "plus250") { // Plus de 20 salariés
+  option["2014"]["cotisations"]["fnal2_ta"] = {
+    nom: "FNAL (fonds national d'aide au logement) - contribution supplémentaire - tranche 1",
+    patronales: 0.4,
+    assiette: "ta",
+    ensemble: "s"};
+  option["2014"]["cotisations"]["fnal2_tt"] = {
+    nom: "FNAL (fonds national d'aide au logement) - contribution supplémentaire - tranche 2",
+    patronales: 0.5,
+    assiette: "tt",
+    ensemble: "s",
+    avenir: "Manuel Valls a annoncé la suppression totale des cotisations patronales à l'Urssaf dès 2015 pour les salariés payés au smic."};
+  option["2014"]["cotisations"]["construction"] = {
+    nom: "PEEC (participation des employeurs à l'effort de construction)",
+    patronales: 0.45,
+    assiette: "tt",
+    ensemble: "f",
+    avenir: "Manuel Valls a annoncé la suppression totale des cotisations patronales à l'Urssaf dès 2015 pour les salariés payés au smic."};
+  option["2014"]["cotisations"]["formation"] = {
+    nom: "Participation à la formation professionnelle continue",
+    patronales: 1.6,
+    assiette: "tt",
+    ensemble: "f"};
+}
+if(option["taille"] == "moins20" || option["taille"] == "moins250" || option["taille"] == "plus250") { // Plus de 9 salariés
+  option["2014"]["cotisations"]["transport"] = {
+    nom: "Versement transport (VT)",
+    patronales: 2.7,
+    assiette: "tt",
+    ensemble: "s",
+    avenir: "Manuel Valls a annoncé la suppression totale des cotisations patronales à l'Urssaf dès 2015 pour les salariés payés au smic."};
+}
+if(option["taille"] == "moins20") { // 9-20 salariés
+  option["2014"]["cotisations"]["formation"] = {
+    nom: "Participation à la formation professionnelle continue",
+    patronales: 1.05,
+    assiette: "tt",
+    ensemble: "f"};
+}
+if(option["taille"] == "moins9") { // Moins de 9 salariés
+  option["2014"]["cotisations"]["formation"] = {
+    nom: "Participation à la formation professionnelle continue",
+    patronales: 0.55,
+    assiette: "tt",
+    ensemble: "f"};
+}
+
+option["2014"]["cotisations"]["formation"] = {
+    nom: "Participation à la formation professionnelle continue",
+    patronales: 1.6,
+    assiette: "tt",
+    ensemble: "f"};
+
+// Réduction fillon
+if(option["salairebrut"] < option["2014"]["constantes"]["smic"]*1.6) { // Seulement pour les salaires inférieurs à 1,6 Smic
+  if(option.taille == "moins20"){ // Dans les entreprises de moins de 20 salariés
+      montant = (0.281/0.6)*100*(1.6*1820*option["2014"]["constantes"]["smic"])/(option["salairebrut"]*11.87-1);
+      if(montant > 28.1) option["2014"]["reductions"]["fillon"] = {
+            nom: "Réduction Fillon",
+            patronales: 28.1,
+            assiette: "tt",
+            avenir: "Manuel Valls a annoncé une accentuation des allègements Fillon sur les bas salaires (jusqu'à 1,6 smic). Ils pourraient passer de 26/28,1 % à 30 % dès 2015, représentant un gain de 58 euros pour un smicard."};
+      else option["2014"]["reductions"]["fillon"] = {
+            nom: "Réduction Fillon",
+            patronales: montant,
+            assiette: "tt",
+            avenir: "Manuel Valls a annoncé une accentuation des allègements Fillon sur les bas salaires (jusqu'à 1,6 smic). Ils pourraient passer de 26/28,1 % à 30 % dès 2015."};
+  }
+  else { // Dans les entreprises de plus de 20 salariés
+      montant = (0.26/0.6)*100*(1.6*1820*option["2014"]["constantes"]["smic"])/(option["salairebrut"]*11.87-1);
+      if(montant > 26) option["2014"]["reductions"]["fillon"] = {
+            nom: "Réduction Fillon",
+            patronales: 26,
+            assiette: "tt",
+            avenir: "Manuel Valls a annoncé une accentuation des allègements Fillon sur les bas salaires (jusqu'à 1,6 smic). Ils pourraient passer de 26/28,1 % à 30 % dès 2015." };
+      else option["2014"]["reductions"]["fillon"] = {
+          nom: "Réduction Fillon",
+          patronales: montant,
+          assiette: "tt",
+          avenir: "Manuel Valls a annoncé une accentuation des allègements Fillon sur les bas salaires (jusqu'à 1,6 smic). Ils pourraient passer de 26/28,1 % à 30 % dès 2015."};
+  }
+
+  option["2014"]["reductions"]["fillon"]["montant"] = Math.round(100*((option["2014"]["reductions"]["fillon"]["patronales"]/100)*option["2014"]["assiette"]["tt"]))/100;
+}
+// CICE
+if(option["salairebrut"]<=2.5*option["2014"]["constantes"]["smic"]) {
+  option["2014"]["reductions"]["cice"] = {
+    nom: "CICE",
+    montant: 0.06*option["2014"]["assiette"]["tt"],
+    assiette: "tt"};
+}
+
+
+
+// Calcul des montants
+var total_patronales = 0;
+var total_patronales_s = 0;
+var total_patronales_c = 0;
+var total_patronales_p = 0;
+var total_patronales_r = 0;
+var total_patronales_f = 0;
+var total_patronales_m = 0;
+var total_fillon = 0;
+var total_salariales = 0;
+var total_salariales_s = 0;
+var total_salariales_c = 0;
+var total_salariales_p = 0;
+var total_salariales_r = 0;
+var total_salariales_f = 0;
+var total_salariales_m = 0;
+
+$.each( option["2014"]["cotisations"], function( i, value ) {
+  if(value["patronales"]) {
+    value["montant_patronales"] = Math.round(100*((value["patronales"]/100)*option["2014"]["assiette"][value["assiette"]]))/100;
+    total_patronales += value["montant_patronales"];
+    if(value["ensemble"] == "s") { total_patronales_s += value["montant_patronales"]; }
+    if(value["ensemble"] == "c") { total_patronales_c += value["montant_patronales"]; }
+    if(value["ensemble"] == "p") { total_patronales_p += value["montant_patronales"];}
+    if(value["ensemble"] == "r") { total_patronales_r += value["montant_patronales"];}
+    if(value["ensemble"] == "f") { total_patronales_f += value["montant_patronales"];}
+    if(value["ensemble"] == "m") { total_patronales_m += value["montant_patronales"];}
+  }
+  if(value["salariales"]) {
+    value["montant_salariales"] = Math.round(100*((value["salariales"]/100)*option["2014"]["assiette"][value["assiette"]]))/100;
+    total_salariales += value["montant_salariales"];
+    if(value["ensemble"] == "s") { total_salariales_s += value["montant_salariales"]; }
+    if(value["ensemble"] == "c") { total_salariales_c += value["montant_salariales"]; }
+    if(value["ensemble"] == "p") { total_salariales_p += value["montant_salariales"]; }
+    if(value["ensemble"] == "r") { total_salariales_r += value["montant_salariales"]; }
+    if(value["ensemble"] == "f") { total_salariales_f += value["montant_salariales"]; }
+    if(value["ensemble"] == "m") { total_salariales_m += value["montant_salariales"]; }
+  }
+  
+});
+
+
+
+
+part_total_patronales = Math.round(total_patronales*100/option["salairebrut"])
+part_total_salariales = Math.round(total_salariales*100/option["salairebrut"])
+
+
+$("#total_cotisations_patronales").html(comma(Math.round(total_patronales))+"&nbsp;€");
+$("#pourcentage_cotisations_patronales").html(comma(part_total_patronales));
+$("#total_cotisations_salariales").html(comma(Math.round(total_salariales))+"&nbsp;€");
+$("#pourcentage_cotisations_salariales").html(comma(part_total_salariales));
+
+if(option["salairebrut"] <= 1.3*option["2014"]["constantes"]["smic"]) {
+  $("#total_cotisations_salariales").append("<div class=\"change\" data-info=\"Manuel Valls a promis une diminution dès 2015 des cotisations salariales pour les bas salaires, sans préciser le détail des mesures. Le gain net de 500 euros par an dont bénéficieront les smicards sera dégressif jusqu'à 1,3 smic.\"></div>");
+
+};
+if(option["salairebrut"] <= 3.5*option["2014"]["constantes"]["smic"]) {
+  $("#legende").append("<p>Ce qui va changer d'ici 2017</p><p class=\"txt3\">En gagnant moins de 3,5 smic, vous êtes concerné(e) par les allègements de cotisations annoncées par le gouvernement. Passez votre curseur sur les pictogrammes bleus pour en savoir plus.</p><p><img src=\"img/changement2.png\"></p>");
+}
+else {
+  $("#legende").append("<p>Votre salaire est supérieur à 3,5 smic. Vous n'entrez pas dans le champ des allègements de cotisations annoncées par Manuel Valls.</p>")
+}
+
+
+
+// Sécurité sociale
+$("#detail_patronales .s").append('<p><span class="tt4_capital">'+comma(Math.round(total_patronales_s*100)/100)+'&nbsp;€</span> à la <strong>sécurité sociale</strong> ('+Math.round(total_patronales_s*100/total_patronales)+'&nbsp;% des cotisations patronales)</p><table></table>');
+  var tata;
+$.each( option["2014"]["cotisations"], function( i, value ) {
+
+  if(value["avenir"]) { 
+    if((option["salairebrut"] <= option["2014"]["constantes"]["smic"]) || (value["nom"] == "Allocations famille" && option["salairebrut"] <= 3.5*option["2014"]["constantes"]["smic"])) {
+      var avenir = "<div class=\"change change2\" data-info=\""+value["avenir"]+"\"></div>";
+      tata = value
+    }
+    else { avenir = ""}
+    
+  }
+   if(value["ensemble"] == "s" && value["montant_patronales"]) $("#detail_patronales .s table").append('<tr><td>'+avenir+value["nom"]+'</td><td><span class="tt5_capital">'+comma(value["montant_patronales"])+'&nbsp;€</span></td><td>('+Math.round(value["montant_patronales"]*100/total_patronales)+'&nbsp;%)</td>')
+});
+if(tata) {
+      $("#detail_patronales .s p").prepend("<div class=\"change change2\" data-info=\""+tata["avenir"]+"\"></div>")
+    }
+// Chômage
+$("#detail_patronales .c").append('<p><span class="tt4_capital">'+comma(Math.round(total_patronales_c*100)/100)+'&nbsp;€</span> à l\'<strong>assurance chômage</strong> ('+Math.round(total_patronales_c*100/total_patronales)+'&nbsp;%)</p><table></table>');
+$.each( option["2014"]["cotisations"], function( i, value ) {
+   if(value["ensemble"] == "c" && value["montant_patronales"]) $("#detail_patronales .c table").append('<tr><td>'+value["nom"]+'</td><td><span class="tt5_capital">'+comma(value["montant_patronales"])+'&nbsp;€</span> ('+comma(Math.round(value["montant_patronales"]*100/total_patronales))+'&nbsp;%)</td>')
+});
+// Retraites complémentaires
+$("#detail_patronales .r").append('<p><span class="tt4_capital">'+comma(Math.round(total_patronales_r*100)/100)+'&nbsp;€</span> aux <strong>retraites complémentaires</strong> ('+Math.round(total_patronales_r*100/total_patronales)+'&nbsp;%)</p><table></table>');
+$.each( option["2014"]["cotisations"], function( i, value ) {
+   if(value["ensemble"] == "r" && value["montant_patronales"]) $("#detail_patronales .r table").append('<tr><td>'+value["nom"]+'</td><td><span class="tt5_capital">'+comma(value["montant_patronales"])+'&nbsp;€</span> ('+comma(Math.round(value["montant_patronales"]*100/total_patronales))+'&nbsp;%)</td>')
+});
+// Mutuelle
+$("#detail_patronales .m").append('<p><span class="tt4_capital">'+comma(Math.round(total_patronales_m*100)/100)+'&nbsp;€</span> à la <strong>mutuelle</strong> ('+Math.round(total_patronales_m*100/total_patronales)+'&nbsp;% des cotisations)</p>');
+// Prévoyance
+$("#detail_patronales .p").append('<p><span class="tt4_capital">'+comma(Math.round(total_patronales_p*100)/100)+'&nbsp;€</span> à la <strong>prévoyance</strong> (assurance décès, '+Math.round(total_patronales_p*100/total_patronales)+'&nbsp;%)</p><table></table>');
+// Formation
+$("#detail_patronales .f").append('<p><span class="tt4_capital">'+comma(Math.round(total_patronales_f*100)/100)+'&nbsp;€</span> à la <strong>formation</strong> ('+Math.round(total_patronales_f*100/total_patronales)+'&nbsp;%)</p><table></table>');
+$.each( option["2014"]["cotisations"], function( i, value ) {
+   if(value["ensemble"] == "f" && value["montant_patronales"]) $("#detail_patronales .f table").append('<tr><td>'+value["nom"]+'</td><td><span class="tt5_capital">'+comma(value["montant_patronales"])+'&nbsp;€</span> ('+comma(Math.round(value["montant_patronales"]*100/total_patronales))+'&nbsp;%)</td>')
+});
+
+// Réductions
+if(option["2014"]["reductions"]["fillon"] || option["2014"]["reductions"]["cice"]) {
+    total_patronales_reel = total_patronales;
+    if(option["2014"]["reductions"]["fillon"]) total_patronales_reel -= option["2014"]["reductions"]["fillon"]["montant"];
+    if(option["2014"]["reductions"]["cice"]) total_patronales_reel -= option["2014"]["reductions"]["cice"]["montant"];
+
+    $("#patronales").append('<div class="reductions grid_9 alpha omega mgt16"><p class="tt3_capital" align="center">Une somme réduite de</p></div>');
+    // Réduction fillon
+
+    if(option["2014"]["reductions"]["fillon"]) {
+      $("#patronales .reductions").append('<div class="detail"><div class="change" data-info="'+option["2014"]["reductions"]["fillon"]["avenir"]+'"></div><p><span class="tt4_capital">'+comma(option["2014"]["reductions"]["fillon"]["montant"])+'&nbsp;€</span> au titre de la réduction Fillon sur les bas salaires</p></div>');
+    }
+    // CICE
+    if(option["2014"]["reductions"]["cice"]) {
+      $("#patronales .reductions").append('<div class="detail"><p><span class="tt4_capital">'+comma(Math.round(100*option["2014"]["reductions"]["cice"]["montant"])/100)+'&nbsp;€</span> au titre du crédit d\'impôt compétitivité et emploi (CICE)</p></div>');
+    }
+
+    $("#patronales .reductions").append('<p class="tt3_capital mgt16" align="center">Soit une charge réelle de :</p><div class="grid_9 alpha omega"><div class="grid_2 alpha clearfix">&nbsp;</div><div class="grid_5 pad16 tt3 confirmation total_orange" align="center">'+comma(Math.round(total_patronales_reel))+' €</div><div class="grid_2 omega clearfix">&nbsp;</div></div><div class="grid_9 alpha omega"><p class="tt5" align="center">pour votre entreprise ('+comma(Math.round(total_patronales_reel*100/option["salairebrut"]))+'&nbsp;% de votre salaire brut)</p></div>')
+
+}
+
+$( ".change" ).tooltip({
+  items: "[data-info]",
+  content: function () {
+        return "<p class=\"txt5\">"+$(this).data("info")+"</p>";
+    },
+  tooltipClass: 'changeo',
+  track: true,
+ /* position: {
+    my: "left+15 center",
+    at: "right+10 middle"
+  }*/
+});
+/*$( ".changeright" ).tooltip({
+  items: "[data-info]",
+  tooltipClass: 'changeoright',
+  content: function () {
+        return "<p class=\"txt5\">"+$(this).data("info")+"</p>";
+    },
+  position: {
+    my: "left+15 center",
+    at: "right+10 middle"
+  }
+});*/
+
+
+
+
+// Sécurité sociale
+$("#detail_salariales .s").append('<p><span class="tt4_capital">'+comma(Math.round(total_salariales_s*100)/100)+'&nbsp;€</span> à la <strong>sécurité sociale</strong> ('+Math.round(total_salariales_s*100/total_salariales)+'&nbsp;% des cotisations salariales)</p><table></table>');
+$.each( option["2014"]["cotisations"], function( i, value ) {
+  
+
+   if(value["ensemble"] == "s" && value["montant_salariales"]) $("#detail_salariales .s table").append('<tr><td>'+value["nom"]+'</td><td><span class="tt5_capital">'+comma(value["montant_salariales"])+'&nbsp;€</span></td><td>('+Math.round(value["montant_salariales"]*100/total_salariales)+'&nbsp;%)</td>')
+});
+// Chômage
+$("#detail_salariales .c").append('<p><span class="tt4_capital">'+comma(Math.round(total_salariales_c*100)/100)+'&nbsp;€</span> à l\'<strong>assurance chômage</strong> ('+Math.round(total_salariales_c*100/total_salariales)+'&nbsp;%)</p><table></table>');
+$.each( option["2014"]["cotisations"], function( i, value ) {
+   if(value["ensemble"] == "c" && value["montant_salariales"]) $("#detail_salariales .c table").append('<tr><td>'+value["nom"]+'</td><td><span class="tt5_capital">'+comma(value["montant_salariales"])+'&nbsp;€</span> ('+comma(Math.round(value["montant_salariales"]*100/total_salariales))+'&nbsp;%)</td>')
+});
+// Retraites complémentaires
+$("#detail_salariales .r").append('<p><span class="tt4_capital">'+comma(Math.round(total_salariales_r*100)/100)+'&nbsp;€</span> aux <strong>retraites complémentaires</strong> ('+Math.round(total_salariales_r*100/total_salariales)+'&nbsp;%)</p><table></table>');
+$.each( option["2014"]["cotisations"], function( i, value ) {
+   if(value["ensemble"] == "r" && value["montant_salariales"]) $("#detail_salariales .r table").append('<tr><td>'+value["nom"]+'</td><td><span class="tt5_capital">'+comma(value["montant_salariales"])+'&nbsp;€</span> ('+comma(Math.round(value["montant_salariales"]*100/total_salariales))+'&nbsp;%)</td>')
+});
+// Mutuelle
+$("#detail_salariales .m").append('<p><span class="tt4_capital">'+comma(Math.round(total_salariales_m*100)/100)+'&nbsp;€</span> à la <strong>mutuelle</strong> ('+Math.round(total_salariales_m*100/total_salariales)+'&nbsp;%)</p>');
+// Prévoyance
+$("#detail_salariales .p").append('<p><span class="tt4_capital">'+comma(Math.round(total_salariales_p*100)/100)+'&nbsp;€</span> à la <strong>prévoyance</strong> ('+Math.round(total_salariales_p*100/total_salariales)+'&nbsp;% des cotisations)</p><table></table>');
+$.each( option["2014"]["cotisations"], function( i, value ) {
+   if(value["ensemble"] == "p" && value["montant_salariales"]) $("#detail_salariales .p table").append('<tr><td>'+value["nom"]+'</td><td><span class="tt5_capital">'+comma(value["montant_salariales"])+'&nbsp;€</span> ('+comma(Math.round(value["montant_salariales"]*100/total_salariales))+'&nbsp;%)</td>')
+});
+// Formation
+$("#detail_salariales .f").append('<p><span class="tt4_capital">'+comma(Math.round(total_salariales_f*100)/100)+'&nbsp;€</span> à la <strong>formation</strong> ('+Math.round(total_salariales_f*100/total_salariales)+'&nbsp;%)</p><table></table>');
+$.each( option["2014"]["cotisations"], function( i, value ) {
+   if(value["ensemble"] == "f" && value["montant_salariales"]) $("#detail_salariales .f table").append('<tr><td>'+value["nom"]+'</td><td><span class="tt5_capital">'+comma(value["montant_salariales"])+'&nbsp;€</span> ('+comma(Math.round(value["montant_salariales"]*100/total_salariales))+'&nbsp;%)</td>')
+});
+
+
+
+
+
+
+
+
+function comma(val) {
+  return val.toString().replace('.',',').replace(/\B(?=(\d{3})+(?!\d))/g, "&nbsp;");
+}
+
+}
+
+
+
+
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,550 @@
+﻿<html>
+	<head>
+		<title>Catastrophes naturelles</title>
+		
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+		<script src="js/jquery.dataTables.js"></script>
+		<script src="js/datacatnat.js" type="text/javascript"></script>
+		<script src="http://code.highcharts.com/highcharts.js"></script>
+
+		<link rel="stylesheet" type="text/css" href="css/lemonde.css"></link>
+		<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.4/css/jquery.dataTables.min.css"></link>
+		<link rel="stylesheet" type="text/css" href="http://s1.lemde.fr/medias/web/css/fonts.css">
+		
+		<style>
+		
+			#catnat_inondation{
+				width:10170px;
+				overflow:auto;
+				position: relative;
+			}
+			#catnat_secheresse{
+				width:10170px;
+				overflow:auto;
+				position: relative;
+			}
+			.contain{
+				overflow:auto;
+			}
+			.contain_img{
+				margin-right:4px;
+				padding-right:4px;
+				outline: 1px solid #ccc;
+				float:left;
+			}
+			.date{
+				position: relative;
+				top:-290;
+				left:5;
+			}
+			.marg_top_20{
+				margin-top: 20;
+			}
+			.pad_top30{
+				padding-top: 30;
+			}
+			.legend_inond li{
+				display:inline;
+
+			}
+			li{
+				border-left:25px solid red;
+				padding-left: 3px;
+				margin-right: 10px;
+			}
+			.col_inondations .col_1{
+				border-left:25px solid #cbc9e2;
+			}
+			.col_inondations .col_2{
+				border-left:25px solid #9e9ac8;
+			}
+			.col_inondations .col_3{
+				border-left:25px solid #756bb1;
+			}
+			.col_inondations .col_4{
+				border-left:25px solid #54278f;
+			}
+			.col_secheresses .col_1{
+				border-left:25px solid #fdbe85;
+			}
+			.col_secheresses .col_2{
+				border-left:25px solid #fd8d3c;
+			}
+			.col_secheresses .col_3{
+				border-left:25px solid #e6550d;
+			}
+			.col_secheresses .col_4{
+				border-left:25px solid #a63603;
+			}
+			.col_toutes .col_1{
+				border-left:25px solid #bae4b3;
+			}
+			.col_toutes .col_2{
+				border-left:25px solid #74c476;
+			}
+			.col_toutes .col_3{
+				border-left:25px solid #31a354;
+			}
+			.col_toutes .col_4{
+				border-left:25px solid #006d2c;
+			}
+			.invis{
+				display:none;
+			}
+			.marg_liens_carte{
+				margin-right: 10px;
+				margin-bottom: 15px;
+			}
+			
+			#switchcarte{
+				position:absolute;
+				top:20px;
+				left:0;
+			}
+			#switchcarte a{
+				line-height:110%;
+				border:0!important;
+				color: #b9c0c5;
+			}
+			#switchcarte a:before{
+				content: '\00A0 \00A0';
+			}
+			#switchcarte a.actif:before, #switchcarte a:hover:before{
+				content: '\203A \00A0';
+			}
+			#switchcarte a.actif,#switchcarte a:hover{
+				color:black;
+			}
+			#carte1{
+				background:url(images/1982_2014.jpg) left top no-repeat;
+				height:642px;
+			}
+			.well{
+				border: 1px solid #e3e3e3;
+				border-radius: 4px;
+			}
+			.pad_left_15{
+				padding-left: 15px;
+			}
+			.pad_left_10{
+				padding-left: 10px;
+			}
+			.pad_bot_15{
+				padding-bottom: 15px;
+			}
+			.marg_top_15{
+				margin-top: 15px;
+			}
+			.marg_top_5{
+				margin-top: 5px;
+			}
+			.pad_left_5{
+				padding-left: 5px;
+			}
+			.marg_top_10{
+				margin-top: 10px;
+			}
+			.dataTables_filter {
+				margin:-40px 10px 0 0;
+			}
+
+			#titre_datatables{
+				width:650px;
+				float:left;
+			}
+
+			.dataTables_scrollBody td:nth-child(2), .dataTables_scrollBody td:nth-child(3){
+				text-align: center;
+			}
+			.txt_align_left{
+				text-align: left!important;
+			}
+			.flt_right{
+				float:right!important;
+			}
+			.well_gris {
+			min-height: 20px;
+			padding: 19px;
+			margin-bottom: 20px;
+			background-color: #f5f5f5;
+			border: 1px solid #e3e3e3;
+			border-radius: 4px;
+			}
+			
+			
+		</style>
+	</head>
+	<body>
+		
+
+<div class="global clearfix" id="articleBody">
+	<div class="container_18 txt4">
+		<div class="grid_18 alpha omega">
+
+			<p>L'eau est mont&eacute;e subitement. <em>&laquo;&nbsp;Trois m&egrave;tres et demi en un quart d'heure, en pleine nuit&nbsp;&raquo;</em>, dira plus tard le maire de Portel-des-Corbi&egrave;res, dans l'Aude. Cette commune de 1 150 habitants reste marqu&eacute;e par la crue impressionnante de la rivi&egrave;re Berre. Ici et dans les alentours, plusieurs centaines de personnes ont &eacute;t&eacute; &eacute;vacu&eacute;es mais aucun mort n'a &eacute;t&eacute; &agrave; d&eacute;plorer. Une chance que n'ont pas eu <a href="http://www.lemonde.fr/planete/article/2014/11/27/fin-de-la-vigilance-orange-dans-le-sud-est-sauf-pour-les-crues-dans-le-var_4529874_3244.html" taget="_blank">des habitants du Var</a> fin novembre (4 morts), du Gard et de la Loz&egrave;re <a href="http://www.lemonde.fr/societe/article/2014/11/15/intemperies-une-famille-emportee-dans-un-cour-d-eau-des-cevennes_4524051_3224.html" taget="_blank">&agrave; la mi-novembre</a> (5 morts), des Alpes-Maritimes d&eacute;but novembre (1 mort), de l'H&eacute;rault &agrave; la mi-septembre (4 morts)...</p>
+
+			<div class="grid_12 omega mgt32 mgl16 padb16 well flt_right">
+				<div class="tt4 marg_top_10 padl16">Les catastrophes naturelles en France depuis 1982</div>
+				<div class="padl16"><p class="txt3 txt_gris_soutenu">Nombre d'arrêtés d'état de catastrophe naturelle par commune</p>
+	    				<ul id="legende1" class="legend_inond txt3 txt_gris_soutenu col_toutes">
+	        				<li class="col_1">1 et 2</li>
+	        				<li class="col_2">3 et 4</li>
+	        				<li class="col_3">de 5 à 10</li>
+	        				<li class="col_4">10 et plus</li>
+	    				</ul>
+	    		</div>
+				<div class="grid_12 alpha omega mgt16 clearfix" id="carte1">
+					<div id="switchcarte" class="padl16"><p class="tt5_capital"><a class="marg_liens_carte actif" data-carte="toutes">Toutes catégories</a><br /><a class="marg_liens_carte" data-carte="inondations">Inondations</a><br /><a class="marg_liens_carte" data-carte="secheresses">Sécheresses</a></p></div>
+					<img src="images/contour1px50_644.png" width="642" >
+				</div>
+			</div>
+			<p><br>Au total, 24 personnes ont p&eacute;ri dans des inondations dans le Sud de la France, des Pyr&eacute;n&eacute;es-Orientales aux Alpes-Maritimes, depuis le d&eacute;but de l'ann&eacute;e, 17 pendant l'automne. Cette vaste r&eacute;gion a &eacute;t&eacute; touch&eacute;e par 14 &eacute;pisodes d'inondations en 2014, contre <em>&laquo;&nbsp;3 ou 4&nbsp;&raquo;</em> par an habituellement, selon Alix Roumagnac, pr&eacute;sident de Pr&eacute;dict, une soci&eacute;t&eacute; d'expertise m&eacute;t&eacute;orologique. Plus que l'intensit&eacute;, c'est le nombre d'&eacute;v&eacute;nements de ce type qui a &eacute;t&eacute; <em>&laquo;&nbsp;exceptionnel&nbsp;&raquo;</em>, note Fran&ccedil;ois Jobard, pr&eacute;visionniste &agrave; M&eacute;t&eacute;o France.</p>
+			<br>
+			<p>Si les pr&eacute;cipitations ont parfois battu des records (1,8 tonne d'eau par m&egrave;tre carr&eacute; &agrave; certains endroits de l'Ard&egrave;che entre la mi-septembre et fin novembre, soit trois fois plus qu'une ann&eacute;e de pluie &agrave; Paris), il est difficile de lier cette ann&eacute;e exceptionnelle au r&eacute;chauffement climatique. Le pr&eacute;visionniste de M&eacute;t&eacute;o France note qu'<em>&laquo;&nbsp;il n'y a pas de tendance &agrave; l'augmentation des fortes pluies&nbsp;&raquo;</em>, soumises &agrave; <em>&laquo;&nbsp;une grande variabilit&eacute;&nbsp;&raquo;</em> d'une ann&eacute;e sur l'autre.</p>
+			<br>
+			<p>Pour tenter d'identifier les r&eacute;gions les plus touch&eacute;es et de d&eacute;gager une &eacute;volution chronologique, nous avons rassembl&eacute; et &eacute;tudi&eacute; <a href="http://macommune.prim.net/gaspar/" taget="_blank">tous les arr&ecirc;t&eacute;s d'&eacute;tat de catastrophe naturelle</a> &eacute;mis par les minist&egrave;res de l'int&eacute;rieur et des finances, pour chaque commune de France, depuis 1982 (date de <a href="http://legifrance.gouv.fr/affichTexte.do?cidTexte=JORFTEXT000000691989" taget="_blank">la loi ouvrant les droits &agrave; l'indemnisation apr&egrave;s ce type d'&eacute;v&eacute;nement</a>). C'est l'indicateur qui nous a paru le plus pertinent, car l'&eacute;tude des donn&eacute;es m&eacute;t&eacute;orologiques (pr&eacute;cipitations, chaleur, etc.) n'informe pas sur les cons&eacute;quences sur les zones urbanis&eacute;es, plus ou moins bien pr&eacute;par&eacute;es. Chaque arr&ecirc;t&eacute;, en revanche, pr&eacute;cise quel type de catastrophe naturelle a eu lieu dans quelle(s) commune(s) et sur quelle p&eacute;riode.</p>
+			<br>
+		</div>
+
+		<div class="grid_18 alpha omega marg_top_10 well_gris">
+			<div><p class="tt4">Qu'est-ce que l'&eacute;tat de catastrophe naturelle ?</p>
+			<br>
+			<p>Cr&eacute;&eacute; par la <a href="http://legifrance.gouv.fr/affichTexte.do?cidTexte=JORFTEXT000000691989" taget="_blank">loi du 13 juillet 1982</a>, l'&eacute;tat de catastrophe naturelle est d&eacute;cr&eacute;t&eacute; par un arr&ecirc;t&eacute; &eacute;mis conjointement par les minist&egrave;res de l'int&eacute;rieur et des finances. Le maire d'une commune sinistr&eacute;e doit sp&eacute;cifiquement en faire la demande. Cet arr&ecirc;t&eacute; est n&eacute;cessaire pour que les assurances indemnisent les victimes. Il couvre les risques non pris en compte par les contrats d'assurance classiques : inondations, coul&eacute;es de boues, s&eacute;cheresse, avalanches, s&eacute;ismes, etc. Une <a href="http://www.argusdelassurance.com/mediatheque/7/3/1/000031137.pdf" taget="_blank">circulaire du 23 juin 2014</a> a instaur&eacute; une proc&eacute;dure d'urgence pour les <em>&laquo;&nbsp;&eacute;v&eacute;nements de nature exceptionnelle&nbsp;&raquo;</em> afin d'acc&eacute;l&eacute;rer le processus. Elle a d&eacute;j&agrave; &eacute;t&eacute; utilis&eacute;e cinq fois.</p>
+
+			</div>
+		</div>
+
+		<div class="grid_18 alpha omega">
+			<div class="grid_10 omega well mgt32 mgl16 flt_right">
+				<div id="graph32ans" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+			</div>
+			<p class="tt4 marg_top_20">Pas davantage de catastrophes naturelles aujourd’hui</p>
+			<p>&nbsp;</p>
+			<p>Premi&egrave;re constatation : il n'y a pas de tendance &agrave; un accroissement du nombre de catastrophes naturelles. La <em>&laquo;&nbsp;grande variabilit&eacute;&nbsp;&raquo;</em> &eacute;voqu&eacute;e par le pr&eacute;visionniste de M&eacute;t&eacute;o France se v&eacute;rifie. Et si 2014 a &eacute;t&eacute; une ann&eacute;e exceptionnelle du point de vue des pr&eacute;cipitations et de la violence des intemp&eacute;ries dans le Sud-Est, elle est, globalement (jusqu'&agrave; la mi-novembre), loin d'&ecirc;tre l'ann&eacute;e la plus intense en catastrophes naturelles.</p>
+			<br>
+			<p>Comme le montre la courbe ci-contre, l'ann&eacute;e 1999 est, de tr&egrave;s loin, celle qui rassemble le plus d'arr&ecirc;t&eacute;s d'&eacute;tat de catastrophe naturelle (31 151) en raison des violentes temp&ecirc;tes <em>&laquo;&nbsp;Lothar&nbsp;&raquo;</em> et <em>&laquo;&nbsp;Martin&nbsp;&raquo;</em> qui ont successivement frapp&eacute; le nord puis le sud de la France. Suit ensuite 1982, dont la fin d'ann&eacute;e avait &eacute;t&eacute; marqu&eacute;e de fortes temp&ecirc;tes dans le Centre et le Sud-Ouest, ainsi que par d'importantes inondations sur la fa&ccedil;ade atlantique et dans le Nord-Est.</p>
+
+
+			
+
+
+
+		</div>
+		
+		
+		
+		<div class="grid_18 alpha omega marg_top_20">
+			<p class="tt4 marg_top_20">Une grande majorit&eacute; d'inondations, le pourtour m&eacute;diterran&eacute;en largement touch&eacute;</p>
+		</div>
+		<div class="grid_18 alpha omega marg_top_20"><p>Sur les 149 000 arr&ecirc;t&eacute;s d'&eacute;tat de catastrophe naturelle &eacute;mis entre octobre 1982 et mi-novembre 2014, plus de 108 000 (soit 72 %) ont concern&eacute; des inondations et mouvements de terrain dus &agrave; des pr&eacute;cipitations. Quasiment toute la France, d&eacute;partements d'outre-mer compris, a &eacute;t&eacute; touch&eacute;e au cours des trente-deux derni&egrave;res ann&eacute;es. C'est notamment d&ucirc; aux temp&ecirc;tes de <a onclick='decale(1999, "inondation")'>1999 (cliquez pour voir la carte de cette ann&eacute;e)</a> et dont tous les arr&ecirc;t&eacute;s ont port&eacute; sur des inondations &ndash; notamment pour des questions d'assurances, car la garantie <em>&laquo;&nbsp;temp&ecirc;te&nbsp;&raquo;</em> des contrats n'a pas n&eacute;cessairement besoin d'un arr&ecirc;t&eacute; de catastrophe naturelle pour &ecirc;tre appliqu&eacute;e.</p>
+		<br>
+		<p>Les r&eacute;gions du pourtour m&eacute;diterran&eacute;en ont &eacute;t&eacute; les victimes les plus r&eacute;currentes de crues massives. Le d&eacute;partement le plus touch&eacute; est celui des Alpes-Maritimes. La seule ville de Nice d&eacute;tient le record national de 59 arr&ecirc;t&eacute;s d'&eacute;tat de catastrophe naturelle en trente-deux ans. Les communes voisines n'&eacute;chappent pas &agrave; ce constat, Cagnes-sur-Mer ayant enregistr&eacute; 44 arr&ecirc;t&eacute;s et Antibes 41.</p>
+		</div>
+		
+		<div class="grid_18 alpha omega well mgt32">
+			<div class="pad_left_5 marg_top_5"><p class="txt3 txt_gris_soutenu">Nombre d'arrêtés d'état de catastrophe naturelle d'inondation par commune</p>
+    				<ul class="legend_inond txt3 txt_gris_soutenu col_inondations">
+        				<li class="col_1">1</li>
+        				<li class="col_2">2</li>
+        				<li class="col_3">3</li>
+        				<li class="col_4">4 et plus</li>
+    				</ul>
+    			</div>
+
+
+			<div class="contain inondation marg_top_20">
+				<div id="catnat_inondation"></div>
+			</div>
+		</div>
+
+		<div class="grid_18 alpha omega marg_top_20">
+			<p class="tt4 marg_top_20">Le Centre et le Sud-Ouest victimes de s&eacute;cheresses</p>
+		</div>
+		<div class="grid_18 alpha omega marg_top_20"><p>Le deuxi&egrave;me motif d'&eacute;tat de catastrophe naturelle le plus invoqu&eacute; a &eacute;t&eacute; la s&eacute;cheresse, avec pr&egrave;s de 21 000 arr&ecirc;t&eacute;s (14 %). Les r&eacute;gions Centre, Poitou-Charentes, Aquitaine et surtout Midi-Pyr&eacute;n&eacute;es ont &eacute;t&eacute; les plus touch&eacute;es. Sans surprise, c'est <a onclick='decale(2003, "secheresse")'>2003 (cliquez pour voir la carte)</a>, <a href="http://www.lemonde.fr/societe/infographie/2005/01/28/les-departements-les-plus-touches-par-la-canicule-en-2003_628538_3224.html" taget="_blank">ann&eacute;e de la canicule meurtri&egrave;re</a>, qui a recens&eacute; le plus d'arr&ecirc;t&eacute;s pour ce motif (plus de 4 400), suivie de <a onclick='decale(1989, "secheresse")'>1989 (cliquez pour voir la carte)</a>.</p>
+
+		<br>
+		<p>Particularit&eacute; pour ce motif : les seules villes de Toulouse et Bordeaux ont totalis&eacute; respectivement 13 490 et 12 386 jours en &eacute;tat de catastrophe naturelle pour motif de s&eacute;cheresse, soit trente-sept et trente-quatre ans cumul&eacute;s &ndash; car certains arr&ecirc;t&eacute;s couvrent parfois des portions de p&eacute;riodes identiques. La pr&eacute;fecture de Haute-Garonne a ainsi &eacute;t&eacute; en &eacute;tat de catastrophe naturelle permanent entre le 1<sup>er</sup> mai 1989 et le 30 septembre 2000, tandis que celle de Gironde l'a &eacute;t&eacute; sans discontinuer entre le 1<sup>er</sup> &nbsp;janvier 1991 et le 31 mai 1997.</p>
+		<br>
+		<p>Plus que des grandes chaleurs, les villes ont souffert de l'ass&egrave;chement des sols. Si ces derniers sont constitu&eacute;s de mat&eacute;riaux relativement <em>&laquo;&nbsp;souples&nbsp;&raquo;</em> comme l'argile ou la marne, ils peuvent se r&eacute;tracter et entra&icirc;ner des mouvements de terrain et des fissures de b&acirc;timents.</p>
+		</div>
+		
+		
+
+
+		<div class="grid_18 alpha omega well marg_top_20">
+			<!-- <div class="tt4 marg_top_10 pad_left_5">Le Centre et le Sud-Ouest victimes de sécheresses</div> -->
+			<div class="pad_left_5 marg_top_5"><p class="txt3 txt_gris_soutenu">Nombre d'arrêtés d'état de catastrophe naturelle de sécheresse par commune</p>
+    				<ul class="legend_inond txt3 txt_gris_soutenu col_secheresses">
+        				<li class="col_1">1</li>
+        				<li class="col_2">2</li>
+        				<li class="col_3">3</li>
+        				<li class="col_4">4 et plus</li>
+    				</ul>
+    		</div>
+
+
+			<div class="contain secheresse marg_top_20">
+				<div id="catnat_secheresse"></div>
+			</div>
+		</div>
+		
+
+
+
+
+
+		
+
+		<div class="grid_18 alpha omega well marg_top_20">
+			<div id="graph" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+
+			<div class="mgt16 padl16" id="titre_datatables"><p class="tt5">Cliquez sur une commune ci-dessous pour visualiser sur le graphique ses états de catastrophe naturelle depuis 1982 :</p></div>
+			<div id="texte"></div>
+		</div>
+
+	</div>	
+</div>
+
+
+<script>
+
+var cartes = {
+	"toutes":0,
+	"inondations":1284,
+	"secheresses":642,
+}
+$("#switchcarte a").click(function(){
+	$("#switchcarte a").removeClass("actif")
+	$(this).addClass("actif")
+	$("#legende1").removeClass("col_toutes col_inondations col_secheresses").addClass("col_"+$(this).attr("data-carte"))
+	$("#carte1").css("background-position","left -"+cartes[$(this).attr("data-carte")]+"px")
+})
+
+for (var i = 1982; i<=2014; i++){
+	$("#catnat_inondation").append("<div id=\"box_i"+i+"\" class='contain_img'><img src='images/inondation/retaille/"+i+".jpg'/><p class='date tt6_capital'>"+i+"</p></div>")
+	$("#catnat_secheresse").append("<div id=\"box_s"+i+"\" class='contain_img'><img src='images/secheresse/retaille/"+i+".jpg'/><p class='date tt6_capital'>"+i+"</p></div>")
+
+}
+
+$(".secheresse").scrollLeft(1848)
+
+function decale(val,container){
+	scrollX = (val - 1982)*308
+	$("."+container).animate({scrollLeft: scrollX}, 2000);
+}
+
+
+
+$(document).ready(function() {
+
+for (var i = 0; i<datacatnat.length; i++){
+	var newData = datacatnat[i][4]+datacatnat[i][5]+datacatnat[i][6]+datacatnat[i][7]+datacatnat[i][8]+datacatnat[i][9]+datacatnat[i][10]
+	datacatnat[i].push(newData)
+	datacatnat[i].push(i)
+
+}
+
+
+$('#texte').html( '<table cellpadding="0" cellspacing="0" border="0" class="display" width="640px" id="example"></table>' );
+
+$('#example').dataTable({
+"aaData": datacatnat,
+//"dataTables_filter": true,
+// "bPaginate": false,
+// "bFilter": true,
+// "bInfo": false,
+"aoColumns": [
+  { "sTitle": "Code insee", "sType": "string", "bVisible":false, "sClass":"invis"},
+  { "sTitle": "Commune", "sType": "string","bVisible":true},
+  { "sTitle": "Département", "sType": "string","bVisible":true,"sWidth": 50},
+  { "sTitle": "Code région", "sType": "numeric","bVisible":false},
+  { "sTitle": "Inondations et mouvements de terrain dus aux précipitations", "sType": "numeric","bVisible":false},
+  { "sTitle": "Mouvements de terrain", "sType": "numeric","bVisible":false},
+  { "sTitle": "Neige et avalanches", "sType": "numeric","bVisible":false},
+  { "sTitle": "Sécheresses", "sType": "numeric","bVisible":false},
+  { "sTitle": "Vents et tempêtes", "sType": "numeric","bVisible":false},
+  { "sTitle": "Volcanisme", "sType": "numeric","bVisible":false},
+  { "sTitle": "Séismes", "sType": "numeric","bVisible":false},
+  { "sTitle": "Nombre cumulé d'états de catastrophe naturelle depuis 1982", "sType": "numeric","bVisible":true,"sWidth": 130},
+  { "sTitle": "id", "sType": "numeric","bVisible":true, "sClass":"invis"},
+
+],
+"bSort": true,
+"sScrollY": "175px",
+//"sPaginationType": "full_numbers",
+"bScrollInfinite": true,
+"bScrollCollapse": false,
+//"iDisplayLength": 7,
+//"aLengthMenu": [[7, 25, 50, 100,250, -1], [7, 25, 50, 100,250, "TOUT"]],
+"oLanguage": {
+"sZeroRecords": "Pas de données disponibles avec cette recherche",
+"sLengthMenu": "_MENU_ communes affichées",
+"sInfo": "Entrées _START_ à _END_ (sur _TOTAL_)",
+"sInfoFiltered": "",
+// "sClass": "tt4 marg_top_10 pad_left_5",
+"sSearch": "Recherche :",
+"sInfoEmpty": "Pas de données disponibles avec cette recherche",
+"oPaginate": {
+"sFirst": "Première page",
+"sLast": "Dernière page",
+"sNext": "Suivante",
+"sPrevious": "Précédente",
+}
+}
+});	
+genererHighcharts(["99999", null, "99", 99, 108002, 2502, 1366, 20729, 15839, 1, 680, 149119, 0] )
+$("#example tbody").on("click", "tr", function(){
+	var id = $(this).children(":nth-child(4)").text()
+
+	genererHighcharts(datacatnat[id])
+})
+
+} );
+
+function genererHighcharts (datum) {
+	if(datum[1]) text='dans la commune de '+datum[1];
+	else text='en France';
+
+	Highcharts.setOptions({
+	lang: {
+		decimalPoint: ',',
+		thousandsSep: ' ',
+		numericSymbols: [' K', ' M', 'Mds'],
+		months: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',  'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
+		shortMonths: [ 'jan.' , 'fév.' , 'mars' , 'avr.' , 'mai' , 'juin' , 'juil.' , 'août' , 'sept.' , 'oct.' , 'nov.' , 'déc.'],
+		weekdays: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
+		noData: 'Pas de données à afficher'
+	}
+});
+
+    $('#graph').highcharts({
+        chart: {
+            type: 'column'
+        },
+        colors:["#0386c3","#FFc832","#ff3232","#F19300","#28beaa","#285a82","#821400"],
+        title: {
+            text: '<span class="tt4">Catastrophes naturelles depuis 1982 '+text+'</span>',
+            useHTML: true,
+            align: 'left',
+            x: 5
+        },
+        subtitle: {
+            text: '<span class="txt3 txt_gris_soutenu">Nombre de catastrophes naturelles par catégorie</span>',
+            useHTML: true,
+             align: 'left',
+             x: 5
+        },
+        xAxis: {
+            categories: [
+                'Inondations',
+                'Mouvements de terrain',
+                'Avalanches et neige',
+                'Sécheresses',
+                'Tempêtes et vents violents',
+                'Volcanisme',
+                'Séisme'
+            ]
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: '<span class="txt3 txt_gris_soutenu">Nombre de catastrophes naturelles</span>',
+                useHTML: true
+            }
+        },
+        legend: {
+            enabled: false
+        },
+        credits: {
+            enabled: false
+        },
+        tooltip: {
+            shared: true,
+            useHTML: true
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0
+            }
+        },
+        series: [{
+        	name: 'Nombre de catastrophes naturelles ',
+            data: [datum[4],datum[5],datum[6],datum[7],datum[8],datum[9],datum[10]]
+
+        }]
+    });
+}
+$(function () {
+    $('#graph32ans').highcharts({
+        chart: {
+            type: 'area'
+        },
+        title: {
+            text: '<span class="tt6">Evolution du nombre de catastrophes naturelles en France</span>',
+            useHTML: true,
+            align: 'left',
+            x: -5
+        },
+        // subtitle: {
+        //     text: '<span class="txt3 txt_gris_soutenu">Nombre de catastrophes naturelles par catégorie</span>',
+        //     useHTML: true,
+        //      align: 'left',
+        //      x: -5
+        // },
+        xAxis: {
+            allowDecimals: false,
+            labels: {
+                formatter: function () {
+                    return this.value; // clean, unformatted number for year
+                }
+            }
+        },
+        yAxis: {
+            title: {
+                text: '<span class="txt3 txt_gris_soutenu">Nombre de catastrophes naturelles</span>',
+                useHTML: true
+            },
+            labels: {
+                formatter: function () {
+                    return this.value / 1000 + 'k';
+                }
+            }
+        },
+        legend: {
+            enabled: false
+        },
+        credits: {
+            enabled: false
+        },
+        tooltip: {
+            pointFormat: '{point.y:,.0f}'
+        },
+        plotOptions: {
+            area: {
+                pointStart: 1980,
+                marker: {
+                    enabled: false,
+                    symbol: 'circle',
+                    radius: 2,
+                    states: {
+                        hover: {
+                            enabled: true
+                        }
+                    }
+                }
+            }
+        },
+        series: [{
+            name: 'Toutes catégories',
+            data: [null, null, 20523,8354,1551,578,1270,3997,2910,4888,3131,2238,5248,7863,3626,5803,2831,1943,1811,31151,2891,3674,2069,7021,536,3119,1490,1515,2829,5107,2320,2581,1338,1652,1261]
+        }]
+    });
+});
+
+
+</script>
+
+	</body>
+</html>

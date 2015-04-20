@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+<script src="js/jquery.dataTables.js"></script>
+<script src="js/prix.json" type="text/javascript"></script>
+<link href="css/mycss.css" rel="stylesheet" type="text/css">
+<link href="css/lemonde.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+<div id="titretableauprix"><h1 class="tt28">Le tableau complet des prix littéraires :</h1></div>
+<div id="tableauprix">
+</div>
+<p id="donnees"><a href="donnees.csv" target="_blank">&raquo; Accéder aux données</a></p>
+
+	<script type="text/javascript">
+
+	$(function() {
+
+  $('#tableauprix').html( '<table cellpadding="0" cellspacing="0" border="0" class="display" id="tableauprixsub"></table>' );
+$('#tableauprixsub').dataTable({
+  "aaData": tabledesprix, //tableau de données
+  "aoColumns": [ //Propriétés des colonnes
+    { "sTitle": "Prix","sType": "string",},
+    { "sTitle": "Année","sType": "numeric",},
+    { "sTitle": "Auteur","sType": "string",},
+    { "sTitle": "Roman","sType": "string",},
+    { "sTitle": "Maison d'édition","sType": "string",}
+  ],
+  // "bSort": true, //tri sur la colonne 3
+  // "aaSorting": [[2,'desc']],
+  "sScrollY": "250px", //  hauteur et scroll infini
+  "bScrollInfinite": true,
+  "bScrollCollapse": false,
+  "oLanguage": { //traduction des boutons
+    "sZeroRecords": "Pas de données disponibles avec cette recherche",
+    "sLengthMenu": "_MENU_ entrées affichées",
+    "sInfo": "Résultats _START_ à _END_ (sur _TOTAL_)",
+    "sSearch": "Recherchez un prix, un auteur, un roman et/ou une année : ",
+    "sInfoEmpty": "Pas de données disponibles avec cette recherche"
+  }
+});
+});
+
+
+</script>
+</body>
+</html>
+

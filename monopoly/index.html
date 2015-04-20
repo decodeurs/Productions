@@ -1,0 +1,1022 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		
+		 <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+		<script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+		<script src="js/questions.js"></script>
+
+		<link rel="stylesheet" type="text/css" href="css/lemonde.css" />
+		<link rel="stylesheet" type="text/css" href="css/decodeurs.css" />
+		<link rel="stylesheet" href="css/jquery-ui.css" />
+		<link rel="stylesheet" type="text/css" href="http://s1.lemde.fr/medias/web/css/fonts.css">
+		<style>
+			
+			body{
+				background-color: #FFF!important;
+				margin:0!important;
+			}
+			#articleBody{
+				padding:0!important;
+				margin:0!important;
+			}
+			#jeu{
+				height:582px;
+				background-color: #c6b2a2;
+				width:100%;
+				margin:0px!important;
+				position:relative;
+			}
+			#barre_gauche{
+				width:393px;
+				height:582px;
+				float:left;
+			}
+			#pions, #des, #mystere, #gains, #restart{
+				float:left;
+				clear:left;
+				padding:10px 0 5px 10px
+			}
+			#pions{
+				width:320px;
+			}
+			#pions_select div{
+				float:left;
+				height:56px;
+				width:70px;
+				display: inline-block;
+				vertical-align: baseline;
+			}
+
+			#plateau{
+				width:607px;
+				height:582px;
+				float:left;
+				background: url(img/plateau.png) left top no-repeat;
+				position:relative;
+			}
+			#plateau .pion{
+				position:absolute;
+				top:0px;
+				left:9px;
+				height:56px;
+				width:70px;
+				text-align: center;
+				z-index:6000;
+			}
+			#des,#mystere,#gains,#restart{
+				display: none
+			}
+			#dice_val{
+				background-color:#84c989;
+				border:2px solid black;
+				border-radius: 20px;
+				width:150px;
+				height:80px;
+			}
+			#dice_val > div{
+				width:100%;
+				height:100%;
+				position:relative;
+				display:block;
+				cursor: pointer;
+				background: transparent;
+			}
+			#dice_val div div{
+				width:50px;
+				height:50px;
+				background-color: white;
+				display:block;
+				position:absolute;
+				box-shadow: 2px 2px #ccc;
+				background-image:url(img/dice/dice6.png);
+				background-position:left top;
+				background-repeat: no-repeat;
+			}
+			#dice_val1{
+				top:10px;
+				left:25px;
+				transform: rotate(-7deg);
+				-ms-transform: rotate(-7deg);
+				-webkit-transform: rotate(-7deg);
+			}
+			#dice_val2{
+				top:15px;
+				left:75px;
+				transform: rotate(9deg);
+				-ms-transform: rotate(9deg);
+				-webkit-transform: rotate(9deg);
+			}
+
+			@-webkit-keyframes spaceboots {
+				0% { -webkit-transform: translate(1px, 1px) rotate(0deg); }
+				15% { -webkit-transform: translate(-1px, -2px) rotate(-1deg); }
+				30% { -webkit-transform: translate(-2px, 0px) rotate(1deg); }
+				45% { -webkit-transform: translate(-1px, 2px) rotate(0deg); }
+				60% { -webkit-transform: translate(0px, -1px) rotate(1deg); }
+				70% { -webkit-transform: translate(1px, 2px) rotate(-1deg); }
+				80% { -webkit-transform: translate(2px, 1px) rotate(0deg); }
+				90% { -webkit-transform: translate(1px, 1px) rotate(0deg); }
+				100% { -webkit-transform: translate(0px, 0px) rotate(0deg); }
+			}
+			#dice_val > div.actif:hover,
+			#dice_val > div.actif:focus, #dice_val > div.actif.playme:hover, #dice_val > div.actif.playme:focus, #pions_select div:not(.disabled):hover, #pions_select div:not(.disabled):focus, .pion:hover, .pion:focus {
+				-webkit-animation-name: spaceboots;
+				-webkit-animation-duration: 1s;
+				-webkit-transform-origin:50% 50%;
+				-webkit-animation-iteration-count: infinite;
+				-webkit-animation-timing-function: linear;
+				animation-name: spaceboots;
+				animation-duration: 0.8s;
+				transform-origin:50% 50%;
+				animation-iteration-count: infinite;
+				animation-timing-function: linear;
+				-ms-animation-name: spaceboots;
+				-ms-animation-duration: 0.8s;
+				-ms-transform-origin:50% 50%;
+				-ms-animation-iteration-count: infinite;
+				-ms-animation-timing-function: linear;
+				cursor: pointer;
+			} 
+			@-webkit-keyframes onthemove {
+				0% { -webkit-transform: translate(0px, 0px) rotate(0deg); }
+				15% { -webkit-transform: translate(0px, 5px) rotate(-2deg); }
+				25% { -webkit-transform: translate(0px, 5px) rotate(-1deg); }
+				40% { -webkit-transform: translate(0px, 10px) rotate(0deg); }
+				50% { -webkit-transform: translate(0px, 15px) rotate(1deg); }
+				70% { -webkit-transform: translate(0px, 10px) rotate(2deg); }
+				90% { -webkit-transform: translate(0px, 5px) rotate(1deg); }
+				100% { -webkit-transform: translate(0px, 0px) rotate(0deg); }
+			}
+			.onthemove{
+				-webkit-animation-name: onthemove;
+				-webkit-animation-duration: 1s;
+				-webkit-transform-origin:50% 50%;
+				-webkit-animation-iteration-count: infinite;
+				-webkit-animation-timing-function: linear;
+				animation-name: onthemove;
+				animation-duration: 0.8s;
+				transform-origin:50% 50%;
+				animation-iteration-count: infinite;
+				animation-timing-function: linear;
+				-ms-animation-name: onthemove;
+				-ms-animation-duration: 0.8s;
+				-ms-transform-origin:50% 50%;
+				-ms-animation-iteration-count: infinite;
+				-ms-animation-timing-function: linear;
+			}
+			#dice_val > div.actif.playme {
+				-webkit-animation-iteration-count: 2;
+				animation-iteration-count: 2;
+				-ms-animation-iteration-count: 2;
+			} 
+			@-webkit-keyframes shakeit {
+				0% { -webkit-transform: translate(0px, 0px) }
+				10% { -webkit-transform: translate(-1px, 0px) }
+				20% { -webkit-transform: translate(-2px, 0px) }
+				35% { -webkit-transform: translate(-3px, 0px) }
+				50% { -webkit-transform: translate(-4px, 0px) }
+				58% { -webkit-transform: translate(-3px, 0px) }
+				70% { -webkit-transform: translate(-2px, 0px) }
+				85% { -webkit-transform: translate(-1px, 0px) }
+				100% { -webkit-transform: translate(0px, 0px) }
+			}
+			.shakeit{
+				-webkit-animation-name: shakeit;
+				-webkit-animation-duration: 0.6s;
+				-webkit-transform-origin:50% 50%;
+				-webkit-animation-iteration-count: infinite;
+				-webkit-animation-timing-function: linear;
+				animation-name: shakeit;
+				animation-duration: 0.6s;
+				transform-origin:50% 50%;
+				animation-iteration-count: infinite;
+				animation-timing-function: linear;
+				-ms-animation-name: spaceboots;
+				-ms-animation-duration: 0.6s;
+				-ms-transform-origin:50% 50%;
+				-ms-animation-iteration-count: infinite;
+				-ms-animation-timing-function: linear;
+			}
+			span.shakeit{
+				color:#e70b61;
+			}
+
+			#mystere > div{
+				width:77px;
+				height:100px;
+				float:left;
+				background-repeat: no-repeat;
+				background-position: left top;
+			}
+			#mystere > div.actif{
+				background-position: left -100px;
+				cursor: pointer;
+				-moz-transform:rotate(5deg);
+				-webkit-transform:rotate(5deg);
+				-o-transform:rotate(5deg);
+				-ms-transform:rotate(5deg);
+				transform: rotate(5deg);
+				-webkit-transition: 1s ease-in-out;
+				-moz-transition: 1s ease-in-out;,
+				-o-transition: 1s ease-in-out;
+			}
+			#mystere > div.actif:hover{
+				-moz-transform:rotate(0deg);
+				-webkit-transform:rotate(0deg);
+				-o-transform:rotate(0deg);
+				-ms-transform:rotate(0deg);
+				transform: rotate(0deg);
+				-webkit-transition: 0.5s ease-in-out;
+				-moz-transition: 0.5s ease-in-out;,
+				-o-transition: 0.5s ease-in-out;
+			}
+			#mystere1{
+				background-image: url(img/carte1.png)
+			}
+			#mystere2{
+				background-image: url(img/carte2.png)
+			}
+			#mystere3{
+				background-image: url(img/carte3.png)
+			}
+			#gains_wrapper{
+				background:url(img/compteur.png) left top no-repeat #9a7965;
+				width:341px;
+				height:58px;
+				display:block;
+				padding: 20px 0 0 23px;
+				letter-spacing: 43.5px;
+			}
+
+			#restart{
+				cursor:pointer;
+				background:url(img/restart.png) left top no-repeat;
+				padding:0 0 0 50px;
+				height:22px;
+				margin:10px 0 0 10px;
+			}
+			#restart:hover{
+				background-position:left -22px;
+				color:#e5002c;
+			}
+
+
+
+
+			/* OVERLAY */
+			#carte_overlay{
+				position:absolute;
+				top:0;
+				left:0;
+				z-index:8000;
+				background: rgba(0,0,0,0.5);
+				width:100%;
+				height:100%;
+				display: none;
+			}
+			#carte_overlay > div{
+				width:338px;
+				margin:22px 81px;
+				background: white;
+				height:537px;
+				position:relative;
+				display:none;  
+			}
+			#carte_overlay_left{
+				float:left;
+			}
+			#carte_overlay_left.mystere{
+				background:url(img/mystere.png) left top no-repeat;
+			}
+			#carte_overlay_left.mystere h2{
+				background:none;
+				padding: 70px 65px 0 65px;
+			}
+			#carte_overlay_left.mystere > div {
+				border:0;
+			}
+			#carte_overlay_left > div {
+				border:1px solid black;
+				margin: 8px;
+				height: calc(100% - 16px);
+			}
+			#carte_overlay h2 {
+				background: #e00c2d;
+				display: block;
+				text-align: center;
+				color: white;
+				padding: 10px 30px;
+				line-height: 2.4rem;
+				margin:5px;
+			}
+			#carte_overlay ul {
+				list-style-type: none;
+				padding: 80px 20px 20px 20px;
+			}
+			
+			#carte_overlay ul li, .bonne_reponse {
+				padding-left:30px;
+				background:url(img/bullet.png) left top no-repeat;
+				height:40px;
+				margin:25px;
+				cursor: pointer;
+			}
+			#carte_overlay ul li.actif, #carte_overlay ul li:hover, .bonne_reponse {
+				background-position:left -40px!important;
+			}
+
+			#carte_overlay_right{
+				background-position:left top;
+				background-repeat: no-repeat;
+				padding: 25px;
+				float:right;
+			}
+			#carte_overlay_right.gagne{
+				background-image: url(img/gagne.png);
+			}
+			#carte_overlay_right.perdu{
+				background-image: url(img/perdu.png);
+			}
+			#carte_overlay_right.communaute{
+				background-image: url(img/caissecommunaute.png);
+				padding-top: 370px;
+				text-align: center;
+			}
+			.gain {
+				margin-top: 20px;
+			}
+			.gain span{
+				background: #6cb3d5;
+				padding: 5px;
+			}
+			#carte_overlay_right.chance{
+				background-image: url(img/chance.png);
+				padding-top: 370px;
+				text-align: center;
+			}
+			#carte_overlay_right.impot{
+				background-image: url(img/impot.png);
+				padding-top: 370px;
+				text-align: center;
+			}
+			#carte_overlay_right.impot .gain span{
+				background: #87d0c9;
+				padding: 5px;
+			}
+			#carte_overlay_right.taxe{
+				background-image: url(img/taxe.png);
+				padding-top: 370px;
+				text-align: center;
+			}
+			#carte_overlay_right.taxe .gain span{
+				background: #fedd5a;
+				padding: 5px;
+			}
+			#carte_overlay_right.depart{
+				background-image: url(img/depart.png);
+				padding-top: 370px;
+				text-align: center;
+			}
+			#carte_overlay_right.prison{
+				background-image: url(img/prison.png);
+				padding-top: 390px;
+				text-align: center;
+			}
+			#carte_overlay_right.parcgratuit{
+				background-image: url(img/parcgratuit.png);
+				padding-top: 370px;
+				text-align: center;
+			}
+			#carte_overlay_right.mystere{
+				padding:0!important;
+				background:#fbc937!important;
+				text-align: center;
+			}
+			#carte_overlay_right.mystere img{
+				height: 430px;
+			}
+			
+			#carte_overlay_right.mystere p.continue{
+				padding:0;
+			}
+			
+
+			#carte_overlay > .cadeau{
+				width:800px;
+				height:500px;
+				float:left;
+				margin:41px 100px;
+				background:url(img/cadeau.png) left top no-repeat;
+				padding:120px 100px 0 100px;
+				display: none;
+			}
+
+
+
+
+			/* INTRO */
+			#intro{
+				background: #84c989;
+				display:block;
+				height:100%;
+				position:absolute;
+				width:607px;
+				right:0;
+				top:0;
+				padding: 15px 30px;
+				text-align: center;
+			}
+			#intro p{
+				padding:10px 0;
+				line-height: 24px;
+			}
+
+			
+			/* Replay */
+
+			#replay{
+				background: rgba(0,0,0,0.9);
+				color: white;
+				position: absolute;
+				display:none;
+				width: 200px;
+				top: 230px;
+				right: 203.5px;
+				padding: 30px 20px;
+				text-align: center;
+				border: 2px solid white;
+			}
+
+			
+			.enjeu, .continue{
+				position: absolute;
+				left:0;
+				bottom:10px;
+				padding:20px;
+				text-align: center;
+				width:100%;
+			}
+
+			#submit,.continue{
+				text-align: center;
+			}
+			.bonne_reponse{
+				margin:280px 0 10px 0!important;
+			}
+
+			.maison{
+				width:37px;
+				height:35px;
+				display:block;
+				position: absolute;
+				background: url(img/maison.png) left top no-repeat;
+			}
+			.maison.rate{
+				width:33px;
+				height:42px;
+				display:block;
+				position: absolute;
+				background: url(img/croix.png) left top no-repeat;
+			}
+
+			.ui-tooltip {
+			    background: #fff;
+			    color: #333;
+			    border: none;
+			    padding: 0;
+			    opacity: 1;
+			    border-radius: 0px;
+			    width:120px;
+			    text-align: center;
+			}
+			.ui-tooltip-content {
+			    position: relative;
+			    padding: 1em;
+			}
+			.ui-tooltip-content::after {
+			    content: '';
+			    position: absolute;
+			    border-style: solid;
+			    display: block;
+			    width: 0;
+			}
+			.bottomtooltip .ui-tooltip-content::after {
+			    top: -10px;
+			    left: 50px;
+			    border-color: #fff transparent;
+			    border-width: 0 10px 10px;
+			}
+			.righttooltip .ui-tooltip-content::after {
+			    top: 18px;
+    			left: -10px;
+			    border-color: transparent #fff;
+			    border-width: 10px 10px 10px 0;
+			}
+		</style>
+	</head>
+	<body>
+
+
+
+
+		<div id="articleBody" class="global">
+			<div class="clearfix" id="jeu">
+
+				<div id="barre_gauche" class="clearfix">
+					<div id="pions">
+						<p class="tt5_capital"><span class="shakeit">&rsaquo;</span> Choisissez votre pion</p>
+						<div id="pions_select"></div>
+					</div>
+				
+					<div id="des">
+						<p class="tt5_capital"><span>&rsaquo;</span> Lancez les dés</p>
+						
+						<div id="dice_val">
+							<div>
+								<div id="dice_val1"></div>
+								<div id="dice_val2"></div>
+							</div>
+						</div>
+					</div>
+
+					<div id="mystere">
+						<p class="tt5_capital">&rsaquo; Questions mystères à débloquer</p>
+						<div id="mystere1" class="mystere" data-cadeau="1"></div>
+						<div id="mystere2"class="mystere" data-cadeau="2"></div>
+						<div id="mystere3"class="mystere" data-cadeau="3"></div>
+					</div>
+
+					<div id="gains">
+						<p class="tt5_capital">&rsaquo; Vos gains</p>
+						<div id="gains_wrapper" class="tt2_capital">
+							<p></p>
+						</div>
+					</div>
+
+					<div id="restart">
+						<p class="tt5_capital">Recommencer la partie</p>
+					</div>
+
+				</div>
+				<div id="plateau" class="clearfix">
+					
+				</div>
+
+				<div id="intro" class="txt6">
+						<p><img src="img/logo-monopoly.png" /></p>
+						<p>A l'occasion de <a href="http://bigbrowser.blog.lemonde.fr/2015/02/02/de-vrais-billets-dans-le-monopoly/" target="_blank">son 80<sup>e</sup> anniversaire</a>, Les Décodeurs vous proposent de revisiter l'histoire du Monopoly à travers quarante questions réparties sur le plateau de jeu original du célèbre jeu de société.</p>
+						<p>A chaque bonne réponse, vous augmenterez vos gains, dans l'espoir de débloquer l'une des trois questions mystères !</p>
+						<p>Pour commencer à jouer, choisissez votre pion sur la gauche.</p>
+						<p><img src="img/decodeurs.png" /></p>
+						<p class="sources txt3">Sources : Hasbro, <em>Les Echos</em>, <em>L’Express</em>, <em>The Irish Times</em>, BBC et <a href="http://iml.univ-mrs.fr/~ferenczi/monopoly.pdf" target="_blank">CNRS 2006</a>.</p>
+				</div>
+
+				<div id="replay" class="txt5 shakeit">
+						<p>Vous avez déjà joué cette case.</p>
+						<p>Relancez les dés.</p>
+				</div>
+
+				<div id="carte_overlay">
+
+
+
+					<div id="carte_overlay_left" class="txt5">
+						<div></div>
+					</div>
+					<div id="carte_overlay_right" class="txt5"></div>
+					<div id="cadeau1" class="cadeau txt5"></div>
+					<div id="cadeau2" class="cadeau txt5"></div>
+					<div id="cadeau3" class="cadeau txt5"></div>
+
+				</div>
+				
+			</div>
+		</div>
+		
+		<script type="text/javascript">
+
+
+				var pion, debut = 0, position = 0, row = 0, col = 0, gains = 0, seuils = [50000,100000,150000], couleurs = ["#6e4e9e","#940c68","#"], mystere1, mystere2, mystere3, questions = jQuery.extend(true, {}, questions_raw);
+				var pions = ["automobile","brouette","canon","chapeau","chat","chaussure","chien","de"];
+				$.each(pions,function(i,d){
+					$("#pions_select").append("<div id=\""+d+"\" data-pion=\""+d+"\"><img src=\"img/pions/pion_"+d+".png\" /></div>")
+				})
+				majCompteur();
+
+				$("#restart").click(function(){ // Pour recommencer la partie
+					debut = 0;
+					position = 0;
+					row = 0;
+					col = 0;
+					gains = 0;
+					questions = jQuery.extend(true, {}, questions_raw)					
+					$("#des p span").addClass("shakeit");
+					$("#plateau div").remove();
+					$("#pions_select div").animate({opacity:1}).removeClass("disabled")
+					$("#des,#mystere,#gains,#restart").hide("fade")
+					$("#intro").show("fade")
+					majCompteur()
+
+				})
+
+				$("#pions_select div").click(function(){
+					if(debut == 0){
+						$("#intro").hide("fade")
+						$("#pions p span").removeClass("shakeit")
+						$("#plateau").append("<div data-pion=\""+$(this).attr("data-pion")+"\" class=\"pion\"><img src=\"img/pions/pion_"+$(this).attr("data-pion")+".png\" /></div>")
+						$(this).animate({opacity:0}).addClass("disabled")
+						$("#dice_val > div").addClass("actif")
+						debut++;
+						$("#des,#mystere,#gains,#restart").show("fade")
+
+						$("#des p span").addClass("shakeit")
+
+
+						$("#pions_select").addClass("chosen");
+						$( "#pions_select" ).tooltip({
+					    	show:  { effect: "fade", duration: 0 },
+					    	hide:  { effect: "fade", duration: 0 },
+					    	track: false,
+					    	items: "[data-pion]:not(.disabled)",
+					    	tooltipClass: "bottomtooltip",
+					    	position: { my: 'center top', at: 'center bottom+10' },
+					    	content: function(){
+					    		return "Changer de pion"
+					    	}
+					    });
+					    $( ".mystere" ).tooltip({
+					    	show:  { effect: "fade", duration: 0 },
+					    	hide:  { effect: "fade", duration: 0 },
+					    	track: false,
+					    	items: "div",
+					    	tooltipClass: "righttooltip",
+					    	position: { my: 'left center', at: 'right+10 center' },
+					    	content: function(){
+					    		if($(this).hasClass("actif")) return "Vous avez débloqué cette question mystère. Cliquez pour la découvrir.";
+					    		else return "Cette question mystère n'est pas encore débloquée.";
+					    	}
+						});
+					}
+					else{
+						$("#plateau .pion").addClass("ajeter")
+						$("#plateau").append("<div data-pion=\""+$(this).attr("data-pion")+"\" class=\"pion\" style=\"top:"+$("#plateau .pion").css("top")+"; left: "+$("#plateau .pion").css("left")+"\"><img src=\"img/pions/pion_"+$(this).attr("data-pion")+".png\" /></div>");
+						
+						
+						$(this).animate({opacity:0}).addClass("disabled")
+						$("#"+$("#plateau .pion.ajeter").attr("data-pion")).animate({opacity:1}).removeClass("disabled")
+						$("#plateau .pion.ajeter").remove()
+					}
+					
+				})
+				
+				$("#dice_val > div").click(function(){
+
+					$("#des p span").removeClass("shakeit")
+					$("#replay").hide("fade")
+
+					if(debut !== 0){
+						
+						/* Pour truquer les dés : val = val2 = 20; */
+						val = Math.round(Math.random()*5)+1
+						val2 = Math.round(Math.random()*5)+1
+						
+						
+						$("#dice_val1").css({
+							"background-image":"url(img/dice/dice"+val+".png)"
+						}).effect("shake")
+						$("#dice_val2").css("background-image","url(img/dice/dice"+val2+".png)").effect("shake")
+
+						for(var i = 0; i<val+val2;i++){
+							if(i == val+val2-1) {
+								bougePion("last")
+							}
+							else{
+								bougePion("notlast")
+							}
+						}
+						
+					}
+					
+				})
+
+				
+				
+
+				
+
+				function bougePion(last){
+						position++;
+						if(position%40 > 0 && position%40 <= 10){
+							col++;					
+						}
+						else if(position%40 > 10 && position%40 <= 20){
+							row++;
+						}
+						else if(position%40 > 20 && position%40 <= 30){
+							col--;
+						}
+						else {
+							row--;
+						}
+						if(col == 0){
+							position_left = 7
+						}
+						else if(col == 10){
+							position_left = 531
+						}
+						else {
+							position_left = 18+50*col;
+						}
+						if(row == 0){
+							position_top = 0
+						}
+						else if(row == 10){
+							position_top = 513
+						}
+						else {
+							position_top = 24+48*row;
+						}
+						$("#plateau .pion").addClass("onthemove").animate({
+							"top": position_top,
+							"left": position_left
+						},300,function(){
+							if(last == "last") {
+								$("#plateau .pion").removeClass("onthemove")
+								if(!questions[position%40][9]) poserQuestion(position%40,position_top,position_left);
+								else $("#replay").show("fade")
+							}
+						})
+
+				}
+
+				function rejouer(){
+					$("#carte_overlay").show("fade")
+				}
+				
+				function poserQuestion(position,position_top,position_left){
+					
+
+
+
+					/*YOLO*/
+					$("#carte_overlay").show("fade")
+					
+					$("#carte_overlay_left,#carte_overlay_right").removeClass()
+					/*/YOLO*/
+
+					if(questions[position][0] == "question" || isNaN(position)){ // Si on est sur une case question ou mystère
+
+							/*YOLO*/
+
+							$("#carte_overlay_left").show("fade")
+							if(isNaN(position)) $("#carte_overlay_left").addClass("mystere") // Si question mystère
+
+							
+
+							if(questions[position][8] == "f8e735"){
+								contenu = "<h2 class=\"tt4_capital\" style=\"color:#000; background:#"+questions[position][8]+"\">"+questions[position][1]+"</h2> \
+								<ul>";
+							}
+							else{
+								contenu = "<h2 class=\"tt4_capital\" style=\"background:#"+questions[position][8]+"\">"+questions[position][1]+"</h2> \
+								<ul>";
+							}
+
+							reponses = [questions[position][2],questions[position][3],questions[position][4]]
+							$.each(reponses,function(i,d){
+								contenu += "<li data-reponse=\""+i+"\">"+d+"</li>"
+							})
+							contenu += "</ul> \
+							<p id=\"submit\"><button class=\"btn\">Valider</button></p>";
+							if(!isNaN(position)) contenu += "<p class=\"enjeu tt5_capital\">A gagner : "+thousandsSeparator(questions[position][7])+" euros</p>"; // Si pas question mystère
+
+							$("#carte_overlay_left div").html(contenu)
+
+							$("#carte_overlay ul li").click(function(){
+								$("#carte_overlay ul li").removeClass("actif")
+								$(this).addClass("actif")
+							})
+
+							$("#submit").click(function(){
+								reponse = $("#carte_overlay ul li.actif").attr("data-reponse");
+								if(reponse){
+												$("#carte_overlay_right").show("fade")
+												$("#submit").hide("fade")
+
+
+												/*/YOLO*/
+												
+												
+
+												if(isNaN(position)){ // Si question mystère
+													if (top.location != self.document.location)
+													{
+														adresseurl = encodeURIComponent(top.location)
+													}
+													else{
+														adresseurl = encodeURIComponent(location.href)
+													}
+													texte_partage = encodeURIComponent("J'ai débloqué une question mystère sur le Monopoly des @decodeurs")
+													$("#carte_overlay_right").addClass("mystere")
+													contenu = "<p><img src=\"img/mystere"+position.substring(7)+".png\" /></p><p style=\"padding-top:10px\" class=\"tt5_capital\">Partagez votre succès :</p><iframe allowtransparency=\"true\" frameborder=\"0\" scrolling=\"no\" src=\"https://platform.twitter.com/widgets/tweet_button.html?text="+texte_partage+"&url="+adresseurl+"&recommend=decodeurs&lang=fr&count=horizontal\" style=\"width:95px; height:20px; float:left; margin-left:10px;\"></iframe><iframe src=\"//www.facebook.com/plugins/like.php?href="+adresseurl+"&amp;width&amp;layout=standard&amp;action=like&amp;show_faces=false&amp;share=false&amp;height=80&amp;appId=531696896847126\" scrolling=\"no\" frameborder=\"0\" style=\"border:none; overflow:hidden; height:30px; width:230px; float:left;\" allowTransparency=\"true\"></iframe></p><p class=\"continue\"><button class=\"btn\" data-resultat=\"gagne\">Continuer la partie</button></p>";
+												
+
+
+												}
+												else{ // Si question normale
+													
+												/* YOLO	*/
+													contenu = "<p class=\"bonne_reponse\">"+questions[position][eval(2+questions[position][5])]+"</p> \
+														<p class=\"explication_reponse\">"+questions[position][6]+"</p>";
+
+
+													if(position >= 0 && position <= 10) {
+																position_top += 36.5;
+													}
+													if(position >= 11 && position < 20) {
+																position_left -= 35;
+													}
+													if(position >= 20 && position < 30) {
+																position_top -= 35;
+													}
+													if(position > 30 && position < 40) {
+																position_left += 30;
+																position_top -= 5
+													}
+
+													if(reponse == questions[position][5]){ // Bonne réponse
+
+															// On prépare la carte gagné
+															$("#carte_overlay_right").addClass("gagne")
+															gains += questions[position][7];
+															contenu += "<p class=\"continue\"><button class=\"btn\" data-resultat=\"gagne\">Continuer la partie</button></p>";
+
+												/*/YOLO*/
+
+															// On prépare la maison
+															maison = "<div class=\"maison\" style=\"top:"+eval(10+position_top)+"px; left: "+eval(21.5+position_left)+"px\"></div>";
+																questions[position][9] = "maison";
+													/* YOLO */
+													}
+												
+													else{ // Mauvaise réponse
+														$("#carte_overlay_right").addClass("perdu")
+
+														contenu += "<p class=\"continue\"><button class=\"btn\" data-resultat=\"perdu\">Continuer la partie</button></p>";
+
+														// On prépare la croix
+														maison = "<div class=\"maison rate\" style=\"top:"+eval(10+position_top)+"px; left: "+eval(21.5+position_left)+"px\"></div>";
+														questions[position][9] = "rate";
+
+													}	
+													/*/YOLO*/
+												}		
+
+												/* YOLO */
+										
+												$("#carte_overlay_right").html(contenu)
+
+												$("#carte_overlay_right .continue button").click(function(){
+															resultat = $(this).attr("data-resultat");
+											
+												
+															$("#carte_overlay").hide("fade",function(){
+																if(resultat == "gagne"){ 
+											/*/YOLO*/
+																	majCompteur()
+											/*YOLO*/					}
+											/*/YOLO*/
+																$("#plateau").append(maison)
+											/*YOLO*/	
+															})
+											/*/YOLO*/
+															$("#carte_overlay_right,#carte_overlay_left").hide()
+															$("#des p span").addClass("shakeit")
+															
+											/*YOLO*/
+												})
+								}
+							})
+							/*/YOLO*/
+
+					}
+
+
+					else { // Si on n'est pas sur une case question
+						$("#carte_overlay_right").show("fade").addClass(questions[position][0])
+						
+						contenu = "<p>"+questions[position][1]+"</p>"
+						if(questions[position][7] !== 0) contenu += "<p class=\"gain tt4_capital\"><span>"+thousandsSeparator(Math.abs(questions[position][7]))+" euros</span></p>"
+						contenu += "<p class=\"continue\"><button class=\"btn\">Continuer la partie</button></p>";
+						gains += questions[position][7];
+						
+						$("#carte_overlay_right").html(contenu)
+
+
+						$("#carte_overlay_right .continue button").click(function(){
+									resultat = $(this).attr("data-resultat");
+									$("#carte_overlay").hide("fade",function(){
+										majCompteur()
+									})
+									$("#carte_overlay_right, #carte_overlay_left").hide()
+									$("#des p span").addClass("shakeit")
+									
+						})
+
+					}
+
+					$("#dice_val > div").addClass("playme")
+
+
+				}
+
+				
+				
+				function majCompteur(){
+
+					// Incrémentation du compteur
+								if(gains < 0) negatif = true; else negatif = false;
+								compteur = Math.abs(gains).toString();
+								if(negatif){
+									remain = 5-compteur.length;
+								}
+								else{
+									remain = 6-compteur.length;
+								}
+								
+								for(var i = 0; i < remain; i++){
+									compteur = "0"+compteur
+								}
+								if(negatif){
+									compteur = "-"+compteur
+								}
+								$("#gains_wrapper p").text(compteur).effect("slide",{direction:"down"},100).effect("slide",{direction:"up"},400, function(){
+
+					// Déblocage des cartes mystères
+								if(gains >= seuils[0] && !mystere1){
+									$("#mystere1").addClass("actif")
+									mystere1 = true;
+								}
+								if(gains >= seuils[1] && !mystere2){
+									$("#mystere2").addClass("actif");
+									mystere2 = true;
+								}
+								if(gains >= seuils[2] && !mystere3){
+									$("#mystere3").addClass("actif");
+									mystere3 = true;
+								}
+
+								$("#mystere div.actif").click(function(){
+									$("#des p span").removeClass("shakeit")
+
+									poserQuestion($(this).attr("id"))
+
+									/*$("#cadeau"+$(this).attr("data-cadeau")+" .continue button").click(function(){
+										$("#carte_overlay, #cadeau"+$(this).attr("data-cadeau")).hide("fade")
+										$("#des p span").addClass("shakeit")
+									})*/
+								})
+
+					})
+
+
+							
+
+				}
+
+				
+
+				
+				function clone(obj) {
+				    if (null == obj || "object" != typeof obj) return obj;
+				    var copy = obj.constructor();
+				    for (var attr in obj) {
+				        if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
+				    }
+				    return copy;
+				}
+	
+				
+				function tailleIframe()
+				{
+					if (top.location != self.document.location)
+						{
+							$(window.parent.document).find('.embed').children('iframe').height($('body').height()+10);
+						}
+				}
+
+				function thousandsSeparator(n){
+						    var rx=  /(\d+)(\d{3})/;
+						    return String(n).replace(/^\d+/, function(w){
+						        while(rx.test(w)){
+						            w= w.replace(rx, '$1\&nbsp;$2');
+			        			}
+					        return w;
+					    	});
+				}
+
+    	</script>
+    	
+	</body>
+</html>

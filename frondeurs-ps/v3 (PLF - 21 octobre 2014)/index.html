@@ -1,0 +1,765 @@
+
+
+<!DOCTYPE>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Les frondeurs du PS : combien de divisions ?</title>
+  <link href="css/lemonde.css" rel="stylesheet" type="text/css">
+  <link href="css/mycss.css" rel="stylesheet" type="text/css">
+  <link href="css/decodeurs.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="css/jquery-ui.css" />
+  <link rel="stylesheet" type="text/css" href="http://s1.lemde.fr/medias/web/css/fonts.css"/>
+  <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+  <script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+
+</head>
+<body>  
+
+
+<div id="articleBody" class="alpha omega">
+<div class="container_18">
+      <div class="grid_16 article txt15_140 alpha omega prefix_1 suffix_1">
+        <p>Depuis l'arrivée de Manuel Valls à Matignon, ils sont le poil à gratter de la majorité. Les &laquo;&nbsp;frondeurs&nbsp;&raquo;, tantôt une poignée, tantôt une centaine, mettent en garde le couple exécutif contre une dérive trop social-libérale.</p>
+        <p>Qui sont-ils ? Vote après vote, sorties médiatiques après coups d'éclat, forment-ils un groupe cohérent ou une nébuleuse à géométrie variable ?</p>
+        <p>Après <a href="http://www.lemonde.fr/les-decodeurs/article/2014/09/16/valls-gouverner-c-est-aller-chercher-la-confiance_4488422_4355770.html" target="_blank">le vote de confiance du gouvernement Valls 2</a> et <a href="http://www.lemonde.fr/politique/article/2014/10/21/les-frondeurs-du-ps-vont-s-abstenir-sur-le-budget-2015_4509686_823448.html" target="_blank">l'adoption du volet recettes du budget 2015</a>, Les Décodeurs font le bilan, en visualisant le rapport de force, au travers de huit grands événements en forme de plébiscite ou de motion de défiance.</p>
+        <p>Chaque bulle représente un député socialiste. En cliquant dessus, vous pouvez la mettre en évidence pour la suivre plus aisément. A l'aide du menu, parcourez les événements pour voir évoluer le rapport de force entre les loyalistes et les frondeurs.</p>
+      </div>
+    </div> 
+    
+
+  <div class="bubbles mgt16">
+          
+          <div id="legende"></div>
+  
+
+          <div class="checking">
+            <span class="tt4_capital">Choisissez un événement :</span><br /><br />
+            <input type="radio" name="selecteur" id="appeldes100" value="2"  onclick="calc(value)" /> <label for="appeldes100" class="txt4"><b>&laquo; Appel des 100 &raquo;</b></label><br>
+             <input type="radio" name="selecteur" id="confiance" value="3" onclick="calc(value)" /> <label for="confiance" class="txt4"><b>1<sup>er</sup> vote de confiance</b></label><br>
+              <input type="radio" name="selecteur" id="stabilite" value="4" onclick="calc(value)" /> <label for="stabilite" class="txt4"><b>Pacte de stabilité</b></label><br>
+            <input type="radio" name="selecteur" id="plfrss" value="5" onclick="calc(value)" /> <label for="plfrss" class="txt4"><b>Budget rectificatif</b></label><br>
+             <input type="radio" name="selecteur" id="plfr" value="6" onclick="calc(value)" /> <label for="plfr" class="txt4"><b>Budget rectificatif  de la &laquo; Sécu &raquo;</b></label><br>
+             <input type="radio" name="selecteur" id="appeldes200" value="7" onclick="calc(value)" /> <label for="appeldes200" class="txt4"><b>&laquo; Appel des 200 &raquo;</b></label><br>
+             <input type="radio" name="selecteur" id="confiance2" value="8" onclick="calc(value)" /> <label for="confiance2" class="txt4"><b>2<sup>nd</sup> vote de confiance</b></label><br>
+             <input type="radio" name="selecteur" id="recettesbudget" value="9" checked onclick="calc(value)" /> <label for="recettesbudget" class="txt4"><b>Recettes du budget 2015</b></label>
+            
+          </div>
+
+          <div class="aide">
+              <img src="img/cursor.png" width="30">
+              <br><span class="tt5_capital">Sélectionnez une bulle pour suivre le parcours d'un(e) députée(e)            
+          </div>
+
+          <div class="nonparticipant txt1">
+          <p class="tt5_capital">Ne participent pas</p>
+            <ul><li>Soit parce qu'ils étaient au gouvernement à cette date</li>
+            <li>Soit parce qu'ils ont été remplacés par un ancien membre du gouvernement à cette date</li>
+            <li>Soit, dans le cas de Claude Bartolone, parce qu'il ne vote pas, en tant que président de l'Assemblée</li></ul>
+          </div>
+         
+  </div> 
+
+<div class="container_18">
+      <div class="grid_7 article txt15_140 alpha prefix_1 suffix_1">
+        
+        </ul>
+      </div>
+      <div class="grid_7 article txt15_140 omega prefix_1 suffix_1">
+        
+      </div>
+</div> 
+
+
+
+
+</div>
+
+
+  <script>
+  
+
+
+tablo = [
+// [ID, Député, Appel des 100, 1er vote de confiance, Pacte de stabilité, PLFR, PLFRSS, Appel des 200, 2nd vote de confiance]
+// 0 = défiance, 1 = soutien, 2 = non-participant
+  [0,"Alain Calmette",1,1,1,1,1,1,1,1],
+  [1,"Alain Claeys",1,1,1,1,1,1,1,1],
+  [2,"Alain Fauré",1,1,1,1,1,1,1,1],
+  [3,"Alain Rodet",1,1,1,1,1,1,1,1],
+  [4,"Alain Rousset",1,1,1,1,1,1,1,1],
+  [5,"Alain Vidalies",2,2,2,1,1,0,1,2],
+  [6,"Alexis Bachelay",1,1,1,1,1,0,1,1],
+  [7,"Anne-Christine Lang",1,1,1,1,1,1,1,1],
+  [8,"Anne-Lise Dufour-Tonini",1,1,1,1,1,1,0,0],
+  [9,"Anne-Yvonne Le Dain",1,1,1,1,1,1,1,1],
+  [10,"Annick Le Loch",1,1,1,1,1,1,1,1],
+  [11,"Annick Lepetit",1,1,1,1,1,1,1,1],
+  [12,"Annie Le Houérou",1,1,1,1,1,1,1,1],
+  [13,"Armand Jung",1,1,1,1,1,1,1,1],
+  [14,"Arnaud Leroy",0,1,0,1,0,0,1,0],
+  [15,"Audrey Linkenheld",0,1,1,1,1,0,1,1],
+  [16,"Aurélie Filippetti",2,2,2,2,2,2,2,0],
+  [17,"Barbara Romagnan",1,1,1,1,1,0,0,0],
+  [18,"Béatrice Santais",1,1,1,1,1,1,1,1],
+  [19,"Benoît Hamon",2,2,2,2,2,2,2,0],
+  [20,"Bernadette Laclais",1,1,1,1,1,1,1,1],
+  [21,"Bernard Lesterlin",0,1,1,1,1,1,1,1],
+  [22,"Bernard Roman",1,1,1,1,1,1,1,1],
+  [23,"Boinali Said",1,1,1,1,1,1,1,1],
+  [24,"Brigitte Bourguignon",0,1,1,1,1,1,1,1],
+  [25,"Bruno Le Roux",1,1,1,1,1,1,1,1],
+  [26,"Carlos Da Silva",1,1,1,1,1,1,1,1],
+  [27,"Catherine Beaubatie",1,1,1,1,1,1,1,1],
+  [28,"Catherine Coutelle",0,1,1,1,1,0,1,1],
+  [29,"Catherine Lemorton",0,1,1,1,1,1,1,1],
+  [30,"Catherine Quéré",1,1,1,1,1,1,1,1],
+  [31,"Catherine Troallic",0,1,0,1,1,1,1,1],
+  [32,"Cécile Untermaier",1,1,1,1,1,1,1,1],
+  [33,"Chantal Berthelot",1,1,1,1,1,1,1,1],
+  [34,"Chantal Guittet",0,1,1,1,0,0,1,1],
+  [35,"Chaynesse Khirouni",0,1,0,1,0,0,1,1],
+  [36,"Christian Assaf",0,1,0,1,0,0,1,1],
+  [37,"Christian Bataille",0,1,1,1,1,0,1,1],
+  [38,"Christian Eckert",0,2,2,2,2,2,2,2],
+  [39,"Christian Franqueville",1,1,1,1,1,1,1,1],
+  [40,"Christian Hutin",1,1,0,1,1,0,0,1],
+  [41,"Christian Paul",0,1,0,1,0,0,0,0],
+  [42,"Christine Pires Beaune",1,1,1,1,1,1,1,1],
+  [43,"Christophe Borgel",1,1,1,1,1,1,1,1],
+  [44,"Christophe Bouillon",0,1,1,1,1,1,1,1],
+  [45,"Christophe Caresche",1,1,1,1,1,1,1,1],
+  [46,"Christophe Castaner",1,1,1,1,1,1,1,1],
+  [47,"Christophe Léonard",0,1,0,0,0,0,0,0],
+  [48,"Christophe Premat",1,1,1,1,1,1,1,1],
+  [49,"Christophe Sirugue",1,1,1,1,1,1,1,1],
+  [50,"Claude Bartolone",1,2,2,2,2,1,2,2],
+  [51,"Clotilde Valter",1,1,1,1,1,1,1,1],
+  [52,"Colette Capdevielle",1,1,1,1,1,1,1,1],
+  [53,"Colette Langlade",1,1,1,1,1,1,1,1],
+  [54,"Conchita Lacuey",1,1,1,1,1,0,1,1],
+  [55,"Corinne Erhel",1,1,1,1,1,1,1,1],
+  [56,"Daniel Boisserie",1,1,1,1,1,1,1,1],
+  [57,"Daniel Goldberg",0,1,0,1,0,0,0,0],
+  [58,"Daniel Vaillant",1,1,1,1,1,1,1,1],
+  [59,"David Habib",1,1,1,1,1,1,1,1],
+  [60,"Delphine Batho",1,1,0,1,1,0,1,0],
+  [61,"Denys Robiliard",0,1,0,1,0,0,0,0],
+  [62,"Dominique Baert",1,1,1,1,1,1,1,1],
+  [63,"Dominique Chauvel",0,1,0,1,0,0,0,0],
+  [64,"Dominique Lefebvre",1,1,1,1,1,1,1,1],
+  [65,"Dominique Potier",0,1,1,1,1,0,1,1],
+  [66,"Dominique Raimbourg",1,1,1,1,1,1,1,1],
+  [67,"Edith Gueugneau",0,1,0,1,0,0,0,0],
+  [68,"Eduardo Rihan Cypel",1,1,1,1,1,1,1,1],
+  [69,"Élisabeth Guigou",1,1,1,1,1,1,1,1],
+  [70,"Elisabeth Pochon",1,1,1,1,1,1,1,1],
+  [71,"Emeric Bréhier",1,1,1,1,1,1,1,1],
+  [72,"Émilienne Poumirol",1,1,1,1,1,1,1,1],
+  [73,"Éric Jalton",0,1,1,1,1,0,1,1],
+  [74,"Ericka Bareigts",1,1,1,1,1,1,1,1],
+  [75,"Erwann Binet",1,1,1,1,1,1,1,1],
+  [76,"Estelle Grelier",1,1,1,1,1,1,1,1],
+  [77,"Fabrice Verdier",1,1,1,1,1,1,1,1],
+  [78,"Fanélie Carrey-Conte",0,0,0,1,0,0,0,0],
+  [79,"Fanny Dombre Coste",1,1,1,1,1,1,1,1],
+  [80,"Florence Delaunay",1,1,0,2,2,2,2,1],
+  [81,"Florent Boudié",1,1,1,1,1,1,1,1],
+  [82,"Franck Montaugé",1,1,0,2,2,2,2,2],
+  [83,"François André",1,1,1,1,1,1,1,1],
+  [84,"François Brottes",1,1,1,1,1,1,1,1],
+  [85,"François Lamy",2,2,2,1,1,0,0,1],
+  [86,"François Loncle",1,1,1,1,1,1,1,1],
+  [87,"François Pupponi",1,1,1,1,1,1,1,1],
+  [88,"Françoise Descamps-Crosnier",1,1,1,1,1,1,1,1],
+  [89,"Françoise Dubois",1,1,1,1,1,1,1,1],
+  [90,"Françoise Dumas",1,1,1,1,1,1,1,1],
+  [91,"Françoise Imbert",1,1,1,1,1,1,1,1],
+  [92,"Frédéric Barbier",1,1,1,2,2,1,2,2],
+  [93,"Frédéric Cuvillier",2,2,2,2,2,2,2,1],
+  [94,"Frédéric Roig",1,1,1,1,1,1,1,1],
+  [95,"Frédérique Massat",1,1,1,1,1,1,1,1],
+  [96,"Gabrielle Louis-Carabin",1,1,1,1,1,1,1,1],
+  [97,"Geneviève Gaillard",0,1,1,1,1,1,1,0],
+  [98,"Geneviève Gosselin-Fleury",1,1,1,1,1,1,1,1],
+  [99,"Gérard Bapt",0,1,1,1,1,1,1,1],
+  [100,"Gérard Sebaoun",0,0,0,1,0,0,0,0],
+  [101,"Gérard Terrier",1,1,1,1,1,1,1,2],
+  [102,"Germinal Peiro",1,1,1,1,1,1,1,1],
+  [103,"Gilbert Le Bris",0,1,1,1,1,0,1,1],
+  [104,"Gilbert Sauvan",1,1,1,1,1,1,1,1],
+  [105,"Gilles Savary",1,1,1,1,1,1,1,1],
+  [106,"Gisèle Biémouret",1,1,1,1,1,1,1,1],
+  [107,"Guillaume Bachelay",1,1,1,1,1,1,1,1],
+  [108,"Guillaume Garot",1,1,1,1,1,1,1,1],
+  [109,"Guy Chambefort",1,1,1,1,1,1,1,1],
+  [110,"Guy Delcourt",1,1,1,1,1,1,1,1],
+  [111,"Guy-Michel Chauveau",1,1,1,1,1,1,1,1],
+  [112,"Gwendal Rouillard",1,1,1,1,1,1,1,1],
+  [113,"Gwenegan Bui",0,1,1,1,1,0,1,1],
+  [114,"Hélène Geoffroy",1,1,1,1,1,1,1,1],
+  [115,"Henri Emmanuelli",0,0,0,1,0,0,0,0],
+  [116,"Henri Jibrayel",1,1,1,1,1,1,1,1],
+  [117,"Hervé Féron",0,1,0,1,0,0,0,0],
+  [118,"Hervé Pellois",1,1,1,1,1,1,1,1],
+  [119,"Hugues Fourage",1,1,1,1,1,1,1,1],
+  [120,"Ibrahim Aboubacar",1,1,1,1,1,1,1,1],
+  [121,"Isabelle Bruneau",0,1,0,1,1,0,1,1],
+  [122,"Jacqueline Maquet",1,1,1,1,1,1,1,1],
+  [123,"Jacques Cresta",1,1,1,1,1,1,1,1],
+  [124,"Jacques Valax",0,1,1,1,1,1,1,1],
+  [125,"Jean Glavany",1,1,1,1,1,1,1,1],
+  [126,"Jean Grellier",1,1,1,1,1,1,1,1],
+  [127,"Jean-Jacques Vlody",1,1,1,1,1,1,1,1],
+  [128,"Jean Launay",1,1,1,1,1,1,1,1],
+  [129,"Jean-Christophe Cambadélis",1,1,1,1,1,0,1,1],
+  [130,"Jean-Claude Buisine",1,1,1,1,1,1,1,1],
+  [131,"Jean-Claude Fruteau",1,1,1,1,1,1,1,1],
+  [132,"Jean-Claude Perez",1,1,1,1,1,1,1,1],
+  [133,"Jean-David Ciot",1,1,1,1,1,1,1,1],
+  [134,"Jean-Jacques Bridey",1,1,1,1,1,1,1,1],
+  [135,"Jean-Jacques Cottel",0,1,1,1,1,0,1,1],
+  [136,"Jean-Jacques Urvoas",1,1,1,1,1,1,1,1],
+  [137,"Jean-Louis Bricout",1,1,1,1,1,1,1,0],
+  [138,"Jean-Louis Destans",0,1,1,1,1,0,1,1],
+  [139,"Jean-Louis Dumont",1,1,1,1,1,1,1,1],
+  [140,"Jean-Louis Gagnaire",1,1,1,1,1,1,1,1],
+  [141,"Jean-Louis Touraine",1,1,1,1,1,1,1,1],
+  [142,"Jean-Luc Bleunven",0,1,1,1,1,1,1,1],
+  [143,"Jean-Luc Laurent",1,1,1,1,1,0,0,1],
+  [144,"Jean-Marc Ayrault",2,2,2,1,1,0,1,1],
+  [145,"Jean-Marc Fournel",2,2,2,1,1,1,1,1],
+  [146,"Jean-Marc Germain",0,1,0,1,0,0,0,0],
+  [147,"Jean-Marie Beffara",1,1,1,1,1,1,1,1],
+  [148,"Jean-Michel Clément",0,1,1,1,1,1,1,1],
+  [149,"Jean-Michel Villaumé",1,1,1,1,1,1,1,1],
+  [150,"Jean-Patrick Gille",0,1,0,1,0,0,1,0],
+  [151,"Jean-Paul Bacquet",1,1,1,1,1,1,1,1],
+  [152,"Jean-Paul Chanteguet",1,1,1,1,1,1,1,1],
+  [153,"Jean-Paul Dupré",1,1,1,1,1,1,1,1],
+  [154,"Jean-Philippe Mallé",0,1,1,1,1,0,1,2],
+  [155,"Jean-Pierre Allossery",1,1,1,1,1,1,1,1],
+  [156,"Jean-Pierre Blazy",0,1,0,1,0,0,0,0],
+  [157,"Jean-Pierre Dufau",0,0,0,1,0,0,0,0],
+  [158,"Jean-Pierre Fougerat",1,1,1,2,2,2,2,2],
+  [159,"Jean-Pierre Le Roch",1,1,1,1,1,1,1,1],
+  [160,"Jean-Pierre Maggi",0,1,1,1,1,1,1,1],
+  [161,"Jean-René Marsac",0,1,1,1,1,0,1,1],
+  [162,"Jean-Yves Caullet",1,1,1,1,1,1,1,1],
+  [163,"Jean-Yves Le Bouillonnec",1,1,1,1,1,1,1,1],
+  [164,"Jean-Yves Le Déaut",1,1,1,1,1,1,1,1],
+  [165,"Jérôme Guedj",0,0,0,2,2,2,2,2],
+  [166,"Joaquim Pueyo",1,1,1,1,1,1,1,1],
+  [167,"Joël Aviragnet",1,1,1,1,1,1,1,1],
+  [168,"Joëlle Huillier",1,1,1,1,1,1,1,1],
+  [169,"Julie Sommaruga",0,1,1,1,1,1,1,1],
+  [170,"Karine Berger",1,1,1,1,1,0,1,1],
+  [171,"Kheira Bouziane",0,1,0,1,0,0,0,0],
+  [172,"Kléber Mesquida",1,1,0,1,0,0,0,0],
+  [173,"Laurence Dumont",0,1,1,1,1,0,1,1],
+  [174,"Laurent Baumel",0,1,0,1,0,0,0,0],
+  [175,"Laurent Cathala",1,1,1,1,1,1,1,1],
+  [176,"Laurent Grandguillaume",1,1,1,1,1,1,1,1],
+  [177,"Laurent Kalinowski",0,1,1,1,1,0,1,1],
+  [178,"Linda Gourjade",0,1,0,1,0,0,0,0],
+  [179,"Luc Belot",1,1,1,1,1,1,1,1],
+  [180,"Luce Pane",1,1,1,1,1,1,1,1],
+  [181,"Lucette Lousteau",0,1,1,1,1,0,1,1],
+  [182,"Malek Boutih",1,1,1,1,1,0,1,1],
+  [183,"Marc Goua",1,1,1,1,1,1,1,1],
+  [184,"Marcel Rogemont",1,1,1,1,1,1,1,1],
+  [185,"Marie Récalde",1,1,1,1,1,1,1,1],
+  [186,"Marie-Anne Chapdelaine",1,1,1,1,1,1,1,1],
+  [187,"Marie-Arlette Carlotti",1,1,1,1,1,1,1,1],
+  [188,"Marie-Françoise Bechtel",1,1,1,1,1,0,0,1],
+  [189,"Marie-Françoise Clergeau",1,1,1,1,1,1,1,1],
+  [190,"Marie-Hélène Fabre",1,1,1,1,1,1,1,1],
+  [191,"Marie-Line Reynaud",0,1,1,1,1,0,1,1],
+  [192,"Marie-Lou Marcel",0,1,1,1,1,0,1,1],
+  [193,"Marie-Noëlle Battistel",1,1,1,1,1,1,1,1],
+  [194,"Marie-Odile Bouillé",1,1,1,1,1,0,1,1],
+  [195,"Marietta Karamanli",1,1,1,1,1,1,1,1],
+  [196,"Martine Carrillon-Couvreur",1,1,1,1,1,1,1,1],
+  [197,"Martine Faure",1,1,1,1,1,1,1,1],
+  [198,"Martine Lignières-Cassou",1,1,1,1,1,1,1,1],
+  [199,"Martine Martinel",1,1,1,1,1,1,1,1],
+  [200,"Martine Pinville",1,1,1,1,1,1,1,1],
+  [201,"Mathieu Hanotin",0,1,0,1,0,0,0,0],
+  [202,"Matthias Fekl",1,1,1,1,1,1,1,2],
+  [203,"Maud Olivier",0,1,1,1,1,0,1,1],
+  [204,"Michel Destot",1,1,1,1,1,1,1,1],
+  [205,"Michel Françaix",1,1,1,1,1,1,1,1],
+  [206,"Michel Issindou",1,1,1,1,1,1,1,1],
+  [207,"Michel Lefait",0,1,1,1,1,1,1,1],
+  [208,"Michel Lesage",0,1,1,1,0,0,1,1],
+  [209,"Michel Liebgott",1,1,1,1,1,1,1,1],
+  [210,"Michel Ménard",1,1,1,1,1,1,1,1],
+  [211,"Michel Pajon",1,1,1,1,1,1,1,1],
+  [212,"Michel Pouzol",0,1,0,1,1,0,0,0],
+  [213,"Michel Vauzelle",1,1,1,1,1,1,1,1],
+  [214,"Michel Vergnier",0,1,1,1,1,0,0,0],
+  [215,"Michèle Delaunay",1,1,1,1,1,1,1,1],
+  [216,"Michèle Fournier-Armand",1,1,1,1,1,1,1,1],
+  [217,"Monique Iborra",1,1,1,1,1,1,1,1],
+  [218,"Monique Orphé",1,1,1,1,1,1,1,1],
+  [219,"Monique Rabin",1,1,1,1,1,1,1,1],
+  [220,"Napole Polutélé",1,1,1,1,1,0,1,1],
+  [221,"Nathalie Appéré",1,1,1,1,1,1,1,1],
+  [222,"Nathalie Chabanne",0,0,0,1,0,0,0,0],
+  [223,"Nathalie Nieson",1,1,1,1,1,1,1,1],
+  [224,"Nicolas Bays",1,1,1,1,1,1,1,1],
+  [225,"Odile Saugues",1,1,1,1,1,1,1,1],
+  [226,"Olivier Dussopt",0,1,1,1,1,0,1,1],
+  [227,"Olivier Faure",1,1,1,1,1,1,1,1],
+  [228,"Olivier Véran",1,1,1,1,1,1,1,1],
+  [229,"Paola Zanetti",0,1,0,1,0,0,1,1],
+  [230,"Pascal Cherki",0,0,0,1,0,0,0,0],
+  [231,"Pascal Deguilhem",1,1,1,1,1,1,1,1],
+  [232,"Pascal Demarthe",2,2,2,2,2,2,2,1],
+  [233,"Pascal Popelin",1,1,1,1,1,1,1,1],
+  [234,"Pascal Terrasse",1,1,1,1,1,0,1,2],
+  [235,"Pascale Boistard",1,1,1,1,1,1,1,2],
+  [236,"Pascale Crozon",0,1,1,1,1,0,1,1],
+  [237,"Pascale Got",1,1,1,1,1,1,1,1],
+  [238,"Patrice Prat",1,1,1,1,0,0,1,0],
+  [239,"Patricia Adam",1,1,1,1,1,1,1,1],
+  [240,"Patrick Bloche",0,1,1,1,1,1,1,1],
+  [241,"Patrick Lebreton",1,1,1,1,1,1,1,1],
+  [242,"Patrick Lemasle",1,1,1,1,1,1,1,1],
+  [243,"Patrick Mennucci",1,1,1,1,1,1,1,1],
+  [244,"Patrick Vignal",1,1,1,1,1,1,1,1],
+  [245,"Philip Cordery",1,1,1,1,1,1,1,1],
+  [246,"Philippe Baumel",0,1,0,1,0,0,1,0],
+  [247,"Philippe Bies",1,1,1,1,1,1,1,1],
+  [248,"Philippe Doucet",0,1,1,1,1,1,1,1],
+  [249,"Philippe Duron",1,1,1,1,1,1,1,1],
+  [250,"Philippe Kemel",0,1,1,1,1,0,1,1],
+  [251,"Philippe Martin",2,2,2,1,1,0,1,1],
+  [252,"Philippe Nauche",1,1,1,1,1,1,1,1],
+  [253,"Philippe Noguès",0,0,0,1,0,0,0,0],
+  [254,"Philippe Plisson",1,1,1,1,1,1,1,1],
+  [255,"Pierre Aylagas",1,1,1,1,1,1,1,1],
+  [256,"Pierre Moscovici",2,2,2,1,1,0,1,1],
+  [257,"Pierre-Alain Muet",0,1,0,1,0,0,1,0],
+  [258,"Pierre-Yves Le Borgn'",1,1,1,1,1,1,1,1],
+  [259,"Pouria Amirshahi",0,0,0,1,0,0,0,0],
+  [260,"Razzy Hammadi",0,1,1,1,1,1,1,1],
+  [261,"Régine Povéda",2,2,2,2,2,2,2,1],
+  [262,"Régis Juanico",0,1,1,1,1,0,1,0],
+  [263,"Rémi Pauvros",1,1,1,1,1,1,1,1],
+  [264,"René Dosière",1,1,1,1,1,1,1,1],
+  [265,"René Rouquet",1,1,1,1,1,1,1,1],
+  [266,"Richard Ferrand",0,1,0,1,1,0,1,1],
+  [267,"Robert Olive",1,1,1,1,1,1,1,1],
+  [268,"Romain Colas",1,1,1,1,1,0,1,1],
+  [269,"Sabine Buis",1,1,1,1,1,1,1,1],
+  [270,"Sandrine Doucet",0,1,1,1,0,1,1,2],
+  [271,"Sandrine Hurel",0,1,1,1,1,1,1,1],
+  [272,"Sandrine Mazetier",1,1,1,1,1,1,1,1],
+  [273,"Sébastien Denaja",1,1,1,1,1,1,1,1],
+  [274,"Sébastien Pietrasanta",1,1,1,1,1,1,1,1],
+  [275,"Serge Bardy",0,1,0,1,1,0,0,0],
+  [276,"Serge Janquin",0,1,1,1,1,1,1,1],
+  [277,"Serge Letchimy",1,1,1,1,1,1,1,1],
+  [278,"Seybah Dagoma",1,1,1,1,1,1,1,1],
+  [279,"Sophie Dessus",1,1,1,1,1,1,1,1],
+  [280,"Sophie Errante",1,1,1,1,1,1,1,1],
+  [281,"Stéphane Travert",0,1,0,1,1,0,1,1],
+  [282,"Suzanne Tallard",0,0,0,1,0,0,0,0],
+  [283,"Sylviane Alaux",1,1,1,1,1,1,1,1],
+  [284,"Sylviane Bulteau",1,1,1,1,1,1,1,1],
+  [285,"Sylvie Tolmont",1,1,1,1,1,1,1,1],
+  [286,"Thérèse Guilbert",1,1,1,1,1,1,1,2],
+  [287,"Thomas Thévenoud",1,1,1,1,1,1,1,2],
+  [288,"Valérie Corre",1,1,1,1,1,1,1,1],
+  [289,"Valérie Fourneyron",2,2,2,2,1,1,1,1],
+  [290,"Valérie Rabault",1,1,1,1,1,0,1,1],
+  [291,"Victorin Lurel",1,1,1,1,1,1,1,1],
+  [292,"Vincent Burroni",1,1,1,1,1,1,1,1],
+  [293,"Viviane Le Dissez",0,1,1,1,1,0,1,1],
+  [294,"William Dumas",1,1,1,1,1,1,1,1],
+  [295,"Yann Capet",1,1,1,1,1,0,1,1],
+  [296,"Yann Galut",1,1,1,1,1,0,1,1],
+  [297,"Yves Blein",1,1,1,1,1,1,1,1],
+  [298,"Yves Daniel",0,1,1,1,1,1,1,1],
+  [299,"Yves Durand",1,1,1,1,1,1,1,1],
+  [300,"Yves Goasdoué",1,1,1,1,1,1,1,1]
+]
+
+textes = [
+  [0,"« Appel des 100 »","Le 5 avril 2014, quelques jours avant le discours de politique générale de Manuel Valls, <a href='http://www.lejdd.fr/Politique/La-liste-des-90-frondeurs-du-PS-pour-un-nouveau-contrat-de-majorite-660292' target='_blank'>90 hauts responsables du PS</a> (dont 82 députés du groupe socialiste) <a href='http://www.lemonde.fr/politique/article/2014/04/05/cent-deputes-ps-en-colere-reclament-un-contrat-de-majorite_4396241_823448.html' target='_blank'>réclament au premier ministre un « contrat de majorité »</a>."],
+  [1,"Premier vote de confiance","Le 8 avril 2014, <a href='http://www.lemonde.fr/politique/article/2014/04/08/les-premieres-annonces-de-manuel-valls_4397700_823448.html' target='_blank'>11 députés socialistes (et apparentés) s'abstiennent</a> lors du premier vote de confiance à Manuel Valls."],
+  [2,"Programme de stabilité","Le 29 avril 2014, 41 députés socialistes (et apparentés) <a href='www.lemonde.fr/politique/article/2014/04/29/le-programme-de-stabilite-budgetaire-approuve-par-les-deputes_4409378_823448.html' target='_blank'>s'abstiennent lors du vote sur le programme de stabilité budgétaire</a>, entérinant des économies de 50 milliards d'euros."],
+  [3,"Budget rectificatif","Le 1er juillet, Christophe Léonard est le seul député socialiste à s'abstenir en première lecture <a href='http://www.lemonde.fr/politique/article/2014/07/01/les-frondeurs-du-ps-vont-voter-le-budget-rectificatif_4448800_823448.html' target= '_blank'>sur le budget rectificatif (PLFR)</a>. Le vote à main levée empêche de faire le compte pour la lecture définitive."],
+  [4,"Budget rectificatif de la « Sécu »","Le 8 juillet, <a href='http://www.lemonde.fr/politique/article/2014/07/08/budget-de-la-secu-les-frondeurs-du-ps-devraient-s-abstenir_4453099_823448.html' target= '_blank'>35 « frondeurs » socialistes  (et apparentés) s'abstiennent</a> sur le budget rectificatif de la sécurité sociale (PLFRSS)."],
+  [5,"« Appel des 200 »","Le 28 août, 208 députés signent dans <em>Le Monde</em> <a href='http://www.lemonde.fr/idees/article/2014/08/28/l-appel-des-200-deputes-socialistes-ni-godillots-ni-deloyaux_4477879_3232.html' target='_blank'>« L'appel des 200 » députés ni godillots, ni déloyaux</a>, soutenant le gouvernement. La tribune a été écrite avant le remaniement gouvernemental."],
+  [6,"Second vote de confiance","Le 16 septembre 2014, <a href='http://www.lemonde.fr/les-decodeurs/article/2014/09/16/valls-gouverner-c-est-aller-chercher-la-confiance_4488422_4355770.html' target='_blank'>32 députés socialistes (et apparentés) s'abstiennent</a> lors du second vote de confiance à Manuel Valls.<br><em><small>Linda Gourjade, qui a voté accidentellement \"pour\" mais voulait s'abstenir, a été rangée dans les députés défiants.</small></em>"],
+  [67,"Volet recettes du budget 2015","Le 21 octobre 2014, <a href='http://www.lemonde.fr/politique/article/2014/10/21/les-frondeurs-du-ps-vont-s-abstenir-sur-le-budget-2015_4509686_823448.html' target='_blank'>39 députés socialistes (et apparentés) s'abstiennent</a> lors du vote de la partie recettes du budget 2015.<br><em><small>Sandrine Doucet et Pascal Terrasse, qui souhaitaient voter \"pour\" mais n'étaient pas présents, ont été comptabilisés dans les non-votants.</small></em>"]
+]
+
+centroids = ["815,380","450,380","150,460"]
+
+var tri = 9; // On tri en fonction du budget 2015
+
+
+
+
+
+var margin = {top: 0, right: 0, bottom: 0, left: 0},
+            width = 1000 - margin.left - margin.right,
+            height = 600 - margin.top - margin.bottom;
+
+        var n = tablo.length,
+            padding = 100,
+            radius = d3.scale.sqrt().range(tablo); 
+            p = 0
+
+        
+    var soutien = 0, defiance = 0, neutre = 0;
+
+    var nodes = d3.range(n).map(function() {
+
+          //CHERCHER DANS LE TABLEAU
+          p++
+
+          if(tablo[p-1][tri] == 0) { defiance++; }
+          else if(tablo[p-1][tri] == 1) { soutien++ }
+          if(tablo[p-1][tri] == 2) { neutre++; }
+
+          monCentroid_x = centroids[tablo[p-1][tri]].split(",")[0];
+          monCentroid_y = centroids[tablo[p-1][tri]].split(",")[1]; 
+          
+          return {
+            radius: 10,
+            id: p-1,
+            cx: monCentroid_x,
+            cy: monCentroid_y,
+          a : 1,
+          nbr: tablo[p-1][2]+tablo[p-1][3]+tablo[p-1][4]+tablo[p-1][5]+tablo[p-1][6]+tablo[p-1][7],
+          nom: tablo[p-1][1]
+          };
+        });
+
+
+    $("#legende").html("<p class=\"tt3\">"+textes[tri-2][1]+"</p><p class=\"txt4\">"+textes[tri-2][2]+"</p>")
+ 
+
+        var force = d3.layout.force()
+            .nodes(nodes)
+            .size([width, height])
+            .gravity(0)
+            .charge(0)
+            .on("tick", tick)
+            .start();
+
+        var tooltip = d3.select(".bubbles").insert("div")   
+            .attr("class", "tooltip")               
+            .style("opacity", 0);
+
+        var vis = d3.select(".bubbles").append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .style("border", "1px solid #ccc")
+          .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+        
+
+var clicked = 0;
+
+var circle = vis.selectAll("circle")
+            .data(nodes)
+          .enter().append("circle")
+            .attr("r", function(d) { return d.radius; })
+            .attr("title", function(d) { return d.nom; })
+            .style("stroke","#FFF")
+            .style("stroke-width","2")
+            .style("fill", "#F96996")
+            .call(force.drag)
+            .on('mouseover', function(d){ 
+                  
+                // Colorer le contour de la bulle hoverée
+                  d3.select(this)
+                    .transition()
+                    .duration(50)
+                    .style("stroke","#ffc600");
+                
+               
+                  // Modifier le tooltip
+                  tooltip.transition()        
+                              .ease("fade")      
+                              .style("opacity", 1);      
+                  tooltip.html(function() { 
+                      return d.nom;
+                    })  
+                    .style("left", function(){
+                        if(d3.event.pageX < 800) { return (Number(d.cx) + d.radius + 25) + "px" }
+                        else { return (Number(d.cx) - 225 - d.radius) + "px" }
+                    })
+                    .style("top", function(){
+                        if(d3.event.pageY > 450) { return (Number(d.cy) - d.radius - $(this).height() - 25) + "px" }
+                        else if(d3.event.pageY > 200) { return (Number(d.cy) - d.radius - - 25) + "px" }
+                        else { return (Number(d.cy) + 25 + d.radius) + "px" }
+                    })     
+                          
+                    
+            })
+          .on('mouseout', function(d){ 
+                tooltip.transition()        
+                  .ease("fade")      
+                  .style("opacity", 0); 
+
+               
+                if(d3.select(this).attr("clicked") || d3.select(this).attr("clicked") == 1) {
+                }
+                else {
+                  d3.select(this)
+                    .transition()
+                    .duration(100)
+                    .style("stroke","#FFF");
+                  }
+                
+          })
+          .on('click', function(d){ 
+                d3.selectAll("circle")
+                .transition()
+                .duration(100)
+                .attr("clicked",null)
+                //.attr("r", function(d) { return d.radius; })
+                .style("fill", "#F96996")
+                .style("stroke","#FFF");
+
+                d3.select(this)
+                .attr("clicked",1)
+                .transition()
+                .duration(00)
+                .style("fill","#9C090F")
+              //  .attr("r", function(d) { return d.radius*2.5; });
+
+
+            
+                
+          });
+
+var node = vis.selectAll("circle");
+
+var truenodes = nodes;
+
+
+function calc(value){
+  update(value,truenodes)
+}
+
+
+function update(tri,nodeus){
+
+ 
+  p = 0;
+  sort = tri;
+  var soutien = 0, defiance = 0, neutre = 0;
+  var nodes = d3.range(n).map(function() {
+
+          //CHERCHER DANS LE TABLEAU
+          p++
+
+          if(tablo[p-1][sort] == 0) { defiance++;  }
+          else if(tablo[p-1][sort] == 1) { soutien++; }
+          if(tablo[p-1][sort] == 2) { neutre++; }
+
+          monCentroid_x = centroids[tablo[p-1][sort]].split(",")[0];
+          monCentroid_y = centroids[tablo[p-1][sort]].split(",")[1]; 
+          
+          return {
+            radius: 10,
+            id: p-1,
+            x: nodeus[p-1].x,
+            y: nodeus[p-1].y,
+            cx: monCentroid_x,
+            cy: monCentroid_y,
+            a : 1,
+            nom: tablo[p-1][1]
+          };
+  });
+
+
+  truenodes = nodes;
+
+   var force = d3.layout.force()
+            .nodes(nodes)
+            .size([width, height])
+            .gravity(0)
+            .charge(0)
+            .on("tick", tick)
+            .start();
+
+  
+
+force.start()
+
+ node = node.data(force.nodes(), function(d) { return d.id; });
+  
+ $("#legende").fadeOut(200, function() {
+  $(this).html("<p class=\"tt3\">"+textes[sort-2][1]+"</p><p class=\"txt4\">"+textes[sort-2][2]+"</p>").fadeIn();
+ });
+ $("#nbr1").fadeOut(200, function() {
+  s = soutien+" député";
+  if(soutien > 1) s = s+"s";
+  $(this).text(s).fadeIn();
+ });
+ $("#nbr2").fadeOut(200, function() {
+  s = defiance+" député";
+  if(defiance > 1) s = s+"s";
+  $(this).text(s).fadeIn();
+ });
+
+
+
+
+function tick(e) {
+          circle
+              .each(gravity(.1 * e.alpha))
+              .each(collide(.2))
+              .attr("cx", function(d) { return d.x; })
+              .attr("cy", function(d) { return d.y; });
+        }
+
+        // Move nodes toward cluster focus.
+        function gravity(alpha) {
+          return function(d) {
+            d.y += (d.cy - d.y) * alpha;
+            d.x += (d.cx - d.x) * alpha;
+          };
+        }
+
+        // Resolve collisions between nodes.
+        function collide(alpha) {
+          var quadtree = d3.geom.quadtree(nodes);
+          return function(d) {
+            var r = d.radius + radius.domain()[1] + 60,
+                nx1 = d.x - r,
+                nx2 = d.x + r,
+                ny1 = d.y - r,
+                ny2 = d.y + r;
+            quadtree.visit(function(quad, x1, y1, x2, y2) {
+              if (quad.point && (quad.point !== d)) {
+                var x = d.x - quad.point.x,
+                    y = d.y - quad.point.y,
+                    l = Math.sqrt(x * x + y * y),
+                    r = d.radius + quad.point.radius + (d.color !== quad.point.color) * 60;
+                if (l < r) {
+                  l = (l - r) / l * alpha;
+                  d.x -= x *= l;
+                  d.y -= y *= l;
+                  quad.point.x += x;
+                  quad.point.y += y;
+                }
+              }
+              return x1 > nx2
+                  || x2 < nx1
+                  || y1 > ny2
+                  || y2 < ny1;
+            });
+          };
+        }
+
+
+}
+
+
+ function tick(e) {
+          circle
+              .each(gravity(.1 * e.alpha))
+              .each(collide(.2))
+              .attr("cx", function(d) { return d.x; })
+              .attr("cy", function(d) { return d.y; });
+        }
+
+        // Move nodes toward cluster focus.
+        function gravity(alpha) {
+          return function(d) {
+            d.y += (d.cy - d.y) * alpha;
+            d.x += (d.cx - d.x) * alpha;
+          };
+        }
+
+        // Resolve collisions between nodes.
+        function collide(alpha) {
+
+          var quadtree = d3.geom.quadtree(nodes);
+          return function(d) {
+            var r = d.radius + radius.domain()[1] + padding,
+                nx1 = d.x - r,
+                nx2 = d.x + r,
+                ny1 = d.y - r,
+                ny2 = d.y + r;
+            quadtree.visit(function(quad, x1, y1, x2, y2) {
+              if (quad.point && (quad.point !== d)) {
+                var x = d.x - quad.point.x,
+                    y = d.y - quad.point.y,
+                    l = Math.sqrt(x * x + y * y),
+                    r = d.radius + quad.point.radius + (d.color !== quad.point.color) * padding;
+                if (l < r) {
+                  l = (l - r) / l * alpha;
+                  d.x -= x *= l;
+                  d.y -= y *= l;
+                  quad.point.x += x;
+                  quad.point.y += y;
+                }
+              }
+
+              return x1 > nx2
+                  || x2 < nx1
+                  || y1 > ny2
+                  || y2 < ny1;
+            });
+          };
+        }
+
+        
+
+
+        
+
+
+
+        vis.append("g")
+          .attr({
+            "id":"textes"
+          });
+       
+        d3.select("#textes").append("text")
+          .text("Soutien au gouvernement")
+          .attr({
+            "class":"tt3_capital",
+            "x":"450",
+            "y":"160"
+          });
+          d3.select("#textes").append("text")
+          .html(soutien+" députés")
+          .attr({
+            "id":"nbr1",
+            "class":"tt4_capital",
+            "x":"450",
+            "y":"190"
+          });
+     d3.select("#textes").append("text")
+          .text("Défiance vis-à-vis du gouvernement")
+          .attr({
+            "class":"tt3_capital",
+            "x":"815",
+            "y":"160"
+          });
+      d3.select("#textes").append("text")
+          .html(defiance+" députés")
+          .attr({
+            "id":"nbr2",
+            "class":"tt4_capital",
+            "x":"815",
+            "y":"190"
+          });
+
+
+</script>
+</body>
+</html>

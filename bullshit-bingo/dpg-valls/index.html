@@ -1,0 +1,397 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+
+
+     
+
+    <title>Suivez le discours de politique générale de Manuel Valls avec le #BingoAN</title>
+
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+     <link href="css/lemonde.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="css/decodeurs.css" media="screen" rel="stylesheet" type="text/css">
+    
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script type="text/javascript" src="js/game.js"></script>
+    
+    <script type="text/javascript" src="js/class.Gselper.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="http://s1.lemde.fr/bootstrap/www/3d23b8d51dc9a4946fa37b18db59105a.css?m[]=normalize&m[]=fonts&m[]=grille&m[]=base&m[]=header&m[]=footer&m[]=rubrique&m[]=article&m[]=partenaires%2Fpaves&m[]=col_droite&m[]=ticker&m[]=couleurs&m[]=une&m[]=bourse%2Fwidgets&m[]=partenaires%2Fnewsweb%2Fbase&m[]=partenaires%2Fnewsweb%2Fdatabox&m[]=partenaires%2Fnewsweb%2Flivescore_tennis&m[]=partenaires%2Fnewsweb%2Flivescore">
+  
+  
+  </head>
+  <body>
+
+<div class="_global" id="articleBody">
+    <div class="container_18 clearfix clearfix mgb16 container intro">
+     
+
+      
+        <p class="txt4">A partir de 15 heures, le nouveau premier ministre, Manuel Valls, se présente devant l'Assemblée nationale pour <a href="http://www.lemonde.fr/politique/article/2014/04/08/les-enjeux-du-discours-de-manuel-valls-face-a-l-assemblee_4397342_823448.html" target="_blank">le traditionnel discours de politique générale</a>. A cette intervention de 45 minutes succèderont les prises de parole des groupes UMP, UDI, RRDP (radicaux), écologistes, GDR (gauche radicale), PS et non-inscrits, avant le vote de confiance. Un marathon de près de quatre heures que nous vous proposons d'égayer avec un petit jeu : le bingo de l'Assemblée nationale.</p>
+        <p class="txt4">Le but du jeu, calqué sur le celui du <a href="http://fr.wikipedia.org/wiki/Business_loto" target="_blank">&laquo;&nbsp;bullshit bingo&nbsp;&raquo;</a> américain, est de <strong>cocher le maximum de déclarations prononcées par Manuel Valls ou les députés au cours de l'après-midi</strong>. L'objectif : remplir le plus de lignes, de colonnes et de diagonales, pour aboutir finalement à la grille complète.</p>
+
+
+    </div>
+    <div class="container_18 clearfix">
+           
+            <div class="container grid_14 clearfix tt5_capital alpha">
+
+            
+            
+                    <table class="card" id="card1">
+                        
+                    </table>
+                    <div id="message" class="tt2_capital">
+                          <p></p>
+                    </div>
+          </div>
+           <div class="grid_4 clearfix omega">
+
+                          <a class="twitter-timeline" href="https://twitter.com/search?q=%23bingoAN" data-widget-id="453475080765313025">Tweets concernant "#bingoAN"</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+
+
+
+
+
+
+
+
+
+
+
+                            <button id="melanger" class="btn_grand btn_abo">Changer la grille <img src="img/cycle.png"></button>
+            </div>
+
+
+</div>
+
+
+  <div class="container_18 clearfix">
+            <div id="decodeurs"><a href="http://www.lemonde.fr/les-decodeurs/" title="Les Décodeurs"><img src="img/decodeurs.png" alt="Les Décodeurs" title="Les Décodeurs"></a><span>Inspirations : <a href="http://www.slate.fr/story/45003/debat-primaire-martine-aubry-francois-hollande-bingo" target="_blank">Slate.fr</a>, <a href="http://ampp3d.mirror.co.uk/2014/03/20/bbcqt-bingo/" target="_blank">ampp3d</a></span></div>
+            <div id="share">
+              <a href="https://twitter.com/share" class="twitter-share-button" data-text="Jouez au #bingoAN avec les @decodeurs" data-via="lemondefr" data-size="large" data-related="decodeurs" data-hashtags="bingoAN">Tweet</a>
+              <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+            </div>
+            <div id="hashtag"><a href="https://twitter.com/search?q=%23bingoAN&src=typd" target="_blank" class="tt2_capital">#bingoAN</a></div>
+             
+  </div>
+
+</div>
+  </div>
+ 
+  </div>
+
+    <script type="text/javascript" src="js/move.min.js"></script>
+
+     <script type="text/javascript">
+
+jQuery(document).ready(function($) {
+ 
+
+
+function click(){
+
+ $("#message p").empty();
+  // Win groups [start cell,increment]
+  var gps=[[0,5,"diagonale"],[3,3,"diagonale"], // Diagonale
+     [0,1,"ligne"],[4,1,"ligne"],[8,1,"ligne"],[12,1,"ligne"], // Ligne
+     [0,4,"colonne"],[1,4,"colonne"],[2,4,"colonne"],[3,4,"colonne"]], // Colonne
+    clicks=['freecell','win', 'clicked', 'totalwin'], // Cellules qui comptent comme cliquées
+    cells=this.pTable.getElementsByTagName('td'),
+    wins=[];
+    
+  if(clicks.indexOf(this.className)>0) {
+    this.title='Cliquez pour sélectionner';
+    this.className='';
+  } else {
+    this.title='Cliquez pour désélectionner';
+    this.className='clicked';
+  }
+  // Loop through each group and check for wins
+  for(var ol=0;(g=gps[ol]); ol++) {
+    var serie = ol;
+    var cnt=0;
+    // Check each cell in this group for a win, resetting win status
+    for(var i=0,cell; i<4 && (cell=cells[g[0]+(i*g[1])]); i++) {
+      
+      id=clicks.indexOf(cell.className);
+      if(id>=0) {
+        cnt++;
+        if(id==1) cell.className='clicked';
+      }
+    }
+
+    if(cnt==4) {
+      var longueur = wins.length+1
+      
+      wins.push(g);
+      // Comptage
+        var lignes = 0, colonnes = 0, diagonales = 0;
+        for(var i = 0;i < wins.length;i++) {
+          if(wins[i][2] == "ligne") lignes++;
+          if(wins[i][2] == "colonne") colonnes++;
+          if(wins[i][2] == "diagonale") diagonales++;
+        }
+        if(colonnes == 4) {
+          $("#message p").addClass("totalwin")
+          $("#message p").html("&ndash; Bravo, vous avez rempli toute la grille ! &ndash;");
+        }
+        else if(lignes > 0 || colonnes > 0 || diagonales > 0){
+          $("#message p").removeClass("totalwin")
+          $("#message p").html("&ndash; Vous avez rempli ");
+          if(lignes > 0 && colonnes > 0 && diagonales > 0) {
+            var liaison = 3
+          }
+          else if((lignes > 0 && colonnes > 0) || (colonnes > 0 && diagonales > 0) || (lignes > 0 && diagonales > 0)) {
+            var liaison = 2
+          }
+
+          if(lignes > 0) {
+            if(lignes > 1) {
+              pluriel = "s";
+            }
+            else {
+              pluriel = ""
+            }
+            $("#message p").append(lignes.toString() +" ligne"+ pluriel);
+          }
+          if(colonnes > 0) {
+            if(colonnes > 1) {
+              pluriel = "s";
+            }
+            else {
+              pluriel = ""
+            }
+            if(liaison == 2) {
+              $("#message p").append(" et ");
+            }
+            if(liaison == 3) {
+              $("#message p").append(", ");
+            }
+            $("#message p").append(colonnes.toString() +" colonne"+ pluriel);
+          }
+          if(diagonales > 0) {
+            if(diagonales > 1) {
+              pluriel = "s";
+            }
+            else {
+              pluriel = ""
+            }
+            if(liaison == 2 || liaison == 3) {
+              $("#message p").append(" et ");
+            }
+            $("#message p").append(diagonales.toString() +" diagonale"+ pluriel);
+          }
+          $("#message p").append(". Continuez ! &ndash;");
+        }
+
+    }
+  }
+
+  // highlight all winning cell groups
+if(wins.length) {
+  console.log("yay")
+    if(wins.length == 10) {
+      var win = "totalwin";}
+    else {
+      var win = "win";
+    }
+    for(var ol=0; (g=wins[ol]); ol++) {
+      for(var i=0; i<4; i++) {
+      cells[g[0]+(i*g[1])].className=win;
+    }
+  }
+  
+}
+  
+}
+
+
+function enable_clicks() {
+  
+  var tbls=document.getElementsByTagName('table');
+  for(var t=0,tbl; (tbl=tbls[t]); t++) {
+    if(tbl.className='card'){
+      var tds=tbl.getElementsByTagName('td');
+      for(var i=0,td;(td=tds[i]);i++) {
+        td.pTable=tbl;
+        if(td.className!='freecell'){
+          td.title='Cliquez pour sélectionner';
+          td.onclick=click;
+        }
+      }
+    }
+  }
+}
+
+// Run functions at page load
+function loader(func) {
+  if (document.addEventListener ) {
+    window.addEventListener("load", func, false);
+  } else if ( document.attachEvent ) {
+    window.attachEvent("onload", func);
+  } else {
+    if(!window._onload_queue){
+      window._onload_queue=[];
+      if(window.onload)
+        window._onload_queue.push(window.onload);
+    }
+    window._onload_queue.push(func);
+  }
+}
+loader(enable_clicks);
+
+
+
+
+
+
+
+
+ $(function () {
+
+
+    // Récupération des données avec Gselper
+
+    var donnees = [
+  ["« Le président a fixé un cap »"],
+  ["« [...] redressement de notre pays/économie »"],
+  ["« Nous devons faire preuve de courage »"],
+  ["« Ce que nous lèguerons aux générations futures »"],
+  ["« Je veux dire la vérité aux Français »"],
+  ["« [...] notre modèle républicain »"],
+  ["« [...] notre modèle social »"],
+  ["« Il faut lutter contre la fraude »"],
+  ["« Tout sera mis sur la table »"],
+  ["« Tous nos efforts seront concentrés sur la réussite du pacte de responsabilité »"],
+  ["« Les Français attendent de nous [...] »"],
+  ["« Nous serons jugés sur nos résultats »"],
+  ["« La gauche est unie »"],
+  ["« L'environnement sera au coeur des préoccupations de ce gouvernement »"],
+  ["« Nous avons entendu le message que les Français nous ont adressé dans les urnes »"],
+  ["« Je tiens à rendre hommage au travail accompli par Jean-Marc Ayrault »"],
+  ["« Un gouvernement resserré et paritaire »"],
+  ["« L'imposture de ce gouvernement »"],
+  ["« La priorité sera donnée à la jeunesse »"],
+  ["« exigence morale »"],
+  ["« [...] un pouvoir coupé des réalités »"],
+  ["« [...] une politique désavouée par les Français »"],
+  ["« On ne change pas une équipe qui perd »"],
+  ["« [...] le matraquage des classes moyennes »"],
+  ["« [...] accélérer les réformes »"],
+  ["« C'est un remaniement de façade »"],
+  ["« Il faut tirer les leçons du scrutin »"],
+  ["« [...] un gouvernement de combat »"],
+  ["« Notre bataille »"],
+  ["« [...] le pouvoir d'achat des Français »"],
+  ["« Nous pouvons donc entreprendre de construire une nouvelle société »"],
+  ["« Vote sanction »"],
+  ["« [...] grand chantier »"],
+  ["« [...] prime à l'échec »"],
+  ["« Pacte de...  »"],
+  ["« Une vague bleue inédite »"],
+  ["« [...] changement de cap »"],
+  ["« [...] une grave faute politique »"],
+  ["« Cette politique a affaibli notre pays »"],
+  ["« [...] manœuvre dilatoire »"]
+];
+ 
+ $.each(donnees, function(i, line) {
+                    donnees[i].citation =  donnees[i][0],
+                    donnees[i].ordre = Math.random()
+            });
+
+     launchTheRocket(donnees);
+
+    function loader(func) {
+      if (document.addEventListener ) {
+        window.addEventListener("load", func, false);
+      } else if ( document.attachEvent ) {
+        window.attachEvent("onload", func);
+      } else {
+        if(!window._onload_queue){
+          window._onload_queue=[];
+          if(window.onload)
+            window._onload_queue.push(window.onload);
+        }
+        window._onload_queue.push(func);
+      }
+    }
+
+    function reshuffle(a, b) {
+      return (a.ordre-b.ordre)
+    }
+
+    function melanger(donnees) {
+      $("#card1").empty();
+      $("#message p").empty();
+      var data = new Array()
+      for(i=0;i<donnees.length;i++) {
+        data.push({
+          citation: donnees[i].citation,
+          ordre: Math.random()
+        })
+      }
+      launchTheRocket(data);
+      
+     
+    }
+ 
+    function launchTheRocket(donnees) {
+
+        // Réordonner la liste au hasard
+        donnees.sort(reshuffle);
+
+        // Limiter à 16
+        for(var i=donnees.length;i>0;i--){
+          if(i > 16) {
+          donnees.pop()
+         }
+        }
+       
+        for(var i=0; i < donnees.length; i++) {
+          tableau = $("#card1");
+          if(i%4 == 0) {
+            tableau.append( "<tr id='ligne"+Math.floor(i/4)+"'>")
+          }
+          var textenettoye = encodeURIComponent("#bingoAN : "+donnees[i]["citation"])
+          donnees[i]["citation"] = donnees[i]["citation"].replace(/« /g, '«&nbsp;'); 
+          donnees[i]["citation"] = donnees[i]["citation"].replace(/ »/g, '&nbsp;»'); 
+          $("tr#ligne"+Math.floor(i/4)).append("<td><p>"+donnees[i]["citation"]+"</p><p class=\"tweet\"><iframe allowtransparency=\"true\" frameborder=\"0\" scrolling=\"no\" src=\"https://platform.twitter.com/widgets/tweet_button.html?text="+textenettoye+"&via=decodeurs&lang=fr&count=horizontal&hashtags=directAN,DPG\" style=\"width:100px; height:20px; float:left;\"></iframe></p></td>")
+          if(i%4 == 0) {
+            tableau.append("</tr>")
+          }
+        }
+         enable_clicks();
+
+         
+
+        $("#melanger").click(function(e){
+           
+            move('#melanger img')
+              .rotate(360)
+              .duration('1s')
+              .end()
+             melanger(donnees);
+             window.setTimeout(function(){$("#melanger img").removeAttr("style")},1000);
+        });
+
+    }
+
+
+ });
+
+
+
+
+
+});
+
+  </script>
+
+   </body>
+   </html>

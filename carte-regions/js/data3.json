@@ -1,0 +1,26 @@
+
+
+var regions = [{"id":0,"nom":"Alsace"},
+{"id":1,"nom":"Aquitaine"},
+{"id":2,"nom":"Auvergne"},
+{"id":3,"nom":"Basse-Normandie"},
+{"id":4,"nom":"Bourgogne"},
+{"id":5,"nom":"Bretagne"},
+{"id":6,"nom":"Centre"},
+{"id":7,"nom":"Champagne-Ardenne"},
+{"id":8,"nom":"Corse"},
+{"id":9,"nom":"Franche-Comté"},
+{"id":10,"nom":"Haute-Normandie"},
+{"id":11,"nom":"Ile-de-France"},
+{"id":12,"nom":"Languedoc-Roussillon"},
+{"id":13,"nom":"Limousin"},
+{"id":14,"nom":"Lorraine"},
+{"id":15,"nom":"Midi-Pyrénées"},
+{"id":16,"nom":"Nord-Pas-de-Calais"},
+{"id":17,"nom":"Pays-de-la-Loire"},
+{"id":18,"nom":"Picardie"},
+{"id":19,"nom":"Poitou-Charente"},
+{"id":20,"nom":"PACA"},
+{"id":21,"nom":"Rhône-Alpes"},
+{"id":22,"nom":"Département orphelin"}]
+var colors = ['rgb(14,57,93)','rgb(47,90,130)','rgb(40,134,193)','rgb(0,178,194)','rgb(66,189,168)','rgb(133,202,152)','rgb(171,216,174)','rgb(225,238,197)','rgb(216,208,175)','rgb(249,234,152)','rgb(250,230,59)','rgb(250,199,57)','rgb(233,147,54)','rgb(226,85,48)','rgb(231,26,56)','rgb(174,0,30)','rgb(125,10,27)','rgb(71,7,14)','rgb(116,54,128)','rgb(153,102,166)','rgb(181,145,191)','rgb(212,194,220)','rgb(255,255,255)']

@@ -1,0 +1,136 @@
+body{
+  width:1000px;
+  background-color: white!important;
+}
+
+
+table.card {
+  border:4px solid #666!important;
+  text-align:center;
+  float:left;
+  clear:left;
+  width:754px; 
+  height:600px;/*
+  font-weight: bold;*/
+}
+table.card td{
+  padding:5px;
+  max-width: 171px;
+  height:150px;
+  background-color: #f2f2f2;
+  border:3px solid #666!important;
+}
+
+table.card td:hover, table.win td:hover { 
+  background-color:rgba(240,150,0,0.4);
+}
+table.card td.clicked, table.win td.clicked { 
+  background-color:#ffc832;
+}
+table.card td.clicked:hover, table.win td.clicked:hover { 
+  opacity:0.8;
+}
+table.card td.win { 
+  background-color:#6faa12;
+  font-weight: bold;
+  color:white;
+  border: 3px solid #277a03!important;
+}
+table.card td.totalwin { 
+  background-color: #ffe600;
+  font-weight: bold;
+  color: black;
+  border: 3px solid #f09600!important;
+}
+/*table.card td.freecell, table.win td.freecell{
+  font-weight:bold;
+  background-color:#CCC;
+  color:#000;
+  font-size:10pt; 
+}*/
+
+#message {
+  clear:left;
+  width:100%;
+  text-align: center;
+  padding:0px 0 0 0;
+  color:#6faa12;
+}
+#message p{
+  padding:30px 0 0 0;
+}
+
+#hashtag {
+  width:160px;
+  float:right;
+  padding:30px 0 0 0;
+  text-align: center;
+}
+#share {
+  width:150px;
+  margin:0 auto 0 112px;
+  padding:30px 0 0 0;
+  float:left;
+}
+#decodeurs{
+  width:300px;
+  float:left;
+  clear:left;
+  padding:5px 0 0 0;
+}
+#decodeurs img{
+  width:60px;
+}
+#decodeurs span{
+  padding-left:10px;
+}
+
+#message p.totalwin {
+  color: #f09600;
+  text-shadow: 1px 1px 0px #ffc832;
+}
+
+td:hover{
+  cursor: pointer;
+}
+
+#melanger {
+  float: left;
+width: 180px;
+margin: 10px 0 0 0;
+padding:8px 20px!important;
+}
+
+#melanger img {
+  width:35px;
+  margin-top: 7px;
+  -webkit-transition: 1s ease-in-out;
+    -moz-transition: 1s ease-in-out;
+    -o-transition: 1s ease-in-out;
+    transition: 1s ease-in-out;
+}
+
+#melanger img:hover{
+  
+  /*-webkit-transform: rotate(90deg) 3s ease;
+-moz-transform: rotate(90deg) 3s;
+-ms-transform: rotate(90deg) 3s;
+transform: rotate(90deg) 3s;*/
+}
+
+.tweet{
+  text-align: center;
+  padding:0px:;
+  width:100px;
+  margin: 15px 51px 0 51px;
+  float:left;
+  display:none;
+}
+
+table.card td:hover .tweet{
+  display: block;
+}
+
+.intro {
+  margin-top:10px;
+}

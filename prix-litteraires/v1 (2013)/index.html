@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="js/d3.v2.js"></script>
+<script src="js/prix.json" type="text/javascript"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+<!-- <script src="js/jquery.dataTables.js"></script> -->
+<link rel="stylesheet" type="text/css" href="http://s1.lemde.fr/medias/web/css/fonts.css"/>
+<link href="css/lemonde.css" rel="stylesheet" type="text/css">
+<link href="css/mycss.css" rel="stylesheet" type="text/css">
+<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
+
+<!-- TODO
+Rajouter le Flore ? 
+Supprimer les prix non décernés du calcul ? -->
+
+
+</head>
+<body>
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+
+
+
+<div class="global">
+    <div class="container_18 clearfix" id="conteneurperso">
+
+
+
+  
+
+
+            
+  
+
+
+
+<div id="modedemploi">
+<p><span>Mode d'emploi : </span>Cochez et décochez les cases ci-contre pour sélectionner les prix littéraires qui apparaîtront sur le graphe.</p><p>Les huit maisons d'édition les plus récompensées sont chacunes représentées par une couleur, les autres sont regroupées dans la zone bleue, avec les prix exceptionnellement non-décernés. Passez votre curseur sur les noms des maisons dans la légende pour faire apparaître leur série historique.</p>
+</div>
+
+<div id="filtres">
+  
+<h1>Prix</h1>
+      <div id="liste_filtres">
+    <label class="checkbox-inline" for="goncourt">
+      <input type="checkbox" id="goncourt" checked onclick="filtrage(id);"> Goncourt 
+          
+    </label>
+    <label class="checkbox-inline" for="medicis" class="right" ><input type="checkbox" id="medicis" checked onclick="filtrage(id);"> Médicis
+       
+    </label>
+    <label class="checkbox-inline" for="renaudot"><input type="checkbox" id="renaudot" checked onclick="filtrage(id);"> Renaudot
+       
+    </label>
+    <label class="checkbox-inline" for="interallie" class="right" ><input type="checkbox" id="interallie" checked onclick="filtrage(id);"> Interallié
+        
+    </label>
+    <label class="checkbox-inline" for="femina"class="right"><input type="checkbox" id="femina" checked onclick="filtrage(id);"> Femina
+        
+    </label>
+    <label class="checkbox-inline" for="academie"><input type="checkbox" id="academie" checked onclick="filtrage(id);"> Académie française
+        
+    </label>
+    
+    <label class="checkbox-inline" for="goncourtlyceens"><input type="checkbox" id="goncourtlyceens" checked onclick="filtrage(id);"> Goncourt des lycéens
+       
+    </label>  
+    <label class="checkbox-inline" for="elle"><input type="checkbox" id="elle" checked onclick="filtrage(id);"> Elle
+        
+    </label>  
+    <label class="checkbox-inline" for="franceinter"><input type="checkbox" id="franceinter" checked onclick="filtrage(id);"> France Inter
+        
+    </label>  
+    <label class="checkbox-inline" for="decembre"><input type="checkbox" id="decembre" checked onclick="filtrage(id);"> Décembre
+     </label>  
+
+     <a onclick="javascript:checkAll();" href="javascript:void();" class="btn-small btn btn-success">tout cocher</a>
+      <a onclick="javascript:uncheckAll();" href="javascript:void();" class="btn-small btn btn-success">tout décocher</a>
+  </div>
+</div>
+
+
+
+
+<div class="chart">
+
+  <div id="annee"><span>Promenez votre curseur pour connaître les lauréats</span></div>
+
+  <div id="legende">
+
+      <h1>Maison d'édition</h1>
+      <div id="liste_legende">
+          <div style="border-left:20px solid  #ff7f0e" id="albinmichel">
+              Albin Michel 
+            </div>
+            <div style="border-left:20px solid  #ffbb78" id="flammarion">
+              Flammarion 
+            </div>
+            <div style="border-left:20px solid  #2ca02c" id="gallimard">
+              Gallimard 
+            </div>
+            <div style="border-left:20px solid  #98df8a" id="grasset">
+              Grasset 
+            </div>
+            <div style="border-left:20px solid  #d62728" id="julliard">
+              Julliard 
+            </div>
+            <div style="border-left:20px solid  #ff9896" id="leseuil">
+              Le Seuil 
+            </div>
+            <div style="border-left:20px solid  #9467bd" id="mercuredefrance">
+              Mercure de France 
+            </div>
+            <div style="border-left:20px solid  #c5b0d5" id="plon">
+              Plon 
+            </div>
+            <div style="border-left:20px solid  #1f77b4" id="autres">
+              Autres 
+            </div>
+      </div>
+  </div>
+
+  <div id="tooltip">
+  </div>
+
+</div>
+
+</div>
+
+
+
+
+
+
+
+
+
+  <div id="monmenu">
+        <ul class="conteneur_onglets mgb3">
+           <li id="onglet1" class="onglet courant small"><a class="tt6">110 ans de prix littéraires</a></li>
+           <li id="onglet2" class="onglet small"><a class="tt6">1 &middot; La domination Gallimard</a></li>
+           <li id="onglet3" class="onglet"><a class="tt6">2 &middot; Le retournement Plon/Le Seuil</a></li>
+           <li id="onglet4" class="onglet"><a class="tt6">3 &middot; Les fulgurances de la "classe moyenne"</a></li>
+           <li id="onglet5" class="onglet small"><a class="tt6">4 &middot; La revanche des "petits"</a></li>
+           <li id="onglet6" class="onglet small"><a class="tt6">5 &middot; Le podium des auteurs</a></li>
+        </ul>
+    </div>
+
+    <div class="textes article" id="textes1">
+            
+            
+            <div class="vraitexte">
+            <p class="premierfirst">La traditionnelle cuvée d&rsquo;automne des prix littéraires a pris fin à la mi-novembre avec <a target="_blank" href="http://www.lemonde.fr/livres/article/2013/11/19/le-prix-interallie-revient-a-nelly-alard_3516479_3260.html">l&rsquo;attribution du prix Interallié</a>&nbsp;au roman de Nelly Allard, <em>Moment d&#39;un couple</em>, publié chez Gallimard. Après le <a target="_blank" href="http://www.lemonde.fr/livres/article/2013/10/24/le-grand-prix-de-l-academie-a-christophe-ono-dit-biot_3502566_3260.html">Grand Prix de l&rsquo;Académie</a>, cette deuxième récompense place l&rsquo;éditeur à la couverture blanche juste derrière Grasset, qui s&rsquo;est offert en 2013 le <a target="_blank" href="http://www.lemonde.fr/livres/article/2013/11/06/le-prix-femina-decerne-a-leonora-miano_3509073_3260.html">Femina</a>, le <a target="_blank" href="http://www.lemonde.fr/livres/article/2013/11/04/le-prix-renaudot-decerne-a-yann-moix_3507483_3260.html">Renaudot</a> et le <a target="_blank" href="http://www.lemonde.fr/livres/article/2013/11/14/le-goncourt-des-lyceens-attribue-a-sorj-chalandon_3514026_3260.html">Goncourt des lycéens</a>.</p>
+            <p>Ce palmarès a des airs de déjà-vu pour les familiers de cette grand-messe littéraire de la rentrée tant, année après année, on ne cesse de souligner la domination écrasante des &laquo; grandes &raquo; maisons sur les principaux prix. Depuis quelques années, de plus modestes écuries s&rsquo;invitent pourtant régulièrement dans la partie, laissant présager selon certains <em><a target="_blank" href="http://www.google.com/url?q=http%3A%2F%2Fwww.lemonde.fr%2Fidees%2Farticle%2F2008%2F12%2F06%2Fprix-litteraires-la-fin-d-un-systeme-par-alain-beuve-mery_1127605_3232.html&amp;sa=D&amp;sntz=1&amp;usg=AFQjCNERCLGxvoiX3CbH91kv4oOFZX6lNg">&laquo; la fin d&#39;un système &raquo;</a>&nbsp;</em>.</p>
+            <p>Pour y voir plus clair, Le Monde.fr a compilé les palmarès complets de dix des principaux prix littéraires, dans un pays qui en compte <a target="_blank" href="http://www.jolpress.com/prix-litteraires-goncourt-renaudot-interview-sylvie-ducas-article-822453.html">près de 2 000</a>. Des plus anciens (le <a target="_blank" href="http://www.academie-goncourt.fr/?rubrique=1229172131">Goncourt</a>, 1903) aux plus récents (le <a target="_blank" href="http://www.prixdecembre.com/">Décembre</a>, 1999), des grands prix d&rsquo;automne (Femina, Renaudot) aux prix grand public du printemps (Elle, France Inter), nous avons listé les vainqueurs de chaque saison des prix en fonction de leur maison d&rsquo;édition. Le graphique interactif ci-dessous représente l&rsquo;évolution dans le temps du nombre de prix récoltés par les huits principales maisons (Albin Michel, Flammarion, Gallimard, Grasset, Julliard, Le Seuil, Mercure de France et Plon) et par les 64 autres éditeurs récompensés <em>(regroupés en bleu)</em>.</p>
+                  
+            </div>
+
+            
+            <div id="historique" style="width: 640px; height: 130px; margin: 0 0 0 0; float:left;"></div>
+            <br style="clear:both;" />
+
+            <div class="help">
+                Cliquez pour ouvrir l'onglet suivant :
+            </div>
+            <div class="ongletsuivant">
+                <a id="next2">1 &middot; La domination Gallimard</a>
+            </div>
+
+    </div>
+
+    <div class="textes article" id="textes2">
+          <div id="nombreprix" style="width: 300px; height: 235px; margin: 7px; float:right;"></div>
+         <div class="vraitexte">
+              
+            <p class="premierfirst">Sur les 110 dernières années, Gallimard devance largement tous ses concurrents en termes de palmarès : la maison a récolté pas moins de 158 récompenses, dont 37 Goncourt, 29 Femina, 28 Grand Prix de l&rsquo;Académie, 19 Renaudot et 17 Interallié.</p>
+<p>Elle est également celle qui affiche la plus grande régularité : depuis les années 1920, il ne se passe quasiment pas une année sans qu&rsquo;elle ne décroche un prix. A l&rsquo;inverse, sa grande concurrente Grasset a traversé à partir des années 1940 un désert de plus de deux décennies, à la suite des accusations de collaboration à l'encontre de son fondateur, Bernard Grasset. Elle ne reprendra des couleurs qu&rsquo;après le rachat par Hachette et l&rsquo;arrivée d&rsquo;Yves Berger, surnommé &laquo; le grand manitou des prix &raquo;, en 1960.</p>
+<p>A six reprises, dans l&rsquo;histoire, Gallimard a réussi l&rsquo;exploit d&rsquo;arracher quatre prix dans la même année (1960, 1962, 1963, 1970, 1990 et 1993). Une performance égalée par deux autres maisons seulement : Grasset en 1966, 1982 et 1989, et Le Seuil en 1980.</p>
+<p>Cette domination se cantonne pour l&rsquo;essentiel aux six &laquo; grands &raquo; prix (Goncourt, Médicis, Renaudot, Femina, Interallié et Académie). Ainsi, certaines maisons d&rsquo;édition plus modestes font jeu égal avec Gallimard sur les prix France Inter, Elle, Décembre ou sur le Goncourt des lycéens.</p>
+            <p align="center"><button id="grandsprix" class="btn btn-success">&raquo; Afficher seulement les "grands" prix</button>
+            <button id="petitsprix" class="btn btn-success">&raquo; Afficher seulement les "petits" prix</button></p>
+           
+          </div>
+
+        <br style="clear:both;" />
+
+           <div class="help">
+                Cliquez pour ouvrir l'onglet suivant :
+            </div>
+            <div class="ongletsuivant">
+                <a id="next3">2 &middot; Le retournement Plon/Seuil</a>
+            </div>
+
+    </div>
+
+    <div class="textes article" id="textes3">
+
+             <div class="quote"><button id="plonleseuil" class="btn btn-success">&raquo; Afficher l'évolution du Seuil</button></div>
+         
+         <div class="vraitexte"> 
+           <p class="premierfirst">Avant-guerre, Plon n&rsquo;avait rien à envier à Gallimard ou Grasset du point de vue des récompenses littéraires. De 1918 à 1938, l&rsquo;éditeur a raflé 3 Goncourt, 4 Femina, 2 Interallié et 6 Grands Prix de l&rsquo;Académie française. Une dynamique complètement coupée au milieu du siècle, puisque seuls trois de ses romans ont été primés depuis la Libération. Le résultat d&rsquo;une intégration au groupe des Presses de la cité (désormais Editis), peu porté sur la guerre des prix.</p>
+
+            
+<p>La trajectoire du Seuil est diamétralement opposée. Fondée en 1935, la maison fait sa réputation sur les sciences humaines et la littérature étrangère, en traduisant notamment le Nobel de littérature 1958, T.S. Eliot. Déjà couronné du Renaudot en 1947, l&rsquo;éditeur explose réellement en 1959, avec son premier Goncourt pour <em>Le dernier des justes</em>, d&rsquo;André Schwart-Bart. S&rsquo;ensuivront 54 récompenses, dont 13 Renaudot, 11 Médicis et 4 nouveaux Goncourt. Le Seuil récolte désormais un prix deux années sur trois en moyenne, bien qu&rsquo;il se soit quelque peu effacé derrière Actes Sud, qui joue le rôle d&rsquo;&laquo; outsider &raquo; des grosses écuries depuis les années 2000.</p>
+
+
+              
+              
+          </div>
+
+        <br style="clear:both;" />
+
+            <div class="help">
+                Cliquez pour ouvrir l'onglet suivant :
+            </div>
+            <div class="ongletsuivant">
+                <a id="next4">3 &middot; Les fulgurances de la "classe moyenne"</a>
+            </div>
+
+    </div>
+
+
+ <div class="textes article" id="textes4">
+         
+         
+            <p class="premierfirst">Derrière le trio de tête Gallimard-Grasset-Le Seuil, une demi-douzaine de maisons de taille moyenne ont réussi au cours du siècle à dépasser la barre des 20 récompenses. Albin Michel a ainsi récolté 43 prix, dont 12 Goncourt, grâce à une domination aux débuts des années 1920, et des récompenses régulières depuis les années 1980.</p>
+            <p>Julliard, fondée en 1942, a connu deux riches décennies après la Libération, qui lui ont permis de gagner 80 % des prix de son histoire. Quant à Mercure de France, quelques fulgurances ponctuelles lui ont permis de constituer progressivement une vitrine de 20 récompenses, à l&rsquo;image du <em>Testament français</em> d&rsquo;<a target="_blank" href="http://www.lemonde.fr/livres/article/2013/02/22/makine-delivre-la-grande-catherine_1836054_3260.html">André Makine</a>, récompensé à la fois par le Médicis, le Goncourt et le Goncourt des lycéens en 1995.</p>
+
+      <div class="vraitexte">
+            <p>Flammarion, <a target="_blank" href="http://www.lemonde.fr/culture/article/2012/09/05/le-rachat-de-flammarion-par-gallimard-officialise_1756005_3246.html">racheté par Gallimard en 2012</a>, est arrivé au même niveau à la faveur de performances bien plus étalées dans le temps, avec une moyenne d&rsquo;un à deux prix par décennie.</p>
+            <p align="center"><button id="evoljulliard" class="btn btn-success btn-small">&raquo; Afficher Julliard</button>
+            <button id="evolmercure" class="btn btn-success btn-small">&raquo; Afficher Mercure de France</button>
+            <button id="evolflammarion" class="btn btn-success btn-small">&raquo; Afficher Flammarion</button>
+            <button id="evolalbin" class="btn btn-success btn-small">&raquo; Afficher Albin Michel</button></p>
+          </div>
+
+        <br style="clear:both;" />
+
+        <div class="help">
+                Cliquez pour ouvrir l'onglet suivant :
+            </div>
+        <div class="ongletsuivant">
+                <a id="next5">4 &middot; La revanche des petits</a>
+            </div>
+
+    </div>
+
+<div class="textes article" id="textes5">
+          <div class="quote"><p>« Au début, le Goncourt allait à un auteur connu dans une maison connue. Ensuite, à un auteur inconnu dans une maison connue, puis à un auteur connu dans une maison inconnue. L’ultime évolution sera de l'attribuer à un auteur inconnu dans une maison inconnue »</p><p><a target="_blank" href="http://www.lemonde.fr/livres/article/2009/04/09/olivier-nora-heritier-des-lettres_1178718_3260.html">Olivier Nora</a>, PDG de Grasset</p>
+          <button id="grandsprix" class="btn btn-success">&raquo; Afficher seulement les "grands" prix</button>
+            <button id="petitsprix" class="btn btn-success">&raquo; Afficher seulement les "petits" prix</button>
+            </div>
+         <div class="vraitexte">
+            <p class="premierfirst">On assiste depuis une vingtaine d&rsquo;années à une montée en puissance des &laquo; petits &raquo; éditeurs, qui ne figurent pas (encore) dans le club fermé des maisons récompensées plus de vingt fois. Un phénomène qui a culminé en 2008, avec <a target="_blank" href="http://www.lemonde.fr/idees/article/2008/12/06/prix-litteraires-la-fin-d-un-systeme-par-alain-beuve-mery_1127605_3232.html">8 prix sur 10 attribués à des &laquo; outsiders &raquo;</a>, comme Actes Sud, Stock ou Zulma. Cette progression ne s&rsquo;explique pas uniquement par l&rsquo;apparition de nouveaux prix, réputés plus ouverts, comme le Grand prix des lectrices Elle (1970) ou le Goncourt des lycéens (1988), puisque mêmes les six &ldquo;grands prix d&rsquo;automne&rdquo; sont concernés.</p>
+            <p>Les jurys semblent renouer avec une tradition du début de XXe siècle, où la pregnance des grandes maisons d&rsquo;aujourd&rsquo;hui était bien moins sensible. En moins de vingt ans, les éditions Fasquelle remportèrent ainsi 5 prix, puis furent absorbées par Grasset après la guerre. Denoël fut de son côté récompensé 10 fois dans la seule décennie 1930, avant de retrouver un rythme plus intermittent.</p>
+            <p>Mais cette revanche des &ldquo;petits&rdquo; est à relativiser, puisque la plupart de ces maisons sont en réalité des filiales de Gallimard, Hachette ou La Martinière, qui voient d&rsquo;un oeil pas forcément malveillant leur montée en puissance. Restent les éditions de Minuit, qui se frayent un chemin dans le jardin des Goncourt et autres Médicis depuis le milieu du siècle tout en restant indépendantes, bien que distribuées par La Martinière.</p>
+            <p>Mais surtout Actes Sud, la maison fondée à Arles en 1978 par Hubert Nyssen, qui s&rsquo;est imposée dans les années 2000 comme la nouvelle troisième voie entre Gallimard et Grasset. Le Goncourt 2004, attribué au <em>Soleil des Scorta</em> de Laurent Gaudet, a confirmé sa montée en puissance appuyée dans un premier temps sur la littérature étrangère, comme Le Seuil en son temps.</p>
+            
+          </div>
+
+        <br style="clear:both;" />
+
+        <div class="help">
+                Cliquez pour ouvrir l'onglet suivant :
+            </div>
+        <div class="ongletsuivant">
+                <a id="next6">5 &middot; Le podium des auteurs</a>
+            </div>
+    </div>
+
+
+<div class="textes article" id="textes6">
+          <div id="podium" style="width: 320px; height: 200px; margin: 20px 7px 7px 7px; float:right;"></div>
+         <div class="vraitexte">
+                
+            <p class="premierfirst">Depuis 1903, seul un auteur a réussi l&rsquo;exploit d&rsquo;être récompensé par trois prix la même année : André Makine, qui a raflé le Médicis, le Goncourt et le Goncourt des lycéens en 1995 avec <em>Le Testament français</em>. Derrière lui, une demi-douzaine d&rsquo;auteurs ont réussi le &laquo; doublé : Ahmadou Kourouma (<em>Allah n&#39;est pas obligé</em>), René Belletto <em>(L&rsquo;Enfer)</em>, Patrick Rambaud (<em>La Bataille</em>), Philippe Claudel (<em>Les âmes grises</em>), Jonathan Littel (<em>Les Bienveillantes</em>), Jean Vautrin (<em>Un grand pas vers le Bon Dieu</em>) et Mathias Enard (<em>Zone</em>). Une tendance apparue en 1986, qui a fleuri dans les années 2000, bien qu&rsquo;une règle d&rsquo;or tacite demeure : jamais le même lauréat pour le Goncourt, le Renaudot ou le Femina.</p>
+<p>Le meilleur palmarès sur l&rsquo;ensemble d&rsquo;une carrière est détenu par Nancy Huston, qui a successivement décroché chez Actes Sud le Goncourt des lycéens (1996), le Prix France Inter (1997), le Grand Prix des lectrices Elle (1999) et le Femina (2006).</p>
+<p>Enfin, l&rsquo;unique auteur a avoir remporté deux fois le même prix reste Romain Gary, lauréat du Goncourt en 1956 avec <em>Les racines du ciel</em> et en tant qu&rsquo;Emile Ajar en 1975, avec <em>La vie devant soi</em>.</p>
+          </div>
+
+        <br style="clear:both;" />
+
+        <div class="help">
+                Cliquez pour retourner au 1<sup>er</sup> onglet :
+            </div>
+        <div class="ongletsuivant">
+                <a id="next1">110 ans de prix littéraires</a>
+            </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+<iframe src="tableau-prix.html" width="999" height="430" frameborder="0"></iframe>
+<!-- <div id="titretableauprix"><h1 class="tt28">Le tableau complet des prix littéraires :</h1></div>
+<div id="tableauprix"></div> -->
+
+
+
+<script>
+
+
+
+
+// Configuration initiale du graphe : tous les prix sélectionnés
+var tableauPrix = ["academie","decembre","elle","femina","franceinter","goncourt","goncourtlyceens","interallie","medicis","renaudot"];
+
+
+
+/*var tableauPrix = ["goncourt"];*/
+
+function filtrage(id){
+  var tableauPrixFiltre = tableauPrix;
+
+    if(document.getElementById(id).checked){
+      tableauPrixFiltre.push(id);
+    }
+    else {
+      var chercheur = tableauPrixFiltre.indexOf(id);
+      if(chercheur != -1) {
+        tableauPrixFiltre.splice(chercheur, 1);
+      }
+    }
+
+   chart("data.csv", "palette", tableauPrixFiltre,true);
+
+}
+
+
+chart("data.csv", "palette", tableauPrix);
+
+var datearray = [];
+var colorrange = [];
+
+function chart(csvpath, color, prix, wipe) {
+
+var prixSelect = prix;
+
+if(wipe == true) { // Si on efface et on recommence, on doit recréer le svg et les div
+  d3.select(".chart").remove();
+  var chart = document.createElement("div");
+  var global = document.querySelector("#conteneurperso");
+  chart.className = "chart";
+  global.appendChild(chart);
+
+  var annee = document.createElement("div");
+  annee.id = "annee";
+  annee.innerHTML = "<span>Promenez votre curseur pour connaître les lauréats</span>"
+  chart.appendChild(annee);
+
+  var tooltip = document.createElement("div");
+  tooltip.id = "tooltip";
+  if(prixSelect.length < 4) {
+      tooltip.style.top = "160px";
+      console.log(tooltip.style.top)
+    }
+  chart.appendChild(tooltip);
+
+
+  // Légende
+  var legende = document.createElement("div");
+  legende.id = "legende";
+  chart.appendChild(legende);
+  var elementsLegende = "<h1>Maison d'édition</h1><div id='liste_legende'><div style='border-left:20px solid  #ff7f0e' id='albinmichel'>Albin Michel</div><div style='border-left:20px solid  #ffbb78' id='flammarion'>Flammarion</div><div style='border-left:20px solid  #2ca02c' id='gallimard'>Gallimard</div><div style='border-left:20px solid  #98df8a' id='grasset'>Grasset</div><div style='border-left:20px solid  #d62728' id='julliard'>Julliard</div><div style='border-left:20px solid  #ff9896' id='leseuil'>Le Seuil</div><div style='border-left:20px solid  #9467bd' id='mercuredefrance'>Mercure de France</div><div style='border-left:20px solid  #c5b0d5' id='plon'>Plon</div><div style='border-left:20px solid  #1f77b4' id='autres'>Autres</div></div>"
+  legende.innerHTML = elementsLegende;
+
+  // var titreLegende = document.createElement("h1");
+  // titreLegende.innerHTML = "Maison d'édition";
+  // legende.appendChild(titreLegende);
+  // var listeLegende = document.createElement("div");
+  // listeLegende.id = "liste_legende";
+  // legende.appendChild(listeLegende);
+  // var albinmichel = document.createElement("div");
+  // albinmichel.id = "albinmichel";
+  // albinmichel.style.borderLeft="20px solid  #E34A33";
+  // albinmichel.innerHTML = "Albin Michel";
+  // listeLegende.appendChild(albinmichel);
+  // var flammarion = document.createElement("div");
+  // flammarion.id = "flammarion";
+  // flammarion.style.borderLeft="20px solid  #E34A33";
+  // flammarion.innerHTML = "Flammarion";
+  // listeLegende.appendChild(flammarion);
+  // var grasset = document.createElement("div");
+  // grasset.id = "grasset";
+  // grasset.style.borderLeft="20px solid  #E34A33";
+  // grasset.innerHTML = "Grasset";
+  // listeLegende.appendChild(grasset);
+  // var gallimard = document.createElement("div");
+  // gallimard.id = "gallimard";
+  // gallimard.style.borderLeft="20px solid  #E34A33";
+  // gallimard.innerHTML = "Gallimard";
+  // listeLegende.appendChild(gallimard);
+  //  var julliard = document.createElement("div");
+  // julliard.id = "julliard";
+  // julliard.style.borderLeft="20px solid  #E34A33";
+  // julliard.innerHTML = "Julliard";
+  // listeLegende.appendChild(julliard);
+  // var leseuil = document.createElement("div");
+  // leseuil.id = "leseuil";
+  // leseuil.style.borderLeft="20px solid  #E34A33";
+  // leseuil.innerHTML = "Le Seuil";
+  // listeLegende.appendChild(leseuil);
+  //  var mercuredefrance = document.createElement("div");
+  // mercuredefrance.id = "mercuredefrance";
+  // mercuredefrance.style.borderLeft="20px solid  #E34A33";
+  // mercuredefrance.innerHTML = "Mercure de France";
+  // listeLegende.appendChild(mercuredefrance);
+  //  var plon = document.createElement("div");
+  // plon.id = "plon";
+  // plon.style.borderLeft="20px solid  #E34A33";
+  // plon.innerHTML = "Plon";
+  // listeLegende.appendChild(plon);
+  //  var autres = document.createElement("div");
+  // autres.id = "autres";
+  // autres.style.borderLeft="20px solid  #E34A33";
+  // autres.innerHTML = "Autres";
+  // listeLegende.appendChild(autres);
+  
+}
+
+if (color == "blue") {
+  colorrange = ["#FDD49E","#045A8D", "#2B8CBE", "#74A9CF", "#A6BDDB", "#D0D1E6", "#F1EEF6"];
+}
+else if (color == "pink") {
+  colorrange = ["#980043", "#DD1C77", "#DF65B0", "#C994C7", "#D4B9DA", "#F1EEF6"];
+}
+else if (color == "palette") {
+  colorrange = ["#1f77b4","#ff7f0e","#ffbb78","#2ca02c","#98df8a","#d62728","#ff9896","#9467bd","#c5b0d5","#8c564b","#c49c94","#e377c2","#f7b6d2","#7f7f7f","#c7c7c7","#bcbd22","#dbdb8d","#17becf","#9edae5","#aec7e8"];
+}
+else if (color == "oldorange") {
+  colorrange = ["#A6BDDB","#873B0D","#E8473C","#FF530D","#FFA20D","#E5A052","#FFC959","#FDD49E","FFA792"];
+}
+
+ 
+/*strokecolor = colorrange[0];*/
+strokecolor = "#333";
+
+function filtrerOeuvres2(elemento) {
+        return elemento["Prix"] == prixSelect;
+      };
+
+if(prixSelect) { 
+  var oeuvres3 = oeuvres.filter(filtrerOeuvres2);
+  
+}  
+
+var format = d3.time.format("%Y");
+
+var margin = {top: 35, right: 15, bottom: 50, left: 15};
+var width = document.body.clientWidth - margin.left - margin.right;
+var height = 500 - margin.top - margin.bottom;
+
+var tooltip = d3.select("#tooltip")
+    .style("visibility", "hidden");
+
+var annee = d3.select("#annee");
+
+var x = d3.time.scale()
+    .range([0, width]);
+
+var y = d3.scale.linear()
+    .range([0,height-60]);
+
+var z = d3.scale.ordinal()
+    .range(colorrange);
+/*var z = d3.scale.category20();*/
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom")
+    .ticks(d3.time.years, 2);
+
+/*var yScale = d3.scale.linear()
+                     .domain([0, 20])
+                     .range([0, height]);*/
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .ticks(0)
+    .tickSize(0);
+
+var yAxisr = d3.svg.axis()
+    .scale(y)
+    .ticks(0);
+
+var stack = d3.layout.stack()
+    .offset("silhouette")
+    .values(function(d) { 
+      return d.values; })
+    .x(function(d) { return d.date; })
+    .y(function(d) { 
+      return d.value; });
+
+var nest = d3.nest()
+    .key(function(d,i) { 
+     
+      return d.key; })
+
+var area = d3.svg.area()
+    .interpolate("cardinal")
+    .x(function(d) { return x(d.date); })
+    .y0(function(d) { return y(d.y0); 
+      
+    })
+    .y1(function(d) { return y(d.y0 + d.y); });
+
+var svg = d3.select(".chart").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+var graph = d3.csv(csvpath, function(data) {
+         
+        data.forEach(function(d) {            
+              d.date = format.parse(d.date);            
+              d.total = 0;
+    
+              for(var i=0;i<prixSelect.length;i++) {
+                lePrix = d[prixSelect[i]];
+                d.total += parseInt(lePrix);
+              }
+             
+             d.valeuroriginale = d.value;
+             d.value = d.total;
+        });
+
+  var layers = stack(nest.entries(data));
+  
+    x.domain(d3.extent(data, function(d) { return d.date; }));
+    y.domain([0, 10]);
+  
+
+  svg.selectAll(".layer")
+      .data(layers)
+    .enter().append("path")
+      .attr("class", function(d, i){
+        
+        var class2 = d.key.replace(/\s/g, '').toLowerCase();
+        return "layer "+class2
+      })
+      .attr("d", function(d) { 
+        if(d.total != 0) { return area(d.values); }
+      })
+      .style("fill", function(d, i) { return z(i); });
+
+
+  svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis)
+      .selectAll("text")  
+            .style("text-anchor", "end")
+            .attr("dx", "-.8em")
+            .attr("dy", ".15em")
+            .attr("transform", function(d) {
+                return "rotate(-90)" 
+                });
+
+  svg.append("g")
+      .attr("class", "y axis")
+      .attr("transform", "translate(" + width + ", 0)")
+      .call(yAxis.orient("right"));
+
+  svg.append("g")
+      .attr("class", "y axis")
+      .call(yAxis.orient("left"));
+
+
+  svg.selectAll(".layer")
+    .attr("opacity", 1)
+    .on("mouseover", function(d, i) {
+      svg.selectAll(".layer").transition()
+      .duration(250)
+      .attr("opacity", function(d, j) {
+        return j != i ? 0.2 : 1;
+    })})
+
+    .on("mousemove", function(d, i) {
+      mousex = d3.mouse(this);
+      mousex = mousex[0];
+      var invertedx = x.invert(mousex);
+      invertedx = invertedx.getYear();
+      var selected = (d.values);
+      for (var k = 0; k < selected.length; k++) {
+        datearray[k] = selected[k].date
+        datearray[k] = datearray[k].getYear();
+      }
+
+      mousedate = datearray.indexOf(invertedx) + 1;
+      pro = d.values[mousedate].valeuroriginale;
+      myDate = d.values[mousedate].date.getFullYear();
+   /*   dateFormate = d.values[mousedate].date
+      dateFormate =  dateFormate.format("%Y");*/
+
+   
+     
+    
+      function filtrerOeuvres(elemento) {
+        return elemento["Année"] == myDate && elemento["Groupe"] == d.key;
+      };
+
+    var oeuvres2 = oeuvres.filter(filtrerOeuvres);
+
+      d3.select(this)
+      .classed("hover", true)
+      .attr("stroke", strokecolor)
+      .attr("stroke-width", "2px"), 
+      tooltip.html( tooltiper(d) ).style("visibility", "visible"),
+      annee.html( function() { return myDate } );
+
+      function tooltiper(d){
+          
+          // Cas particulier du "autres"
+          if(d.key == "Autres") { 
+              var editeur = "Autres éditeurs";
+          }
+          else { editeur = d.key };
+          if(d.values[mousedate].valeuroriginale == 0) {
+            contenu = "";
+          }
+          else if(d.values[mousedate].valeuroriginale == d.values[mousedate].value) {
+            contenu = "<h2>" + editeur + "</h2><p><strong>" + pro + " prix</strong> en " + myDate + " :</p>";
+          }
+          else {
+            contenu = "<h2>" + editeur + "</h2><p><strong>" + pro + " prix</strong> au total en " + myDate + " (<strong>" + d.values[mousedate].value + "</strong> parmi votre sélection) :</p>";
+          }
+          if(oeuvres2) {
+
+            contenu += '<ul>';
+                      for(var i=0;i<oeuvres2.length;i++) {
+                          if(d.key == "Autres") { 
+                               contenu += '<li><strong>' + oeuvres2[i]["Prix"] + '</strong> : <em>' + oeuvres2[i]["Roman"] + '</em> &middot; ' + oeuvres2[i]["Auteur"] + " <strong>("+ oeuvres2[i]["Maison d'édition"] + ")</strong>";
+                              }
+                        else {
+                          contenu += '<li><strong>' + oeuvres2[i]["Prix"] + '</strong> : <em>' + oeuvres2[i]["Roman"] + '</em> &middot; ' + oeuvres2[i]["Auteur"] + '</li>';
+                        }
+                      } 
+            contenu += '</ul>';
+            
+          }
+        return contenu;
+    }
+
+      
+    })
+    .on("mouseout", function(d, i) {
+     svg.selectAll(".layer")
+      .transition()
+      .duration(250)
+      .attr("opacity", "1");
+      d3.select(this)
+      .classed("hover", false)
+      .attr("stroke-width", "0px"), tooltip.html( "<p>" + d.key + "<br>" + pro + "</p>" ).style("visibility", "hidden");
+  })
+    
+  var vertical = d3.select(".chart")
+        .append("div")
+        .attr("class", "remove")
+        .style("position", "absolute")
+        .style("z-index", "19")
+        .style("width", "2px")
+        .style("height", "415px")
+        .style("top", "35px")
+        .style("bottom", "30px")
+        .style("left", "0px")
+        .style("background", "#666");
+
+  d3.select(".chart")
+      .on("mousemove", function(){  
+         mousex = d3.mouse(this);
+         mousex = mousex[0] + 5;
+         vertical.style("left", mousex + "px" )})
+      .on("mouseover", function(){  
+         mousex = d3.mouse(this);
+         mousex = mousex[0] + 5;
+         vertical.style("left", mousex + "px")});
+
+
+ /* svg.selectAll("#albin")
+    .attr("opacity", 1)
+    .on("mouseover", function(d, i) {
+      svg.selectAll(".autres").transition()
+      .duration(250)
+      .attr("opacity", function(d, j) {
+        return j != i ? 0.6 : 1;
+    })})*/
+
+      
+    var albinmichel = document.querySelector("#albinmichel");
+    var leseuil = document.querySelector("#leseuil");
+    var grasset = document.querySelector("#grasset");
+    var gallimard = document.querySelector("#gallimard");
+    var flammarion = document.querySelector("#flammarion");
+    var julliard = document.querySelector("#julliard");
+    var leseuil = document.querySelector("#leseuil");
+    var mercuredefrance = document.querySelector("#mercuredefrance");
+    var plon = document.querySelector("#plon");
+    var autres = document.querySelector("#autres");
+
+
+    // Gérer compatibilité IE de l'ajout d'évènements
+    function addEvent(element, event, func) {
+        if (element.addEventListener) { // Si notre élément possède la méthode addEventListener()
+          element.addEventListener(event, func, false);
+        } 
+        else { // Si notre élément ne possède pas la méthode (IE)
+          addEventListener()
+          element.attachEvent('on' + event, func); 
+        }
+    }
+
+    var bloceur = false;
+    // Ajout d'évènements aux checkboxes
+    addEvent(grasset, 'mouseover', function() { opacitein(grasset) });
+    addEvent(grasset, 'mouseout', function() { opaciteout(grasset) });
+    addEvent(grasset, 'click', function() { afficherMaison(grasset) });
+    addEvent(gallimard, 'mouseover', function() { opacitein(gallimard) });
+    addEvent(gallimard, 'mouseout', function() { opaciteout(gallimard) });
+    addEvent(gallimard, 'click', function() { afficherMaison(gallimard) });
+    addEvent(flammarion, 'mouseover', function() { opacitein(flammarion) });
+    addEvent(flammarion, 'mouseout', function() { opaciteout(flammarion) });
+    addEvent(flammarion, 'click', function() { afficherMaison(flammarion) });
+    addEvent(plon, 'mouseover', function() { opacitein(plon) });
+    addEvent(plon, 'mouseout', function() { opaciteout(plon) });
+    addEvent(plon, 'click', function() { afficherMaison(plon) });
+    addEvent(mercuredefrance, 'mouseover', function() { opacitein(mercuredefrance) });
+    addEvent(mercuredefrance, 'mouseout', function() { opaciteout(mercuredefrance) });
+    addEvent(mercuredefrance, 'click', function() { afficherMaison(mercuredefrance) });
+    addEvent(autres, 'mouseover', function() { opacitein(autres) });
+    addEvent(autres, 'mouseout', function() { opaciteout(autres) });
+    addEvent(autres, 'click', function() { afficherMaison(autres) });
+    addEvent(albinmichel, 'mouseover', function() { opacitein(albinmichel) });
+    addEvent(albinmichel, 'mouseout', function() { opaciteout(albinmichel) });
+    addEvent(albinmichel, 'click', function() { afficherMaison(albinmichel) });
+    addEvent(julliard, 'mouseover', function() { opacitein(julliard) });
+    addEvent(julliard, 'mouseout', function() { opaciteout(julliard) });
+    addEvent(julliard, 'click', function() { afficherMaison(julliard) });
+    addEvent(leseuil, 'mouseover', function() { opacitein(leseuil) });
+    addEvent(leseuil, 'mouseout', function() { opaciteout(leseuil) });
+    addEvent(leseuil, 'click', function() { afficherMaison(leseuil) });
+
+
+
+ 
+
+
+    function opacitein(e) {
+          svg.selectAll(".layer").transition()
+            .duration(250)
+            .attr("opacity",0.2);
+          svg.selectAll("."+e.id).transition()
+          .duration(250)
+          .attr("opacity", 1)
+          .attr("stroke-width","2px");
+
+      }
+
+    function opaciteout(e) {
+          if(bloceur == false) {
+          svg.selectAll(".layer").transition()
+            .duration(250)
+            .attr("opacity",1)
+            .attr("stroke-width","0px");
+          }
+      }
+
+    function afficherMaison(e) {
+          if(bloceur == false) {
+            svg.selectAll(".layer").transition()
+            .duration(250)
+            .attr("opacity",0.2);
+            svg.selectAll("."+e.id).transition()
+            .duration(250)
+            .attr("opacity", 1)
+            .attr("stroke-width","2px");
+            bloceur = true;
+          }
+          else {
+            svg.selectAll(".layer").transition()
+            .duration(250)
+            .attr("opacity",1)
+            .attr("stroke-width","0px");
+            bloceur = false;
+          }
+          
+      }
+
+
+     
+
+     //évènements lors du clic sur les onglets
+      $('#onglet1, #next1').on('click',function () {
+          $("#onglet1").addClass('courant')
+          $("#onglet2").removeClass('courant')
+          $("#onglet3").removeClass('courant')
+          $("#onglet4").removeClass('courant')
+          $("#onglet5").removeClass('courant')
+          $("#onglet6").removeClass('courant')
+          $("#textes1").show()
+          $("#textes5").hide()
+          $("#textes4").hide()
+          $("#textes2").hide()
+          $("#textes3").hide()
+          $("#textes6").hide()
+          bloceur = false;
+          opaciteout();
+          checkAll();
+      });
+      $('#onglet2, #next2').on('click',function () {
+          $("#onglet2").addClass('courant')
+          $("#onglet1").removeClass('courant')
+          $("#onglet3").removeClass('courant')
+          $("#onglet4").removeClass('courant')
+          $("#onglet5").removeClass('courant')
+          $("#onglet6").removeClass('courant')
+          $("#textes5").hide()
+          $("#textes4").hide()
+          $("#textes2").show()
+          $("#textes1").hide()
+          $("#textes3").hide()
+          $("#textes6").hide()
+          bloceur = false;
+          afficherMaison(gallimard);
+      });
+      $('#onglet3, #next3').on('click',function () {
+        $("#onglet3").addClass('courant')
+        $("#onglet1").removeClass('courant')
+        $("#onglet2").removeClass('courant')
+        $("#onglet4").removeClass('courant')
+        $("#onglet5").removeClass('courant')
+        $("#onglet6").removeClass('courant')
+        $("#textes5").hide()
+        $("#textes3").show()
+        $("#textes4").hide()
+        $("#textes1").hide()
+        $("#textes2").hide()
+        $("#textes6").hide()
+        bloceur = false;
+        afficherMaison(plon);
+      });
+      $('#onglet4, #next4').on('click',function () {
+        $("#onglet4").addClass('courant')
+        $("#onglet1").removeClass('courant')
+        $("#onglet2").removeClass('courant')
+        $("#onglet3").removeClass('courant')
+        $("#onglet5").removeClass('courant')
+        $("#onglet6").removeClass('courant')
+        $("#textes5").hide()
+        $("#textes4").show()
+        $("#textes3").hide()
+        $("#textes1").hide()
+        $("#textes2").hide()
+        $("#textes6").hide()
+        bloceur = false;
+        afficherMaison(albinmichel);
+      });
+      $('#onglet5, #next5').on('click',function () {
+        $("#onglet5").addClass('courant')
+        $("#onglet1").removeClass('courant')
+        $("#onglet2").removeClass('courant')
+        $("#onglet3").removeClass('courant')
+        $("#onglet4").removeClass('courant')
+        $("#onglet6").removeClass('courant')
+        $("#textes5").show()
+        $("#textes3").hide()
+        $("#textes1").hide()
+        $("#textes2").hide()
+        $("#textes4").hide()
+        $("#textes6").hide()
+        bloceur = false;
+        afficherMaison(autres);
+      });
+      $('#onglet6, #next6').on('click',function () {
+        $("#onglet6").addClass('courant')
+        $("#onglet1").removeClass('courant')
+        $("#onglet2").removeClass('courant')
+        $("#onglet3").removeClass('courant')
+        $("#onglet4").removeClass('courant')
+        $("#onglet5").removeClass('courant')
+        $("#textes6").show()
+        $("#textes3").hide()
+        $("#textes1").hide()
+        $("#textes2").hide()
+        $("#textes4").hide()
+        $("#textes5").hide()
+        bloceur = false;
+        opaciteout();
+      });
+      $('#plonleseuil').on('click',function () { // Avec switcheur Le Seuil/Plon
+        if($(this)[0]['firstChild']['nodeValue'] == "» Afficher l'évolution du Seuil") {   
+          $(this)[0]['firstChild']['nodeValue'] = "» Afficher l'évolution de Plon";
+           bloceur = false;
+           afficherMaison(leseuil);  
+        }
+        else {
+          $(this)[0]['firstChild']['nodeValue'] = "» Afficher l'évolution du Seuil";
+          bloceur = false;
+          afficherMaison(plon);
+        }
+      });
+      $('#grandsprix').on('click',function () {
+         afficherPrix(['goncourt','femina','interallie','renaudot','academie','medicis']);
+       });
+      $('#petitsprix').on('click',function () {
+         afficherPrix(['decembre','elle','franceinter','goncourtlyceens']);
+       });
+      $('#evoljulliard').on('click',function () {
+        bloceur = false;
+        afficherMaison(julliard);
+       });
+      $('#evolmercure').on('click',function () {
+        bloceur = false;
+        afficherMaison(mercuredefrance);
+       });
+      $('#evolflammarion').on('click',function () {
+        bloceur = false;
+        afficherMaison(flammarion);
+       });
+      $('#evolalbin').on('click',function () {
+        bloceur = false;
+        afficherMaison(albinmichel);
+       });
+
+
+
+
+});
+
+}
+
+
+
+
+
+
+// Cocher tout / décocher tout
+
+function uncheckAll(){
+  var checkboxes = new Array(); 
+  checkboxes = document.getElementsByTagName('input');
+  
+  for (var i=0; i<checkboxes.length; i++)  {
+    if(checkboxes[i].checked) {
+      checkboxes[i].checked = false;
+      filtrage(checkboxes[i].id);
+    } 
+  }
+}
+
+function checkAll(){
+ 
+  var checkboxes = new Array(); 
+  checkboxes = document.getElementsByTagName('input');
+  
+  for (var i=0; i<checkboxes.length; i++)  {
+    if(!checkboxes[i].checked) {
+      checkboxes[i].checked = true;
+      filtrage(checkboxes[i].id);
+    } 
+  }
+}
+
+function afficherPrix(listePrix){
+  var checkboxes = new Array(); 
+  checkboxes = document.getElementsByTagName('input');
+  
+  for (var i=0; i<checkboxes.length; i++)  {
+    if(checkboxes[i].checked) {
+      checkboxes[i].checked = false;
+      filtrage(checkboxes[i].id);
+    } 
+  }
+ var grandsPrix = listePrix;
+  
+  for (var i=0; i<grandsPrix.length; i++)  {
+    element = document.getElementById(grandsPrix[i]);
+    if(!element.checked) {
+      element.checked = true;
+      filtrage(element.id);
+    } 
+  }
+}
+
+
+
+
+
+/*Highcharts pour les graphes */
+
+
+$(function () {
+        $('#nombreprix').highcharts({
+            chart: {
+                type: 'bar',
+                spacing: [6, 10, 0, 10]
+            },
+            title: {
+                text: 'Prix remportés depuis 1903',
+                floating: true,
+                width: 120,
+                x: 145,
+                y: 70,
+                style: {
+                    color: '#000000',
+                    fontFamily: '\'TheSerifOffice\', Georgia, sans-serif',
+                    fontSize: '16pt',
+                    lineHeight: '22pt'
+                }
+            },
+            subtitle: {
+                text: '(Académie, Goncourt, Goncourt lycéens, Renaudot, Médicis, Interallié, Femina, Elle, France Inter & Décembre)',
+                style: {
+                    fontSize: '9pt',
+                    lineHeight: '12pt',
+                    color: '#333333',
+                },
+                floating: true,
+                width: 120,
+                x: 140,
+                y: 150,
+            },
+            xAxis: {
+                categories: ["Gallimard","Grasset","Le Seuil","Albin Michel","Julliard","Plon","Mercure de France","Flammarion","Denoël","Minuit","P.O.L.","Stock","Actes Sud","Fayard","Robert Laffont","La Table Ronde"],
+                gridLineWidth: 0,
+                labels: {
+                    rotation: 0,
+                    style: {
+                      fontSize: '10pt',
+                      lineHeight: '11pt',
+                      width: '150px'
+                    }
+                }
+            },
+            yAxis: {
+                min: 0,
+                gridLineWidth: 0,
+                labels: {
+                    enabled: false
+                },
+                title: {
+                    text: ''
+                }
+            },
+            legend: {
+                enabled: false
+            },
+            credits: {
+                enabled: false
+            },
+            tooltip: {
+                enabled: false
+            },
+            plotOptions: {
+                bar: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                },
+                series: {
+                dataLabels: {
+                    enabled: true,
+                    style: {
+                        fontWeight:'bold'
+                    }
+                    }
+                }
+            },
+            series: [{
+                name: 'Nombre de prix remportés depuis 1903',
+                data: [158,118,55,43,22,20,20,20,19,18,15,15,13,11,10,10]
+    
+            }]
+        });
+
+
+
+
+$('#historique').highcharts({
+            chart: {
+                type: 'column',
+                spacingRight: 80,
+                spacingLeft: 0,
+                spacingTop: 0,
+                marginTop: 0
+            },
+            title: {
+                text: ''
+            },
+            subtitle: {
+                text: ''
+            },
+            xAxis: {
+                categories: [
+                    '1903','1904','1915','1926','1930','1958','1970','1975','1988','1999'
+                ],
+                gridLineWidth: 0,
+                lineWidth: 0,
+                tickWidth: 0,
+                offset: 10,
+                labels: {
+                    style: {
+                        fontWeight:'bold',
+                        fontFamily: 'Arial',
+                        color: 'black',
+                        fontSize: '12pt'                     
+                    }
+                }
+            },
+            yAxis: {
+                min: 0,
+                gridLineWidth: 0,
+                title: {
+                    text: ''
+                },
+                labels: {
+                    enabled: false
+                },
+                max: 10
+            },
+            tooltip: {
+                enabled: false
+            },
+            legend: {
+                enabled: false
+            },
+            credits: {
+                enabled: false
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0,
+                    color: '#E34A0B'
+                },
+                series: {
+                dataLabels: {
+                    enabled: true,
+                    formatter: function() {return this.point.name; },
+                    rotation: 330,
+                    align: 'left',
+                     y: -10,
+                    x: -5,
+                    style: {
+                        fontFamily: 'Verdana',
+                        color: 'black',
+                        fontWeight:'bold',
+                        fontSize: '9pt'                     
+                    }
+                    }
+                }
+            },
+            series: [{
+                data: [
+                ["Goncourt",1],
+  ["Femina",1],
+  ["Académie",1],
+  ["Renaudot",1],
+  ["Interallié",1],
+  ["Médicis",1],
+  ["Elle",1],
+  ["France Inter",1],
+  ["Goncourt lycéens",1],
+  ["Décembre",1]
+            ]
+    
+            }]
+        });
+
+$('#podium').highcharts({
+            chart: {
+                type: 'bar',
+                spacingTop: 0,
+                marginTop: 25
+            },
+            title: {
+                text: 'Les auteurs les plus récompensés',
+                style: {
+                    color: '#000000',
+                    fontFamily: '\'TheSerifOffice\', Georgia, sans-serif',
+                    fontSize: '12pt',
+                    lineHeight: '22pt'
+                }
+            },
+            subtitle: {
+                text: ''
+            },
+            xAxis: {
+                
+                gridLineWidth: 0,
+                lineWidth: 0,
+                tickWidth: 0,
+                offset: 10,
+                labels: {
+                    formatter: function () {  },
+                    style: {
+                        fontWeight:'bold',
+                        fontFamily: 'Arial',
+                        color: 'black',
+                        fontSize: '12pt'                     
+                    }
+                }
+            },
+            yAxis: {
+                min: 0,
+                gridLineWidth: 0,
+                title: {
+                    text: ''
+                },
+                labels: {
+                    enabled: false
+                },
+                max: 10
+            },
+            tooltip: {
+                enabled: true,
+                formatter:function() {return this.point["detail"]; },
+                backgroundColor: 'rgba(255,255,255,1)'
+            },
+            legend: {
+                enabled: false
+            },
+            credits: {
+                enabled: false
+            },
+            plotOptions: {
+                bar: {
+                    pointPadding: 0,
+                    groupPadding: 0.05,
+                    borderWidth: 0,
+                    color: '#026b9C'
+                },
+                series: {
+                dataLabels: {
+                    enabled: true,
+                    formatter: function() {return this.point.name + ' - ' + this.point.y; },
+                    align: 'left',
+                    verticalAlign: 'middle',
+                     y: 0,
+                    x: 5,
+                    style: {
+                        fontFamily: 'Verdana',
+                        color: 'black',
+                        fontWeight:'bold',
+                        fontSize: '9pt'                     
+                    }
+                    }
+                }
+            },
+            series: [{
+                data: [{name:"Nancy Huston",y:4,"detail":"Femina, Elle, Inter et Goncourt lycéens"},
+{name:"Ahmadou Kourouma",y:3,"detail":"Inter, Goncourt lycéens et Renaudot"},
+{name:"Jean-Noël Pancrazi",y:3,"detail":"Inter, Médicis et Académie"},
+{name:"Mathias Enard",y:3,"detail":"Décembre, Inter et Goncourt lycéens"},
+{name:"Philippe Claudel",y:3,"detail":"Elle, Renaudot et Goncourt lycéens"},
+{name:"Philippe Hériat",y:3,"detail":"Goncourt, Renaudot et Académie"},
+{name:"Sorj Chalandon",y:3,"detail":"Académie, Goncourt lycéens et Médicis"}]
+    
+            }]
+        });
+
+
+    });
+    
+
+
+
+
+
+
+</script>
+</body>
+</html>

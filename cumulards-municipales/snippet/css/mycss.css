@@ -1,0 +1,326 @@
+.clear {
+        clear:both;
+      }
+
+      .container {
+        width:532px;
+        padding:0px 0px;
+        margin:0px auto;
+        position:relative;
+        background: #fff;
+        border-left:1px solid #e4e6e9;
+        border-right:1px solid #e4e6e9;
+        border-bottom:1px solid #e4e6e9;
+        border-radius: 0 0 8px 8px;
+      }
+
+      #overlay {
+      display : none; /* Par défaut, on cache l'overlay */
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      text-align: center; /* Pour centrer l'image que l'overlay
+      contiendra */
+      /* Ci-dessous, nous appliquons un background de couleur noire et d'opacité 0.6. Il s'agit d'une propriété CSS3. */
+      background-color: rgba(0,0,0,0.8);
+      z-index:9999;
+      color:#FFFFFF;
+    }
+
+    #overlay p {
+      padding:50px 20px 20px 20px;
+    }
+
+    #overlay textarea {
+      width:400px;
+      margin:0 auto;
+    }
+
+    #overlay #close {
+      float:right;
+      margin:10px 10px 0 0;
+      background: url('../img/croix.png') no-repeat right 0px;
+      width:27px;
+      height:26px;
+      cursor: pointer;
+    }
+
+      .sidebar {
+        float:left;
+        width:228px;
+        margin-left:0px;
+        
+      }
+      .recherche div.champ:hover, .recherche div.champ > input:focus {
+        background-color: white;
+      }
+
+        #resultats {
+          clear:left;
+        }
+        #carte {width:304px;height:430px;float:right; margin-top:0px; margin-right: 0px;}
+        .box_personne {
+            width: 185px;
+            height: auto;
+            float: left;
+            margin-left: 5px;
+            margin-right: 5px;
+            margin-bottom: 15px;
+            cursor: pointer;
+           /* border-radius:3px 3px 0 0;*/
+            background-color: #f8f9fb;
+            border: 1px solid #b9c0c5;
+            padding-bottom: 10px;
+        }
+        .box_personne p {
+          padding: 0 10px;
+        }
+        .box_personne:hover {
+        background:#eef1f5;
+        /*border-radius:5px;
+        box-shadow:1px 1px 3px #c4c4c4;*/
+       }
+       .box_personne.selectionne {
+          background-color: #ffc89b;
+       }
+       
+       .box_personne hr {
+          width:90%;
+       }
+
+       .box_personne.impair {
+          clear:left;
+        }
+
+       .situation {
+        width: 177px;
+        float: left;
+        text-align: center;
+        margin: 0 0 6px 0px;
+        /*border-radius:3px 3px 0 0;*/
+        padding: 4px;
+        color: #FFF;
+       }
+       .situation.cumul {
+          background-color: #B30000;
+       }
+       .situation.incertain {
+        background-color: #ff6e17;
+       }
+       .situation.promesse {
+          background-color: #59880E;
+       }
+
+       p.candidat, p.parti, p.ville {
+        text-align: center;
+       }
+
+       .mandats, .priorite {
+          font-weight: bold;
+        }
+        .mandats2, .priorite2 {
+          font-size: 8pt;
+          line-height: 8pt;
+        }
+
+       .champ_recherche {
+        float: left;
+        width: 360px;
+        background: #e4e6e9;
+        padding: 10px 10px 10px 10px;
+        border-top: 3px solid #16212c!important;
+        margin: 0 10px 0 10px;
+        display:none;
+       }
+
+       header {
+        width: 514px;
+        background: #e4e6e9;
+        padding: 10px 10px 10px 10px;
+        border-top: 3px solid #16212c!important;
+       }
+		 #nomville {
+	   background-color: #f5f8f9;
+	   }
+       #nomville h1 {
+        text-align: center;
+        
+padding: 5px 0;
+       }
+
+       footer {
+        width: 514px;
+        background: #e4e6e9;
+        padding: 10px 10px 10px 10px;
+        text-align: center;
+       }
+
+       footer h1 a {
+        display: block;
+        width:100%;
+        height:100%;
+      }
+
+      footer span {
+          background: url('http://s1.lemde.fr/medias/web/d046629438b18715f94c4d85542ca8a7/img/sprites/sprite.png') no-repeat;
+          display: inline-block;
+          background-position: 0px -131px;
+          text-indent: -9999px;
+          width: 13px;
+          height:10px;
+          margin-left: 5px;
+        }
+        
+
+        #notule {
+          clear: left;
+          /*background-color: #f1f5f8;*/
+          padding: 10px 0;
+          /*width: 60%;
+          margin: 0 auto;*/
+          text-align: center;
+        }
+        #search_box {
+          margin: 0px;
+          height: 28px;
+          width: 230px;
+        }
+
+        form.recherche {
+          margin:10px 0;
+        }
+
+        .featured_services_find {
+            width:210px;
+            float:left;
+            margin:10px 10px 0px 10px;
+           max-height: 350px;
+           overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        #result_count {
+          /*font-weight: bold;*/
+          padding: 7px 0 0 8px;
+          float: left;
+        }
+
+        #partagesocial {
+          clear:left;
+          padding: 3px 5px;
+          color: rgb(116, 123, 131);
+          font-weight:bold;
+          float:left;
+          width:205px;
+        }
+
+        #partagesocial p {
+          padding: 5px 0;
+        }
+
+        #embedbutton {
+          margin-left:7px;
+          width:20px;
+          height:20px;
+          cursor:pointer;
+        }
+
+        #raccourcis {
+          width:600px;
+          float:right;
+        }
+
+        #raccourcis p.lire {
+          margin: 3px 0px 10px 0;
+        }
+
+        a.outremer {
+          cursor:pointer;
+        }
+
+        a.outremer:hover {
+          font-weight:bold;
+        }
+
+        .effacer {
+          background: url('../img/croix.png') no-repeat right 0px;
+          background-opacity: 0.7;
+          height: 26px;
+          display: inline-block;
+          padding: 4px 30px 0 0;
+          font-weight: bold;
+          margin-top: 7px;
+        }
+
+        .aucunresultat {
+          margin: 40px;
+        }
+
+        #data {
+          float: right;
+          clear: right;
+          font-weight: bold;
+          padding: 6px 0px 0 0;
+        }
+        #data span {
+          background: url('http://s1.lemde.fr/medias/web/d046629438b18715f94c4d85542ca8a7/img/sprites/sprite.png') no-repeat;
+          display: inline-block;
+          background-position: 0px -131px;
+          text-indent: -9999px;
+          width: 13px;
+          height:10px;
+          margin-right: 5px;
+        }
+
+        #bloc1 {
+          top:20px;
+          position: relative;
+        }
+        #repartitionpartis {
+          width:300px;
+          height:330px;
+          margin: 10px auto 0 auto;
+        }
+        #detailps {
+          width:300px;
+          height:280px;
+          margin:10px;
+          float:left;
+        }
+        #legendeps {
+          width:180px;
+          float:right;
+        }
+        #villes {
+          width:300px;
+          height:250px;
+          margin: 10px auto 0 auto;
+        }
+
+        #bloc2 {
+          float:left;
+        }
+    
+        #bloc3 {
+          top: 1050px;
+          position: relative;
+        }
+
+        #bloc4 {
+          top:0px;
+          position: relative;
+        }
+
+        
+
+        #bloc5 ul {
+          list-style-type: square!important;
+          margin-left: 15px;
+        }
+
+        .note {
+          font-size:8pt;
+          text-align: right;
+          font-style: italic;
+          padding:5px 5px 5px 0;
+        }

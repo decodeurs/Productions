@@ -1,0 +1,1391 @@
+﻿<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="css/lemonde.css"></link>
+		<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.0/css/jquery.dataTables.css"></link>
+		<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
+		<link rel="stylesheet" type="text/css" href="//s1.lemde.fr/medias/web/css/fonts.css">
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+		<script src="js/list.min.js"></script>
+		<script src="http://d3js.org/d3.v3.min.js"></script>
+		<script src="http://d3js.org/d3.hexbin.v0.min.js"></script>
+		<script src="http://d3js.org/queue.v1.min.js"></script>
+		<script src="http://d3js.org/topojson.v1.min.js"></script>
+		<script src="js/jquery.dataTables.min.js" type="text/javascript" ></script>
+		<script src='http://code.highcharts.com/highcharts.js'></script>
+		<style>
+		body{
+			margin:0!important;
+		}
+
+
+		/* Visualisation hexagones */
+			#viz path {
+			  fill: none;
+			  stroke-linejoin: round;
+			}
+			#viz svg{
+				float:left;
+			}
+			svg#naissance{
+				clear:left;
+			}
+			.hexagons path {
+			  opacity:1;
+			}
+			
+			.hexagon:hover{
+				stroke:#000;
+				stroke-width:1;
+				opacity: 1!important;
+			}
+			.hexagon_outremer{
+				stroke:#3b3b3b;
+				stroke-width:0.5;
+			}
+			.nonselectionne{
+				opacity: 0.2!important;
+				stroke-width: 0!important;
+			}
+			.selectionne{
+				opacity: 1;
+				stroke-width:1;
+				stroke:#000;
+			}
+			#viz{
+				position:relative;
+			}
+			#searchbox{
+				position: absolute;
+				width:300px;
+				right: 0px;
+				top:0px;
+				z-index: 9999;
+			}
+			#searchbox label{
+				text-align: center;
+			}
+
+		/* Autres */
+		
+			img{
+				width:100%;
+				margin:10px 0;
+			}
+			.communes p{
+				text-align: center;
+			}
+
+			.communes [class*="capital"]{
+				line-height:1.8rem;
+			}
+
+			.bleu{
+				color:#0386c3;
+			}
+			
+			.logo_decodeurs{
+				float:right;
+				width:60px;
+				padding-right:20px;
+			}
+
+		/* TOOLTIP */
+			.ui-tooltip{
+				font-size: 10px;
+				line-height: 110%;
+				width:700px;
+			}
+
+			.ui-tooltip [class*="capital"]{
+				line-height: 1.8rem;
+				clear:both;
+				padding:10px 0;
+			}
+			.ui-tooltip p span{
+				color:rgb(43,140,190);
+			}
+			.ui-tooltip ul li{
+				text-align: left;
+				width:48%;
+				padding:0 1%;
+			}
+			.ui-tooltip ul li:before{
+				content: '\203A \00A0';
+			}
+			.ui-tooltip ul li:nth-child(2n){
+				float:right;
+			}
+			.ui-tooltip ul li:nth-child(2n+1){
+				float:left;
+			}
+			
+		/* Datatables */
+
+			.sorting, .sorting_asc, .sorting_desc,td{
+		        font-family: "Arial";
+		        font-size:12px;
+		        text-align: center;
+		      }
+
+		      .dataTables_empty{
+		      	font-size: 1.4em;
+		      }
+
+
+		/* Highcharts */
+
+		      .minititre{
+		      	color:#0386c3;
+		      	font-weight: bold;
+		      	font-size:1.2em;
+		      }
+		      .titre:before{
+				font-size:13px;
+				content:"\25B6 \00A0";
+			}
+			</style>
+	</head>
+	<body>
+
+		<div class="global">
+			<div class="container_18 article txt4" id="articleBody">
+
+				<div class="grid_18 alpha omega">
+				
+						<p>C'est à une plongée binaire, mais riche en enseignements, que nous invitent les données publiées fin octobre par l'Insee, qui détaillent pour chacune des 36&nbsp;664 communes françaises le nombre de <a href="http://www.insee.fr/fr/themes/detail.asp?reg_id=99&ref_id=etat-civil-naissances" target="_blank">naissances</a> et de <a href="http://www.insee.fr/fr/themes/detail.asp?reg_id=99&ref_id=etat-civil-deces" target="_blank">décès</a> enregistrés sur une année (2011). S'ils ne permettent d'appréhender ni les mouvements de population à l'intérieur du territoire, ni l'émigration et l'immigration, ces chiffres nous éclairent sur le dynamisme ou la morosité démographique des différentes régions de <a href="http://www.lemonde.fr/les-decodeurs/article/2014/07/10/la-france-est-la-deuxieme-demographie-la-plus-dynamique-d-europe_4455206_4355770.html" target="_blank">la première puissance démographique de l'Union européenne</a>.</p>
+						<h2 class="tt5">La &laquo;&nbsp;diagonale du vide&nbsp;&raquo; démographique existe bien</h2>
+						<p>L'Ouest, la région parisienne, le Nord et le Lyonnais apparaissent comme les zones du territoire métropolitain où l'on naît le plus, par rapport à la moyenne. Si l'on met de côté des cas particuliers comme Calvi (Haute-Corse) ou Novel (Haute-Savoie), qui bénéficient d'un biais méthodologique (voir plus bas), le pic métropolitain est atteint en banlieue parisienne, où une zone à cheval entre la Seine-Saint-Denis, la Seine-et-Marne et le Val-de-Marne affiche un taux exceptionnel de 17,3 naissances pour 1 000 habitants. Juste derrière, la zone située autour de Guer, en Ille-et-Vilaine (Bretagne), a vu naître en moyenne 17 enfants pour 1 000 habitants en 2011. La Guyane explose ces records, avec 26,3 ‰.</p>
+						<p>En grand déficit de naissances, la traditionnelle &laquo;&nbsp;diagonale du vide&nbsp;&raquo; reliant la Champagne-Ardenne au Pays Basque présente également une étonnante sur-proportion de décès. Une poignée de communes de Corrèze entre Bugeat et Périssac détiennent le triste record de 147 décès pour 5 459 habitants, soit près de 27 ‰. Dans le même temps, seuls 28 enfants naissaient dans cette zone en 2011.</p>
+						<p>On remarque aussi que les côtes sont, conformément aux idées reçues, des lieux &laquo;&nbsp;privilégiés&nbsp;&raquo; pour mourir &ndash; car prisés des seniors. De <a onclick="ville('Collioure')">Collioure</a> (Pyrénées-Orientales) à <a onclick="ville('Saint-Raphaël')">Saint-Raphaël</a> (Var) en passant par <a onclick="ville('Biarritz')">Biarritz</a> (Pyrénées-Atlantiques), le taux de décès dépasse largement la moyenne nationale.</p>
+						
+						
+				</div>
+				<div class="grid_18 alpha omega">
+					<div class="grid_14 alpha omega prefix_2 suffix_2">
+						
+					</div>
+				</div>
+				<div class="grid_18 alpha omega" id="viz">
+					<div id="searchbox">
+						<label for="search" class="tt6_capital">Cherchez votre commune ou votre département :</label>
+						<input class="search" placeholder="Tapez un nom ou un numéro" id="search" size="30" />
+					</div>
+					<div class="grid_9 alpha" id="naissances">
+						<p class="tt3_capital">Naissances <span class="tt6_capital">(2011)</span></p>
+					</div>
+					<div class="grid_9 alpha omega" id="deces">
+						<p class="tt3_capital">Décès <span class="tt6_capital">(2011)</span></p>
+					</div>
+				</div>
+				<div id="tableau" class="grid_18 alpha omega"></div>
+				<div class="grid_18 alpha omega bloc_gris_neutre bordt1 pad16 mgt16"> 
+						  <h3>Comment ces cartes ont été construites</h3> 
+						    <p>Les limites administratives que constituent les communes, les départements ou les régions ne sont pas idéales pour représenter la réalité géographique d'un territoire, car elles ne sont pas de taille uniforme. Nous avons donc utilisé la méthode du "maillage hexagonal" pour diviser la France métropolitaine en 1&nbsp;238 hexagones de tailles égales, qui contiennent, selon leur taille, entre 1 et 92 communes. Ces hexagones sont ensuite colorés en fonction des taux de natalité et de mortalité moyens des communes qui la composent. La coloration des taux les plus élevés a été accentuée pour les faire ressortir sur la carte.</p>
+						    <p>Seule exception à cette règle : les communes d'outre-mer ont été regroupées en fonction de leur département de rattachement (Guadeloupe, Martinique, Guyane, La Réunion). Les données concernant Mayotte et les autres collectivités d'outre-mer françaises n'étaient pas fournies par l'Insee.</p>
+						    <p>Pour les naissances, l'Insee prend en compte le domicile de la mère de l'enfant. Pour les décès, le domicile du défunt.</p>
+						    <p>Les communes situées à l'extrêmité du territoire, comme Calvi en Haute-Corse ou Bessans en Savoie, sont les victimes collatérales de cette méthode. La moyenne calculée n'a guère de sens, car elles constituent l'unique commune de leur hexagone.</p>
+				</div>
+				<div class="grid_18 alpha omega">
+					<p>Les tendances démographiques repérées sur les cartes ci-dessus se retrouvent peu ou prou quand on change de méthode, en agrégeant les communes par département. Sur le graphique de gauche, on retrouve parmi les champions de la natalité la banlieue parisienne et l'ouest, tandis que le Lot, le Gers et les deux départements corses descendent bien en-deça de la moyenne. Sur celui de droite, la Creuse et la Corse-Sud affichent plus de 14 décès pour 1&nbsp;000&nbsp;habitants.</p>
+					<p>En comparant les deux graphiques, on constate que les communes où l'on naît le moins sont aussi souvent celles où l'on meurt le plus &ndash; et inversement.</p>
+				</div>
+				<div class="grid_18 alpha omega">
+
+					<div id="dept_naissances" class="grid_9 alpha" style="height:550px"></div>
+					<div id="dept_deces" class="grid_9 omega" style="height:550px"></div>
+
+
+						
+				</div>
+				
+				<div class="grid_18 alpha omega mgt16 mgb16">
+						<h2 class="tt5 pad16">Les communes où l'on naît le plus</h2>
+						<p>En descendant encore d'un niveau, on peut s'intéresser individuellement à chaque commune. Immédiatement, un biais surgit : les taux de natalité les plus élevés se retrouvent mécaniquement dans les communes les moins peuplées, où une naissance supplémentaire peut faire bondir la moyenne. A Armancourt (Somme), par exemple, on a connu en 2011 trois naissances... pour 19 habitants au total, soit une moyenne de 158 naissances pour 1&nbsp;000&nbsp;habitants, douze fois supérieure à celle de Paris (13,4 ‰).</p>
+				</div>
+				<div class="grid_18 alpha omega communes mgt16 mgb16">
+						<div class="grid_3 alpha">
+							<p class="tt5_capital">Armancourt<br /><span class="tt6_capital">(Somme)</span></p>
+							<p><img src="img/armancourt.jpg" alt="CC BY-SA 4.0/APictche" title="CC BY-SA 4.0/APictche"></p>
+							<p class="tt5_capital bleu">158 naissances ‰</p>
+							<p>(3 naissances pour 19 habitants en 2011)
+							
+						</div>
+						<div class="grid_3">
+							<p class="tt5_capital">Rouvroy-Ripont <span class="tt6_capital">(Marne)</span></p>
+							<p><img src="img/icon.png" alt="CC BY 3.0/Yorlmar Campos" title="CC BY 3.0/Yorlmar Campos"></p>
+							<p class="tt5_capital bleu">143 naissances ‰</p>
+							<p>(1 naissance pour 7 habitants en 2011)
+							
+						</div>
+						<div class="grid_3">
+							<p class="tt5_capital">Verrières-du-Grosbois <span class="tt6_capital">(Doubs)</span></p>
+							<p><img src="img/icon.png" alt="CC BY 3.0/Yorlmar Campos" title="CC BY 3.0/Yorlmar Campos"></p>
+							<p class="tt5_capital bleu">125 naissances ‰</p>
+							<p>(3 naissances pour 24 habitants en 2011)
+							
+						</div>
+						<div class="grid_3">
+							<p class="tt5_capital">Causse Bégon<br /><span class="tt6_capital">(Marne)</span></p>
+							<p><img src="img/caussebegon.jpg" alt="CC BY-SA 4.0/APictche" title="CC BY 2.0/mont_aigoual_causses_cevennes"></p>
+							<p class="tt5_capital bleu">100 naissances ‰</p>
+							<p>(1 naissances pour 10 habitants en 2011)
+							
+						</div>
+						<div class="grid_3">
+							<p class="tt5_capital">Germisay<br /><span class="tt6_capital">(Haute-Marne)</span></p>
+							<p><img src="img/icon.png" alt="CC BY 3.0/Yorlmar Campos" title="CC BY 3.0/Yorlmar Campos"></p>
+							<p class="tt5_capital bleu">100 naissances ‰</p>
+							<p>(2 naissances pour 20 habitants en 2011)
+							
+						</div>
+						<div class="grid_3 omega">
+							<p class="tt5_capital">Remoncourt<br /><span class="tt6_capital">(Meurthe-et-Moselle)</span></p>
+							<p><img src="img/icon.png" alt="CC BY 3.0/Yorlmar Campos" title="CC BY 3.0/Yorlmar Campos"></p>
+							<p class="tt5_capital bleu">100 naissances ‰</p>
+							<p>(4 naissances pour 40 habitants en 2011)
+							
+						</div>
+				</div>
+
+				<div class="grid_18 alpha omega mgt16 mgb16">
+					<div class="grid_7 alpha mgt32">
+							<p>A l'inverse, les petites communes sont aussi celles où l'on retrouve la natalité la plus basse, du fait du grand nombre de moyennes nulles : les 4&nbsp;005 communes françaises (sur 36&nbsp;664) qui n'ont connu aucune naissance en 2011 comptent toutes moins de 1&nbsp;000&nbsp;habitants. La plus peuplée d'entre elles, Saint-Martin-en-Bière (Seine-et-Marne), compte 797 âmes.</p>
+							<p>Mécaniquement, ce phénomène fait baisser la moyenne du taux de natalité dans les petites communes par rapport aux grandes villes (voir ci-contre).</p>
+					</div>
+					<div class="grid_8 omega prefix_2 suffix_1">
+						<p><img src="img/breakdown.png"></p>
+					</div>
+				</div>
+				<div class="grid_18 alpha omega mgt16 mgb16">
+					<h2 class="tt5 pad16">Les communes où l'on meurt le plus</h2>
+							<p>Le même phénomène se retrouve au niveau du taux de mortalité, qui atteint son pic à Saint-Genest, dans les Vosges, avec 19 décès dans une commune qui compte 126 habitants.</p>
+				</div>
+				<div class="grid_18 alpha omega communes mgt16 mgb16">
+							<div class="grid_3 alpha">
+								<p class="tt5_capital">Saint-Genest<br /><span class="tt6_capital">(Vosges)</span></p>
+								<p><img src="img/saintgenest.jpg" alt="CC BY-SA 4.0/APictche" title="CC BY 2.5/Christian Amet"></p>
+								<p class="tt5_capital bleu">151 décès ‰</p>
+								<p>(19 décès pour 126 habitants en 2011)
+							</div>
+							<div class="grid_3">
+								<p class="tt5_capital">Jouancy<br><span class="tt6_capital">(Yonne)</span></p>
+								<p><img src="img/jouancy.jpg" alt="Urban" title="Urban"></p>
+								<p class="tt5_capital bleu">148 décès ‰</p>
+								<p>(4 décès pour 27 habitants en 2011)
+							</div>
+							<div class="grid_3">
+								<p class="tt5_capital">Rouvroy-Ripont <span class="tt6_capital">(Marne)</span></p>
+								<p><img src="img/icon.png" alt="CC BY 3.0/Yorlmar Campos" title="CC BY 3.0/Yorlmar Campos"></p>
+								<p class="tt5_capital bleu">143 décès ‰</p>
+								<p>(1 décès pour 7 habitants en 2011)
+							</div>
+							<div class="grid_3">
+								<p class="tt5_capital">Cunel<br><span class="tt6_capital">(Meuse)</span></p>
+								<p><img src="img/cunel.jpg" alt="CC-BY-SA-3.0/Valdunois" title="CC-BY-SA-3.0/Valdunois"></p>
+								<p class="tt5_capital bleu">143 décès ‰</p>
+								<p>(2 décès pour 14 habitants en 2011)
+							</div>
+							<div class="grid_3">
+								<p class="tt5_capital">Izon-la-Bruisse <span class="tt6_capital">(Drôme)</span></p>
+								<p><img src="img/izon.jpg" alt="CC BY-SA 4.0/JPS68" title="CC BY-SA 4.0/JPS68"></p>
+								<p class="tt5_capital bleu">125 décès ‰</p>
+								<p>(1 décès pour 8 habitants en 2011)
+							</div>
+							<div class="grid_3 omega">
+								<p class="tt5_capital">Pommerol<br><span class="tt6_capital">(Drôme)</span></p>
+								<p><img src="img/icon.png" alt="CC BY 3.0/Yorlmar Campos" title="CC BY 3.0/Yorlmar Campos"></p>
+								<p class="tt5_capital bleu">111 décès ‰</p>
+								<p>(2 décès pour 18 habitants en 2011)
+							</div>
+							
+
+	
+					
+				</div>
+
+				<div class="grid_18 alpha omega">
+					<p>Au total, 4&nbsp;952 communes n'ont connu aucun décès au cours de l'année 2011. Viuz-la-Chiésaz (Haute-Savoie) est, avec 1&nbsp;257 habitants, la plus grande d'entre elles.</p>
+					<h2 class="tt5 pad16">Les grandes villes...</h2>
+					<div id="villes_naissances" class="grid_9 alpha mgt16" style="height:450px"></div>
+					<div id="villes_deces" class="grid_9 omega mgt16" style="height:450px"></div>	
+				</div>
+
+				<div class="grid_18 alpha omega">
+					<p>Les biais statistiques sont éliminés quand on se restreint aux 41 villes françaises qui dépassent les 100&nbsp;000 habitants (ci-dessus). En tête du palmarès des naissances, on retrouve deux communes de la petite couronne parisienne (Saint-Denis et Montreuil), une de la grande couronne (Argenteuil, dans le Val d'Oise) et Villeurbanne, dans la banlieue lyonnaise.</p>
+					<p>Le taux de mortalité atteint quant à lui des pics dans les villes côtières, de Toulon à Nice, en passant par le Havre ou Brest.</p>
+					<p>On retrouve également ce tropisme côtier pour la morosité démographique (peu de naissances, beaucoup de décès) si l'on élargit le spectre aux communes de 5&nbsp;000 habitants. Sur la carte suivante sont représentés les 50 qui affichent à la fois un faible taux de natalité et un fort taux de mortalité : une bonne moitié est située sur la façade méditerranéenne ou atlantique.</p>
+					<p><iframe width='100%' height='570' frameborder='0' src='http://lemonde.cartodb.com/viz/75cb6f26-6b46-11e4-a370-0e853d047bba/embed_map' allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe></p>
+				</div>
+
+				<div class="grid_18 alpha omega bloc_gris_neutre bordt1 pad16"> 
+						  <h3><img src="img/data.png" class="logo_decodeurs" alt="CC BY 3.0/Anas Ramadan" title="CC BY 3.0/Anas Ramadan">&rsaquo; Accéder aux données</h3> 
+						    <p>Vous pouvez <a href="data/donnees_naissances_morts.ods" target="_blank">télécharger les données utilisées dans cet article au format .ods</a> ou <a href="https://docs.google.com/spreadsheets/d/1WK1mGtBfkKB_4Bof5r-5HbbDUoVtfJ4S_BvGgiwyNLg/edit?usp=sharing" target="_blank">y accéder sur Google Spreadsheet</a>.</p>
+				</div>
+
+
+				
+			</div>
+		</div>
+
+		<script>
+
+
+		var width = 480,
+		    height = 450,
+		    rad = 5,
+		    tableau = []
+
+		
+
+		var hexbin = d3.hexbin()
+		    .size([width, height])
+		    .radius(rad);
+
+		var projection = d3.geo.conicConformal() // Lambert-93
+		          .center([2.454071, 46.5])
+		          .scale(2600)
+		          .translate([(width / 2)-10, height / 2]);
+
+		var path = d3.geo.path()
+		    .projection(projection);
+
+		var legendes = [
+				[0,"#fff",10.8],
+				[10,"#ece7f2",8.9],
+				[20,"#2b8cbe",8.9],
+				[30,"#333",8.9]
+	
+		]
+
+		drawMap("naissances","Naissances",0)
+		drawMap("deces","Décès",1)
+
+		
+	function ville(ville){
+		$("#search").val(ville);
+		updateSearch(ville)
+	}
+
+	function drawMap(type,type_accentue,nb_type){
+
+		
+
+		var color = d3.scale.linear()
+		    .domain([legendes[0][0],legendes[1][0],legendes[2][0],legendes[3][0]])
+		    .range([legendes[0][1],legendes[1][1],legendes[2][1],legendes[3][1]])
+
+		var svg = d3.select("#"+type).append("svg")
+		    .attr("width", width)
+		    .attr("height", height);
+
+		queue()
+		    .defer(d3.tsv, "data/villes_france5.tsv")
+		    .await(ready);
+
+		queue()
+		    .defer(d3.tsv, "data/outremer.tsv")
+		    .await(outremer);
+
+		function ready(error, comms) {
+		  comms.forEach(function(d) {
+		    var p = projection(d); 
+		    d[0] = p[0],
+		    d[1] = p[1];
+		  });
+
+		 svg.append("g")
+			  .attr("class", "moyenne")
+			  .attr("transform", "translate(370,60)")
+			  .append("circle")
+			  	.attr("cx",0)
+			  	.attr("cy",0)
+			  	.attr("r",40)
+			  	.attr("fill","#a9c7e0");
+
+		d3.select("#"+type+" svg .moyenne")
+			.append("text")
+			  	.attr("x",0)
+			  	.attr("y",-5)
+			  	.attr("fill","#333")
+			  	.classed("tt6_capital",true)
+			  	.attr("text-anchor","middle")
+			  	.text("Moyenne :");
+
+		d3.select("#"+type+" svg .moyenne")
+			.append("text")
+			  	.attr("x",0)
+			  	.attr("y",15)
+			  	.classed("tt5_capital",true)
+			  	.attr("fill","#333")
+			  	.attr("text-anchor","middle")
+			  	.text(legendes[nb_type][2]+" ‰");
+
+
+			var legend = svg.append("defs").append("svg:linearGradient").attr("id", "gradient").attr("x1", "0%").attr("y1", "0%").attr("x2", "100%").attr("y2", "0%").attr("spreadMethod", "pad");
+
+				legend.append("stop").attr("offset", "0%").attr("stop-color", legendes[0][1]).attr("stop-opacity", 1);
+
+				legend.append("stop").attr("offset", "33%").attr("stop-color", legendes[1][1]).attr("stop-opacity", 1);
+
+				legend.append("stop").attr("offset", "66%").attr("stop-color", legendes[2][1]).attr("stop-opacity", 1);
+
+				legend.append("stop").attr("offset", "100%").attr("stop-color", legendes[3][1]).attr("stop-opacity", 1);
+
+			var yAxis = d3.svg.axis().scale(color).orient("right");
+
+			svg.append("g")
+			  .attr("class", "legend")
+			  .attr("transform", "translate(10,10)")
+			  	.append("rect")
+				  	.attr("x",function(d,i){ return i*20})
+				  	.attr("y",5)
+				  	.attr("width",100)
+				  	.attr("height",10)
+				  	.attr("stroke","#CCC")
+				  	.attr("stroke-width","0.5")
+				  	.attr("fill","url(#gradient)");
+
+			d3.select("#"+type+" svg .legend").append("g")
+
+
+
+		  svg.append("g")
+			  .attr("class", "legend_title")
+			  .attr("transform", "translate(10,10)")
+			  .append("text")
+			  	.attr("x",50)
+			  	.attr("y",0)
+			  	.attr("text-anchor","middle")
+			  	.attr("font-size","13px")
+			  	.text("Pour 1 000 habitants");
+
+
+			svg.append("g")
+			  .attr("class", "legend_txt")
+			  .attr("transform", "translate(10,10)")
+			  .selectAll("text")
+			  .data(color.domain())
+			  	.enter()
+			  	.append("text")
+			  	.attr("x",function(d,i){ return i*33})
+			  	.attr("y",30)
+			  	.attr("text-anchor","middle")
+			  	.text(function(d,i){ return thousandsSeparator(Number(d))})
+		  		.attr("fill",function(d,i){ return "black"})
+
+
+			
+		 // var liste2 = [];
+
+		  svg.append("g")
+		  .attr("class", "hexagons")
+		  .selectAll("path")
+		  .data(hexbin(comms))
+		  .enter().append("path")
+		  .attr("d", function(d) { return hexbin.hexagon(0); })
+		  .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
+		  .attr("class", "hexagon hexagon_metropole")
+		  .attr("id", function(d,i) { return type+"_"+i })
+		  .style("fill", function(d,i){
+		  	
+		  	var total = 0, total_pop = 0;
+
+		  	$.each(d,function(j,e){
+		  		var naissance_mort = (type == "naissances" ? e.naissances2011 : e.deces2011);
+		  		if (naissance_mort){
+		  			total += Number(naissance_mort)
+		  			total_pop += Number(e.pop11)
+		  		}
+		  	})
+		  	
+		  	if (total){
+		  		return color(total*1000/total_pop)
+		  	}
+		  	else return "#CCC";
+
+		  })
+		  .attr("title", function(d,i){
+		  	var total = 0, total_pop = 0;
+		  	titre = "", liste_commune =[];
+		  	$.each(d,function(j,e){
+		  		var naissance_mort = (type == "naissances" ? d[j].naissances2011 : d[j].deces2011);
+		  		if (naissance_mort){
+			  		total += Number(naissance_mort)
+			  		total_pop += Number(d[j].pop11)
+			  		liste_commune.push(e.commune+" ("+e.code_dept+")")
+			  	}
+			})
+
+			liste_commune.sort()
+			
+			// liste2.push([d,Math.round(total*10000/total_pop)/10])
+	
+			$.each(liste_commune,function(j,e){
+				 titre = titre+"<li>"+e+"</li>";
+			})
+		  	titre = "<p class='tt5_capital'>En 2011, on comptait dans cette zone <span>"+thousandsSeparator(total)+"</span> "+type_accentue.toLowerCase()+" pour <span>"+thousandsSeparator(total_pop)+"</span> habitants (<span>"+thousandsSeparator(Math.round(total*10000/total_pop)/10)+"&nbsp;‰</span>).</p><ul>"+titre+"</ul><p class='tt6_capital'>&rsaquo; Cliquez sur l'hexagone pour voir le détail par commune.</p>";
+		  	return titre
+
+		  })
+		  .on("click", function(d,i){
+			  		click("metropole",d,comms)
+			})
+		  .transition().duration(1000).ease("easeOut")
+		  .attr("d", function(d){
+		  	return hexbin.hexagon(rad-0.5)
+		  })
+
+
+		 /* if(type=="deces"){
+
+		  
+			  liste2.sort((function(a, b){
+					  		return b[1]-a[1] 
+				}))
+				$.each(liste2[0][0],function(j,e){
+					 console.log(e.commune,e.pop11)
+				})
+			}*/
+
+
+		}
+
+
+
+		var dom = ["en Guadeloupe","en Martinique","en Guyane","à la Réunion"]
+
+		function outremer(error, comms) {
+		  
+
+		  svg.append("g")
+		  	.attr("class", "outremer")
+		  	.selectAll("path")
+		  	.data(dom)
+		  	.enter().append("path")
+		  		.attr("d", function(d) { return "M" + 40 + "," + 250 + hexbin.hexagon(rad); })
+		  		.attr("transform", function(d,i) {return "translate(" + (i%2)*(rad*3) + "," + (Math.floor(i/2))*(rad*3) + ")"; })
+			  	.attr("class", "hexagon hexagon_outremer")
+			  	.style("fill", function(d,i){
+		  	
+				  	var total = 0, total_pop = 0
+				  	
+				  	$.each(comms,function(j,e){
+				  		if(e.code_reg == (i+1)) {
+					  		var naissance_mort = (type == "naissances" ? e.naissances2011 : e.deces2011);
+					  		
+					  		if (naissance_mort){
+					  			total += Number(naissance_mort)
+					  			total_pop += Number(e.pop11)
+					  		}
+					  	}
+				  	})
+				  
+				  	if (total){
+				  		return color(total*1000/total_pop)
+				  	}
+				  	else return "#CCC"
+				  })
+			  	.attr("title", function(d,i){
+				  	var total = 0, total_pop = 0;
+				  	titre = "", liste_commune = [];
+				  	$.each(comms,function(j,e){
+				  		if(e.code_reg == (i+1)) {
+					  		var naissance_mort = type == "naissances" ? e.naissances2011 : e.deces2011;	
+					  		total += Number(naissance_mort)
+					  		total_pop += Number(e.pop11)
+					  		liste_commune.push(e.commune+" ("+e.code_dept+")")
+				  		}
+				  	})
+				  	liste_commune.sort()
+				  	$.each(liste_commune,function(j,e){
+				  		titre = titre+"<li>"+e+"</li>";
+				  	})
+				  	titre = "<p class='tt5_capital'>En 2011, on comptait "+d+" <span>"+thousandsSeparator(total)+"</span> "+type_accentue+" pour <span>"+thousandsSeparator(total_pop)+"</span> habitants (<span>"+thousandsSeparator(Math.round(total*10000/total_pop)/10)+"&nbsp;‰</span>).</p><ul>"+titre+"</ul><p class='tt6_capital'>&rsaquo; Cliquez sur l'hexagone pour voir le détail par commune.</p>";
+				  	return titre;
+
+				  })
+			  	.on("click", function(d,i){
+			  		click("outre-mer",d,comms)
+			  	})
+			  .transition().duration(1000).ease("easeOut");
+
+			  d3.select("#"+type+" .outremer")
+			  	.append("text")
+			  	.text("Dom")
+			  	.attr({
+			  		"x": 46,
+			  		"y": 290,
+			  		"text-anchor": "middle",
+			  		"fill": "#999"
+			  	})
+			  
+
+			
+		}
+
+
+
+/*FONCTION AU CLICK*/
+		function click(territoire,d,comms){
+		
+			banq0.aaData =[]
+
+			if(territoire == "metropole"){
+				$.each(d,function(j,e){
+				banq0.aaData.push([e.code_comm,e.commune+" ("+e.code_dept+")",parseFloat(e.naissances2011), parseFloat(e.deces2011), parseFloat(e.pop11), parseFloat(Math.round(e.naissances2011*10000/e.pop11)/10),parseFloat(Math.round(e.deces2011*10000/e.pop11)/10)])
+				})
+			}
+			else{
+				$.each(comms,function(j,e){
+				if(dom.indexOf(d)+1 == e.code_reg){
+					banq0.aaData.push([e.code_comm,e.commune+" ("+e.code_dept+")",parseFloat(e.naissances2011), parseFloat(e.deces2011), parseFloat(e.pop11), parseFloat(Math.round(e.naissances2011*10000/e.pop11)/10),parseFloat(Math.round(e.deces2011*10000/e.pop11)/10)])
+				}
+			})
+			}
+			
+			
+			$('#example').dataTable().fnClearTable()
+			$('#example').dataTable().fnAddData(banq0.aaData)
+			
+		}
+
+		
+	}
+
+		 $("#search").keyup(function(e){
+		 	if (e.keyCode == 27) { $(this).val("") }
+		  	searchTerm = $(this).val()
+		  	updateSearch(searchTerm)
+		  })
+		    
+
+		function updateSearch(searchTerm){
+
+			var type_recherche = "";
+			if($.isNumeric(searchTerm)) {
+				searchRegEx = new RegExp("^"+searchTerm.toString()+"$","g")
+				type_recherche = "num"
+			}
+			else{
+				searchRegEx = new RegExp("^"+searchTerm.toString().toLowerCase().replace(/-/g, " "),"g")
+				type_recherche = "string"
+			}
+			
+			var resultats = []
+		
+			d3.selectAll("path.hexagon_metropole")
+				.each(function(d,i){
+							var match = 0, element = d3.select(this)
+
+							$.each(d,function(j,e){
+								
+								if(type_recherche == "num") condition = e.code_dept.search(searchRegEx) >= 0;
+								if(type_recherche == "string") condition = e.commune.toLowerCase().replace(/-/g, " ").search(searchRegEx) >= 0;
+								
+								if(condition) {
+									match += 1;
+								}
+
+							})
+
+							if(searchTerm.length > 0 && match > 0){
+
+									resultats.push(d3.select(this))
+
+							}
+				})
+
+			queue()
+		    .defer(d3.tsv, "data/outremer.tsv")
+		    .await(search_outremer);
+
+		    function search_outremer(error, comms){
+		    	d3.selectAll("path.hexagon_outremer")
+				.each(function(d,i){
+							var match = 0, element = d3.select(this)
+
+							$.each(comms,function(j,e){
+								
+								if(type_recherche == "num") condition = e.code_comm.substring(0,3).search(new RegExp("^"+searchTerm.toString(),"g")) >= 0;
+								if(type_recherche == "string") condition = e.commune.toLowerCase().replace(/-/g, " ").search(searchRegEx) >= 0;
+								
+								if(condition) {
+									match += 1;
+								}
+
+							})
+
+							if(searchTerm.length > 0 && match > 0){
+									resultats.push(d3.select(this))
+
+							}
+				})
+				end_search()
+		    }
+
+			function end_search(){
+
+				
+				if(searchTerm == "") {
+					d3.selectAll("path.hexagon")
+						.classed({"selectionne":false, 'nonselectionne':false});
+				}
+				else if(resultats.length > 0) {
+					d3.selectAll("path.hexagon")
+						.classed("nonselectionne",true);
+					$.each(resultats,function(i,d){
+						d
+							.classed({"selectionne":true,"nonselectionne":false})
+					        .searched = true
+					})
+				}
+				else{
+					d3.selectAll("path.hexagon")
+						.classed({"selectionne":false,"nonselectionne":true});
+				}
+							
+			}	    	
+
+		      
+		}
+
+
+
+
+/*FONCTION AU SURVOL - tooltip */
+
+		$(function() {
+		  $( document ).tooltip({
+		    track:true,
+		    items: "path[title]",
+		    content: function() {
+		     return  $( this ).attr( "title" );
+		    }
+		  });
+		});
+
+
+	function thousandsSeparator(n){
+			    var rx=  /(\d+)(\d{3})/;
+			    return String(n).replace(".", ",").replace(/^\d+/, function(w){
+			        while(rx.test(w)){
+			            w= w.replace(rx, '$1 $2');
+        			}
+		        return w;
+		    	});
+	}
+
+	//fonction pour séparer les milliers (ne pas toucher)
+    function format(valeur,decimal,separateur) {
+      // formate un chiffre avec 'decimal' chiffres après la virgule et un separateur
+        var deci=Math.round( Math.pow(10,decimal)*(Math.abs(valeur)-Math.floor(Math.abs(valeur)))) ; 
+        var val=Math.floor(Math.abs(valeur));
+        if ((decimal==0)||(deci==Math.pow(10,decimal))) {val=Math.floor(Math.abs(valeur)); deci=0;}
+        var val_format=val+"";
+        var nb=val_format.length;
+        for (var i=1;i<4;i++) {
+          if (val>=Math.pow(10,(3*i))) {
+            val_format=val_format.substring(0,nb-(3*i))+separateur+val_format.substring(nb-(3*i));
+          }
+        }
+        if (decimal>0) {
+          var decim=""; 
+          for (var j=0;j<(decimal-deci.toString().length);j++) {decim+="0";}
+          deci=decim+deci.toString();
+          val_format=val_format+"."+deci;
+        }
+        if (parseFloat(valeur)<0) {val_format="-"+val_format;}
+        return val_format;
+      } 
+
+
+/*TABLEAU*/
+var banq0 = {"aaData": [] }
+
+
+$(document).ready(function() {
+	$('#tableau').html( '<table cellpadding="0" cellspacing="0" border="0" class="display" width="990px" id="example"></table>' );
+
+	$('#example').dataTable({
+	"aaData": banq0.aaData,
+	"bPaginate": false,
+	"bFilter": false,
+	"bInfo": false,
+	"order": [[ 1, "asc" ]],
+	"aoColumns": [
+  	{ "sTitle": "Code insee", "sType": "string", "bVisible": false},
+  	{ "sTitle": "Commune", "sType": "string"},
+  	{ "sTitle": "Naissances", "sType": "numeric", "mRender": function(data,type,full) { 
+            if ( type === 'display' ) {return thousandsSeparator(data)} else {return data} }},
+  	{ "sTitle": "Décès", "sType": "numeric", "mRender": function(data,type,full) { 
+            if ( type === 'display' ) {return thousandsSeparator(data)} else {return data} }},
+  	{ "sTitle": "Population", "sType": "numeric", "mRender": function(data,type,full) { 
+            if ( type === 'display' ) {return thousandsSeparator(data)} else {return data} }},
+  	{ "sTitle": "Naissances pour 1&nbsp;000 hab.", "sType": "numeric", "mRender": function(data,type,full) { 
+            if ( type === 'display' ) {return thousandsSeparator(data)} else {return data} }},
+  	{ "sTitle": "Décès pour 1&nbsp;000 hab.", "sType": "numeric", "mRender": function(data,type,full) { 
+            if ( type === 'display' ) {return thousandsSeparator(data)} else {return data} }},
+	],
+	"bSort": true,
+	"sScrollY": "250px",
+	"sPaginationType": "full_numbers",
+	"iDisplayLength": 250,
+	"aLengthMenu": [[25, 50, 100,250, -1], [25, 50, 100,250, "TOUT"]],
+	"oLanguage": {
+	"sZeroRecords": "Cliquez sur un hexagone pour découvrir les données des communes qui en font partie.",
+	"sLengthMenu": "_MENU_ entrées affichées",
+	"sInfo": "Entrées _START_ à _END_ (sur _TOTAL_)",
+	"sInfoFiltered": "",
+	"sInfoEmpty": "Cliquez sur un hexagone pour découvrir les données des communes qui en font partie.",
+	"oPaginate": {
+	"sFirst": "Première page",
+	"sLast": "Dernière page",
+	"sNext": "Suivante",
+	"sPrevious": "Précédente",
+	}
+	}
+	});	
+	} );
+
+
+
+
+$(function () {
+Highcharts.setOptions({
+	lang: {
+		decimalPoint: ',',
+		thousandsSep: ' ',
+		months: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',  'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
+		shortMonths: [ 'jan.' , 'fév.' , 'mars' , 'avr.' , 'mai' , 'juin' , 'juil.' , 'août' , 'sept.' , 'oct.' , 'nov.' , 'déc.'],
+		weekdays: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
+		noData: 'Pas de données à afficher'
+	}
+});
+$("#dept_naissances").highcharts({
+chart:{
+	backgroundColor: "#f8f9fb",
+	borderColor: "#d2d6db",
+	borderWidth:1,
+	borderRadius: 0,
+	type: "bar",
+	events:{
+		load:function(){
+			this.credits.element.onclick = function(){
+				window.open(
+					"https://docs.google.com/spreadsheets/d/1WK1mGtBfkKB_4Bof5r-5HbbDUoVtfJ4S_BvGgiwyNLg/edit?usp=sharing", _blank
+				);
+			}
+		}
+	}
+},
+credits:{
+	enabled:true,
+	text:"Insee"
+},
+title: {
+	useHTML:true,
+	text: "<div class='titre tt4'>Les départements où l'on naît...</div>",
+	align: "left"
+},
+subtitle: {
+	useHTML:true,
+	text: "<div class='txt3 txt_gris_moyen'>Nombre de naissances pour 1 000 habitants (2011)</div>",
+	align: "left"
+},
+plotOptions: {
+	series: {
+		connectNulls:true,
+		stacking:"",
+		marker:{
+			symbol:"circle",
+			fillColor:"#FFF",
+			lineWidth: 2,
+			radius:3,
+			lineColor:null
+		},
+		dataLabels:{
+			enabled: true,
+			formatter: function(){
+				return thousandsSeparator(this.y)
+			},
+			style:{
+				fontWeight: 'bold'
+			}
+		}
+	}
+},
+yAxis:[{
+	id:"gauche",
+	title:{
+		text:""
+	},
+	labels:{
+		enabled: false
+	},
+	min:null,
+	max:null,
+	endOnTick:true,
+	startOnTick:true,
+	gridLineWidth: 0,
+	},{
+	id:"droit",
+	title:{
+		text:""
+	},
+	labels:{
+		format: "{value}  "
+	},
+	opposite:true
+}],
+legend:{
+		enabled: false
+	},
+xAxis:{
+	type:"linear",
+	categories:["<span class=\"minititre\">...le plus</span>","1 - Guyane","2 - Seine-Saint-Denis","3 - La Réunion","4 - Hauts-de-Seine","5 - Ille-et-Vilaine","6 - Val-de-Marne","7 - Loire-Atlantique","8 - Maine-et-Loire","9 - Doubs","10 - Paris","<span class=\"minititre\">...le moins</span>","91 - Ariège","92 - Cantal","93 - Dordogne","94 - Alpes-Maritimes","95 - Alpes-de-Haute-Provence","96 - Nièvre","97 - Lot","98 - Gers","99 - Haute-Corse","100 - Corse-du-Sud"],
+	title:{
+		text:""
+	},
+	labels:{
+		useHTML: true,
+		format:"{value} ",
+		step:1,
+		staggerLines:1,
+		width:300,
+		rotation:0,
+		style:{
+			lineHeight:'1em'
+		}
+	},
+	plotBands:[{
+		color:"#f0dfaa",
+		from:0,
+		to:0,
+		label:{
+			text:"",
+			align:"center"
+		}
+	}]
+},
+tooltip: {
+	enabled: false,
+	valueSuffix:" ",
+	shared:false,
+	backgroundColor:'rgba(255,255,255,1)',
+	borderWidth: 1,
+	borderColor:"#AAA",
+	valueDecimals:1,
+	xDateFormat:""
+},
+series:[{"data":[[0,null],[1,21.7],[2,18.2],[3,16.5],[4,15.2],[5,15],[6,14.8],[7,14.6],[8,14.3],[9,13.7],[10,13.4],[11,"null"],[12,8.2],[13,8.1],[14,8],[15,8],[16,8],[17,7.8],[18,7.4],[19,7.3],[20,6.1],[21,5.7]],"name":"Naissances pour 1 000 habitants","color":"#0386c3"}]
+})
+
+$("#dept_deces").highcharts({
+chart:{
+	backgroundColor: "#f8f9fb",
+	borderColor: "#d2d6db",
+	borderWidth:1,
+	borderRadius: 0,
+	type: "bar",
+	events:{
+		load:function(){
+			this.credits.element.onclick = function(){
+				window.open(
+					"https://docs.google.com/spreadsheets/d/1WK1mGtBfkKB_4Bof5r-5HbbDUoVtfJ4S_BvGgiwyNLg/edit?usp=sharing", _blank
+				);
+			}
+		}
+	}
+},
+credits:{
+	enabled:true,
+	text:"Insee"
+},
+title: {
+	useHTML:true,
+	text: "<div class='titre tt4'>Les départements où l'on meurt...</div>",
+	align: "left"
+},
+subtitle: {
+	useHTML:true,
+	text: "<div class='txt3 txt_gris_moyen'>Nombre de décès pour 1 000 habitants (2011)</div>",
+	align: "left"
+},
+plotOptions: {
+	series: {
+		connectNulls:true,
+		stacking:"",
+		marker:{
+			symbol:"circle",
+			fillColor:"#FFF",
+			lineWidth: 2,
+			radius:3,
+			lineColor:null
+		},
+		dataLabels:{
+			enabled: true,
+			formatter: function(){
+				return thousandsSeparator(this.y)
+			},
+			style:{
+				fontWeight: 'bold'
+			}
+		}
+	}
+},
+yAxis:[{
+	id:"gauche",
+	title:{
+		text:""
+	},
+	labels:{
+		enabled: false
+	},
+	min:null,
+	max:null,
+	endOnTick:true,
+	startOnTick:true,
+	gridLineWidth: 0,
+	},{
+	id:"droit",
+	title:{
+		text:""
+	},
+	labels:{
+		format: "{value}  "
+	},
+	opposite:true
+}],
+legend:{
+		enabled: false
+	},
+xAxis:{
+	type:"linear",
+	categories:["<span class=\"minititre\">...le plus</span>","1 - Creuse","2 - Corse-du-Sud","3 - Nièvre","4 - Corrèze","5 - Haute-Vienne","6 - Haute-Corse","7 - Cantal","8 - Lozère","9 - Indre","10 - Yonne","<span class=\"minititre\">...le moins</span>","91 - Val-d'Oise","92 - Hauts-de-Seine","93 - Val-de-Marne","94 - Paris","95 - Haute-Savoie","96 - Yvelines","97 - Seine-Saint-Denis","98 - Essonne","99 - La Réunion","100 - Guyane"],
+	title:{
+		text:""
+	},
+	labels:{
+		useHTML: true,
+		format:"{value} ",
+		step:1,
+		staggerLines:1,
+		width:300,
+		rotation:0,
+		style:{
+			lineHeight:'1em'
+		}
+	},
+	plotBands:[{
+		color:"#f0dfaa",
+		from:0,
+		to:0,
+		label:{
+			text:"",
+			align:"center"
+		}
+	}]
+},
+tooltip: {
+	enabled: false,
+	valueSuffix:" ",
+	shared:false,
+	backgroundColor:'rgba(255,255,255,1)',
+	borderWidth: 1,
+	borderColor:"#AAA",
+	valueDecimals:1,
+	xDateFormat:""
+},
+series:[{"data":[[0,null],[1,15],[2,14.4],[3,13.8],[4,13.4],[5,13.1],[6,12.9],[7,12.3],[8,11.7],[9,11.5],[10,11.5],[11,null],[12,6.5],[13,6.4],[14,6.2],[15,6.1],[16,5.6],[17,5.6],[18,5.5],[19,5.4],[20,5.2],[21,3.3]],"name":"Décès pour 1 000 habitants","color":"#0386c3"}]
+});
+
+
+$("#villes_naissances").highcharts({
+chart:{
+	backgroundColor: "#f8f9fb",
+	borderColor: "#d2d6db",
+	borderWidth:1,
+	borderRadius: 0,
+	type: "bar",
+	events:{
+		load:function(){
+			this.credits.element.onclick = function(){
+				window.open(
+					"https://docs.google.com/spreadsheets/d/1WK1mGtBfkKB_4Bof5r-5HbbDUoVtfJ4S_BvGgiwyNLg/edit?usp=sharing", _blank
+				);
+			}
+		}
+	}
+},
+credits:{
+	enabled:true,
+	text:"Insee"
+},
+title: {
+	useHTML:true,
+	text: "<div class='titre tt4'>...où l'on naît le plus</div>",
+	align: "left"
+},
+subtitle: {
+	useHTML:true,
+	text: "<div class='txt3 txt_gris_moyen'>Nombre de naissances pour 1 000 habitants (2011, sur les 41 villes de plus de 100&nbsp;000 habitants)</div>",
+	align: "left"
+},
+plotOptions: {
+	series: {
+		connectNulls:true,
+		stacking:"",
+		marker:{
+			symbol:"circle",
+			fillColor:"#FFF",
+			lineWidth: 2,
+			radius:3,
+			lineColor:null
+		},
+		dataLabels:{
+			enabled: true,
+			formatter: function(){
+				return thousandsSeparator(this.y)
+			},
+			style:{
+				fontWeight: 'bold'
+			}
+		}
+	}
+},
+yAxis:[{
+	id:"gauche",
+	title:{
+		text:""
+	},
+	labels:{
+		enabled: false
+	},
+	min:null,
+	max:null,
+	endOnTick:true,
+	startOnTick:true,
+	gridLineWidth: 0,
+	},{
+	id:"droit",
+	title:{
+		text:""
+	},
+	labels:{
+		format: "{value}  "
+	},
+	opposite:true
+}],
+legend:{
+		enabled: false
+	},
+xAxis:{
+	type:"linear",
+	categories:["Saint-Denis","Argenteuil","Villeurbanne","Montreuil","Mulhouse","Orléans","Lyon","Grenoble","Le Havre","Montpellier","Moyenne des grandes villes"],
+	title:{
+		text:""
+	},
+	labels:{
+		useHTML: true,
+		format:"{value} ",
+		step:1,
+		staggerLines:1,
+		width:300,
+		rotation:0,
+		style:{
+			lineHeight:'1em'
+		}
+	},
+	plotBands:[{
+		color:"#f0dfaa",
+		from:0,
+		to:0,
+		label:{
+			text:"",
+			align:"center"
+		}
+	}]
+},
+tooltip: {
+	enabled: true,
+	useHTML: true,
+	formatter:function(){
+		if(this.point.pop) return "<strong>"+this.x+" :</strong> "+thousandsSeparator(this.point.pop)+" habitants<br>&rsaquo; "+thousandsSeparator(this.point.naissances)+" naissances (soit "+thousandsSeparator(this.point.y)+" ‰)<br>&rsaquo; "+thousandsSeparator(this.point.deces)+" décès (soit "+thousandsSeparator(this.point.prm_deces)+" ‰)";
+		else return null;
+	},
+	shared:false,
+	backgroundColor:{
+		linearGradient:[0,0,0,60],
+		stops:[
+			[0,"#FFF"],
+			[1,"#E0E0E0"]
+		]
+	},
+	borderWidth: 1,
+	borderColor:"#AAA",
+	valueDecimals:1,
+	xDateFormat:""
+},
+series:[{"data":[{"y":21.3,"naissances":2295,"deces":526,"pop":107762,"prm_deces":4.9},
+{"y":21.3,"naissances":2218,"deces":580,"pop":104282,"prm_deces":5.6},
+{"y":18.4,"naissances":2667,"deces":822,"pop":145034,"prm_deces":5.7},
+{"y":18,"naissances":1851,"deces":582,"pop":103068,"prm_deces":5.6},
+{"y":17.1,"naissances":1892,"deces":902,"pop":110351,"prm_deces":8.2},
+{"y":16.6,"naissances":1899,"deces":705,"pop":114185,"prm_deces":6.2},
+{"y":15.1,"naissances":7418,"deces":3322,"pop":491268,"prm_deces":6.8},
+{"y":15,"naissances":2359,"deces":1047,"pop":157424,"prm_deces":6.7},
+{"y":14.8,"naissances":2578,"deces":1752,"pop":174156,"prm_deces":10.1},
+{"y":14.8,"naissances":3912,"deces":1616,"pop":264538,"prm_deces":6.1},
+{"y":14.4, "color":"#ccc"}],"name":"Naissances pour 1 000 habitants","color":"#0386c3"}]
+});
+
+
+
+$("#villes_deces").highcharts({
+chart:{
+	backgroundColor: "#f8f9fb",
+	borderColor: "#d2d6db",
+	borderWidth:1,
+	borderRadius: 0,
+	type: "bar",
+	events:{
+		load:function(){
+			this.credits.element.onclick = function(){
+				window.open(
+					"https://docs.google.com/spreadsheets/d/1WK1mGtBfkKB_4Bof5r-5HbbDUoVtfJ4S_BvGgiwyNLg/edit?usp=sharing", _blank
+				);
+			}
+		}
+	}
+},
+credits:{
+	enabled:true,
+	text:"Insee"
+},
+title: {
+	useHTML:true,
+	text: "<div class='titre tt4'>...où l'on meurt le plus</div>",
+	align: "left"
+},
+subtitle: {
+	useHTML:true,
+	text: "<div class='txt3 txt_gris_moyen'>Nombre de décès pour 1 000 habitants (2011, sur les 41 villes de plus de 100&nbsp;000 habitants)</div>",
+	align: "left"
+},
+plotOptions: {
+	series: {
+		connectNulls:true,
+		stacking:"",
+		marker:{
+			symbol:"circle",
+			fillColor:"#FFF",
+			lineWidth: 2,
+			radius:3,
+			lineColor:null
+		},
+		dataLabels:{
+			enabled: true,
+			formatter: function(){
+				return thousandsSeparator(this.y)
+			},
+			style:{
+				fontWeight: 'bold'
+			}
+		}
+	}
+},
+yAxis:[{
+	id:"gauche",
+	title:{
+		text:""
+	},
+	labels:{
+		enabled: false
+	},
+	min:null,
+	max:13,
+	endOnTick:true,
+	startOnTick:true,
+	gridLineWidth: 0,
+	},{
+	id:"droit",
+	title:{
+		text:""
+	},
+	labels:{
+		format: "{value}  "
+	},
+	opposite:true
+}],
+legend:{
+		enabled: false
+	},
+xAxis:{
+	type:"linear",
+	categories:["Toulon","Perpignan","Nice","Saint-Étienne","Le Havre","Le Mans","Brest","Limoges","Nîmes","Rouen","Moyenne des grandes villes"],
+	title:{
+		text:""
+	},
+	labels:{
+		useHTML: true,
+		format:"{value} ",
+		step:1,
+		staggerLines:1,
+		width:300,
+		rotation:0,
+		style:{
+			lineHeight:'1em'
+		}
+	},
+	plotBands:[{
+		color:"#f0dfaa",
+		from:0,
+		to:0,
+		label:{
+			text:"",
+			align:"center"
+		}
+	}]
+},
+tooltip: {
+	enabled: true,
+	useHTML: true,
+	formatter:function(){
+		if(this.point.pop) return "<strong>"+this.x+" :</strong> "+thousandsSeparator(this.point.pop)+" habitants<br>&rsaquo; "+thousandsSeparator(this.point.deces)+" décès (soit "+thousandsSeparator(this.point.y)+" ‰)<br>&rsaquo; "+thousandsSeparator(this.point.naissances)+" naissances (soit "+thousandsSeparator(this.point.prm_naissances)+" ‰)";
+		else return null;
+	},
+	shared:false,
+	backgroundColor:{
+		linearGradient:[0,0,0,60],
+		stops:[
+			[0,"#FFF"],
+			[1,"#E0E0E0"]
+		]
+	},
+	borderWidth: 1,
+	borderColor:"#AAA",
+	valueDecimals:1,
+	xDateFormat:""
+},
+series:[{"data":[{"y":11.3,"naissances":2140,"deces":1857,"pop":163974,"prm_naissances":13.1},
+{"y":10.4,"naissances":1569,"deces":1230,"pop":118238,"prm_naissances":13.3},
+{"y":10.4,"naissances":4585,"deces":3564,"pop":344064,"prm_naissances":13.3},
+{"y":10.1,"naissances":2513,"deces":1719,"pop":170049,"prm_naissances":14.8},
+{"y":10.1,"naissances":2578,"deces":1752,"pop":174156,"prm_naissances":14.8},
+{"y":9.1,"naissances":1951,"deces":1300,"pop":143240,"prm_naissances":13.6},
+{"y":8.7,"naissances":1744,"deces":1228,"pop":140547,"prm_naissances":12.4},
+{"y":8.6,"naissances":1613,"deces":1187,"pop":137758,"prm_naissances":11.7},
+{"y":8.6,"naissances":2008,"deces":1247,"pop":144940,"prm_naissances":13.9},
+{"y":8.4,"naissances":1552,"deces":941,"pop":111553,"prm_naissances":13.9},
+{"y":7.4, "color":"#ccc"}],"name":"Naissances pour 1 000 habitants","color":"#821400"}]
+});
+
+
+});
+
+
+
+		</script>
+	</body>
+</html>

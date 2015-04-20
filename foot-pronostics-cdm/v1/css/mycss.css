@@ -1,0 +1,373 @@
+._global, body{
+	width:1000px;
+	height:665px;
+	background-color:white;
+}
+#canvas{
+	display:none;
+}
+
+.englobeur {
+	width:1000px;
+}
+#articleBody{
+	background: #70c27e!important;
+}
+#matchs {
+	float: left;
+	clear:left;
+	height:665px;
+}
+#matchs p.tt2_capital, #tableau_final p.tt2_capital{
+	text-align: center;
+	margin-top:20px;
+}
+#matchs p.info{
+	padding:10px 50px;
+	text-align: center;
+	color: white;
+}
+.groupe{
+	float: left;
+width: 239px;
+height: 230px;
+margin: 40px 5px 10px 5px;
+position: relative;
+background: #ffffff;
+border-radius: 10px;
+padding: 5px;
+}
+.groupe.full, .groupe.full .tt3 {
+	background:#f2f2e2;
+}
+.groupe .tt3{
+	margin-top: -40px;
+	background: #FFFFFF;
+	border-radius: 5px;
+	padding: 5px 10px;
+	display: inline-block;
+}
+.groupe .nul {
+	text-align: center;
+}
+.groupe p.match{
+	border-bottom: 1px dashed #c4c6c8;
+	padding: 0 0 3px 0;
+	margin-top: 4px;
+	
+}
+.groupe p.match span{
+	cursor: pointer;
+	height:23px;
+	display:inline-block;
+	background-image:url('../img/bouton_gris.png');
+	background-repeat: no-repeat;
+}
+.groupe p.match span:hover, .groupe p.match span.select{
+	background-image:url('../img/bouton_vert.png');
+	color:#75c250;
+}
+
+.groupe p.match span:nth-child(1){
+	background-position:left top;
+	padding-left:26px;
+	width:98px;
+}
+.groupe p.match span:nth-child(2){
+	background-position:left top;
+	width:23px;
+	
+}
+.groupe p.match span:nth-child(3){
+	background-position:right top;
+	padding-right:26px;
+	text-align: right;
+	width:100px;
+}
+.overlay{
+	width: 239px;
+	height: 230px;
+	border-radius: 10px;
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background-color: #70c27e;
+	color: #FFF;
+	text-align: center;
+	padding: 20px;
+	border: 3px solid white;
+}
+.overlay ul{
+	margin-top:15px;
+}
+.overlay ul li{
+	cursor: pointer;
+}
+.overlay ul li.select{
+	background-color:white;
+	color:#70c27e;
+	padding:7px;
+}
+.overlay ul li:before{
+		content: '\203A \00A0';
+}
+
+#resultat_poules{
+	float: left;
+	clear:left;
+	width:992px;
+	margin:0px auto 10px auto;
+	height:130px;
+}
+#resultat_poules .poule{
+	float: left;
+	width: 138px;
+	height: 130px;
+	background: rgba(210,223,67,0.6);
+	border-radius: 90px;
+	margin-left: -7px;
+	margin-right: -7px;
+}
+#resultat_poules .poule:nth-child(even){
+background: rgba(214,207,205,0.5)!important;
+}
+#resultat_poules .poule p.tt3{
+	text-align: center;
+	margin-bottom: 0;
+	text-transform: uppercase;
+}
+#resultat_poules .poule ol{
+	list-style: none;
+	padding: 0 0 0 12px;
+}
+#resultat_poules .poule ol li span{
+	padding: 5px;
+	background: #FFF;
+	border-radius: 90px;
+}
+
+
+#tableau_final {
+	height:495px;
+	background:url('../img/fond.png') left top no-repeat;
+	float:left;
+	clear:left;
+	width:999px;
+	position:relative;
+}
+
+#legende_huitiemes{
+	text-align: center;
+	height: 20px;
+}
+#legende_quarts{
+	position: absolute;
+top: 180px;
+left: 15px;
+width: 40px;
+text-align: center;
+}
+#legende_demies{
+	position: absolute;
+	top: 290px;
+	left: 130px;
+	width: 40px;
+	text-align: center;
+}
+#legende_finale{
+position: absolute;
+top: 410px;
+left: 180px;
+width: 40px;
+text-align: center;
+}
+/* #coupe{
+	width:145px;
+	height:160px;
+	display:block;
+	z-index:-10;
+	position:absolute;
+	top:400px;
+	left:450px;
+	background:url('../img/coupe.png') left top no-repeat;
+}
+ */
+ #etoile_1{
+	width:111px;
+	height:95px;
+	display:block;
+	z-index:1;
+	position:absolute;
+	display:none;
+	top: 330px;
+	left: 300px;
+	background:url('../img/etoiles.png') left top no-repeat;
+}
+
+#tableau_final div div div{
+	cursor: pointer;
+padding: 4px 5px 4px 25px;
+height: 30px;
+display: inline-block;
+background: url('../img/bouton_gris.png') 3px 3px no-repeat rgba(255,255,255,0.5);
+}
+
+#tableau_final div div div.actif:hover, #tableau_final div div div.select{
+background: url('../img/bouton_vert.png') 3px 3px no-repeat #FFF;
+}
+
+#match1_2 div:nth-child(1) {
+	background: url('../img/bouton_gris.png') right 3px no-repeat rgba(255,255,255,0.5)!important;
+	padding: 4px 25px 4px 5px!important;
+}
+#match1_2 div:nth-child(2) {
+	background: url('../img/bouton_gris.png') left 3px no-repeat rgba(255,255,255,0.5)!important;
+	padding: 4px 5px 4px 25px!important;
+}
+#match1_2 div:nth-child(1).actif:hover{
+	background: url('../img/bouton_gris.png') right 3px no-repeat rgba(255,255,255,0.5)!important;
+	padding: 4px 25px 4px 5px!important;
+}
+#match1_2 div:nth-child(2).actif:hover{
+	background: url('../img/bouton_gris.png') left 3px no-repeat rgba(255,255,255,0.5)!important;
+	padding: 4px 5px 4px 25px!important;
+}
+#match1_2 div:nth-child(1).victoire{
+	background: url('../img/bouton_vert.png') right 3px no-repeat #fff136!important;
+	padding: 4px 25px 4px 5px!important;
+}
+#match1_2 div:nth-child(2).victoire{
+	background: url('../img/bouton_vert.png') left 3px no-repeat #fff136!important;
+	padding: 4px 5px 4px 25px!important;
+}
+#match1_1 div.victoire{
+	background: url('../img/bouton_vert.png') 3px 3px no-repeat #f4eaa2!important;
+}
+
+
+
+#huitiemes, #post_huitiemes, #post_post_huitiemes, #quarts, #post_quarts, #post_post_quarts, #demies, #petite_finale, #post_petite_finale, #finale {
+	float:left;
+	clear:left;
+	margin: 0 7px 0 8px;
+	width: 984px;
+}
+#huitiemes div, #quarts div, #demies div, #petite_finale div#match1_1, #post_petite_finale div, #finale div{
+	text-align: center;	
+	width: 117px;
+	margin: 5px 3px;
+	float: left;
+}
+#huitiemes div div, #quarts div div, #demies div div, #petite_finale div#match1_1 div, #post_petite_finale div div, #finale div div {
+float: left;
+clear: left;
+margin: 3px 0;
+background-color: white;
+border-radius: 5px;
+padding: 7px;
+width:117px;
+}
+
+#post_huitiemes div, #post_quarts div, #post_demies div, #post_petite_finale div {
+	border-left: 2px solid white;
+	border-right: 2px solid white;
+	border-bottom: 2px solid white;
+	width: 100px;
+	float: left;
+	display: block;
+	height: 16px;
+}
+
+#post_post_huitiemes div, #post_post_quarts div, #post_post_demies div {
+	border-left: 2px solid white;
+	height: 20px;
+	width: 40px;
+	float: left;
+	display: block;
+}
+
+
+
+#post_huitiemes div{
+	margin: 0 73px;
+}
+#post_post_huitiemes div{
+	margin: 0px 83px 0 123px;
+}
+
+
+#quarts div{
+	margin: 0 63px 0 65px;
+}
+#post_quarts div:nth-child(1){
+	width: 240px;
+	margin: 0 100px 0 125px;
+}
+#post_quarts div:nth-child(2){
+	width: 240px;
+margin: 0 100px 0 155px;
+}
+#post_post_quarts div{
+	margin: 0px 205px 0 245px;
+}
+
+
+#demies div.englobing:nth-child(1){
+	margin: 0 0 0 190px;
+}
+#demies div.englobing:nth-child(2){
+	margin: -30px 126px 0 127px;
+}
+#demies div.englobing:nth-child(3){
+	margin: 0 190px 0 0px;
+}
+
+#post_demies div.vide:nth-child(1){
+	width: 120px;
+	margin: 0 0 0 250px;
+	height: 70px;
+	border-left: 2px solid white;
+	border-bottom: 2px solid white;
+	border-right:none;
+}
+#post_demies div.vide:nth-child(2){
+	width: 120px;
+	margin: 0 0px 0 250px;
+	height: 70px;
+	border-right: 2px solid white;
+	border-bottom: 2px solid white;
+	border-left:none;
+}
+
+
+#post_petite_finale div{	
+	height: 40px;
+	margin: 0 370px;
+	width: 260px;
+	border-bottom:none;
+}
+#finale{
+	margin-top: -15px;
+}
+#finale div{
+	margin: 0 202px;
+	width: 580px;
+}
+#finale div div{
+	margin: 0 86px 0 85px;
+clear: none;
+}
+
+
+
+
+#match1_2 div:nth-child(1) img{
+	float: left;
+	margin: -20px 0 0 -40px;
+}
+#match1_2 div:nth-child(2) img{
+	float: right;
+	margin: -20px -40px 0 0;
+}
+

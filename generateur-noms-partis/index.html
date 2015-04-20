@@ -1,0 +1,388 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		
+		 <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+		<script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+		<script src="http://d3js.org/d3.v3.min.js"></script>
+
+		<link rel="stylesheet" type="text/css" href="css/lemonde.css" />
+		<link rel="stylesheet" type="text/css" href="css/decodeurs.css" />
+		<link rel="stylesheet" href="css/jquery-ui.css" />
+		<link rel="stylesheet" type="text/css" href="http://s1.lemde.fr/medias/web/css/fonts.css">
+		<style>
+			
+			body{
+				background-color: #FFF!important;
+				margin:0!important;
+			}
+			label{ padding-left:10px; cursor: pointer;}
+			.txt4 .tt6{
+				display:inline;
+			}
+			#parti{
+				display:none;
+				background:#28beaa;
+				color:#FFF;
+			}
+			.tt4_capital{
+				line-height: 2.4rem;
+			}
+			.try{
+				display:none;
+			}
+			#retry:after{
+				content: url(img/retry.png);
+			}
+			#erreur{
+				color:#ff3232;
+				border-left:5px solid #ff3232;
+				padding-left:5px;
+			}
+			hr{
+				width:30%;
+			}
+			.btn{
+				font-weight: normal!important;
+			}
+			#selectall{
+				padding-top:5px;
+			}
+			#selectall:hover{
+				text-decoration: underline;
+				cursor: pointer;
+			}
+			.grid_8{
+				width:auto!important;
+				max-width:534px;
+			}
+		</style>
+	</head>
+	<body>
+
+
+
+
+		<div class="global" id="articleBody">
+			<div class="container_18 clearfix">
+				<div class="grid_8">
+					
+					<h2 class="tt6">1. Choisissez la ou les tendance(s) politiques de votre parti :</h2> 
+			
+					<ul class="mgt16 mgb16"> 
+						<li><input type="checkbox" id="exg"><label for="exg">Extrême gauche</label></li> 
+						<li><input type="checkbox" id="g"><label for="g">Gauche</label></li> 
+						<li><input type="checkbox" id="ecolo"><label for="ecolo">Ecologie</label></li> 
+						<li><input type="checkbox" id="centre"><label for="centre">Centre</label></li> 
+						<li><input type="checkbox" id="droite"><label for="droite">Droite</label></li> 
+						<li><input type="checkbox" id="exd"><label for="exd">Extrême droite</label></li> 
+						<li><input type="checkbox" id="div"><label for="div">Divers</label></li> 
+						<li id="selectall">Tout cocher</li>
+		   			</ul>
+		   			<p class="txt4 mgb16 try" id="erreur">Cochez au moins une case !</p>
+
+		   			<h2 class="tt6">2. Générez un nom <a class="btn" id="nonrandom">en cliquant ici</a></h2> 
+		   			<hr class="mgt16" align="left" />
+		   			<p class="txt4 mgt16">Ou <span class="tt6">3. Trouvez un nom <a class="btn" id="random">au hasard</a></h2> 
+
+		   			<p class="txt4 try" id="retry">Si cela ne vous convient pas, vous pouvez réessayer</p>
+
+
+		   			<div class="bloc_gris_neutre bordt1 pad16 mgt16" id="parti">
+		   			</div>
+
+
+				</div>
+			</div>
+		</div>
+		
+		<script type="text/javascript">
+				
+
+				$("#selectall").click(function(){
+					if($(this).hasClass("on")){
+						$("input").each(function(){
+							$(this).prop('checked', false)
+						})
+						$(this).text("Tout cocher").removeClass("on")
+					}
+					else{
+						$("input").each(function(){
+							$(this).prop('checked', true)
+						})
+						$(this).text("Tout décocher").addClass("on")
+					}
+						
+			
+					
+
+				})
+				$(".btn").click(function(){
+					selection = [];
+					if($(this).attr("id") == "random"){
+						selection = ["exg", "g", "ecolo", "centre", "droite", "exd", "div"] 
+						launchTheRocket()
+					}
+					else {
+						$("input").each(function(j,e){
+							if(e.checked) selection.push(e.id)
+						})
+						if(selection.length == 0){
+							$("#erreur").show("fade")
+							$("#retry").hide("fade")
+							$("#parti").hide("fade")
+						}
+						else {
+							$("#erreur").hide()
+							launchTheRocket()
+						}
+
+						
+					}
+					
+				})
+
+				function launchTheRocket(){
+
+						var data = {
+							"bloc1":{
+								"all": [
+								  ["Union","f"],
+								  ["Mouvement","m"],
+								  ["Parti","m"],
+								  ["Rassemblement","m"],
+								  ["Alliance","f"],
+								  ["Action","f"],
+								  ["Association","f"],
+								  ["Nouvel élan","m"],
+								  ["Entente","f"],
+								  ["Concordat","m"],
+								  ["Pôle","m"],
+								  ["Cap","m"],
+								  ["Fédération","f"],
+								  ["Nouvel élan","m"],
+								  ["Renouveau","m"],
+								  ["Nouvelle voie","f"],
+								  ["Confédération","f"],
+								  ["Réseau","f"]
+								],
+								"exg":[
+								  ["Front","m"],
+								  ["Nouveau parti","m"],
+								  ["Convergence","f"],
+								  ["Combat","m"],
+								  ["Lutte","f"],
+								  ["Ensemble pour une gauche","f"],
+								  ["Gauche","f"],
+								  ["Internationale","f"]
+								],
+								"g": [
+								  ["Progressisme","m"],
+								  ["Gauche","f"],
+								  ["Combat","m"]
+								],
+								"centre":[
+								  ["Rassemblement","m"],
+								  ["Libéralisme","m"],
+								  ["Centre","m"],
+								  ["Alternative","f"],
+								  ["Europe","f"],
+								  ["Nouvel élan","m"],
+								  ["Nouvelle voie","f"],
+								  ["Pôle","m"],
+								  ["Génération","f"]
+								],
+								"ecolo":[
+								  ["Coopérative","f"],
+								  ["Europe","f"],
+								  ["Génération","f"]
+								],
+								"droite":[
+								  ["Rassemblement","m"],
+								  ["Défense","f"]
+								],
+								"exd":[
+								  ["Front","m"],
+								  ["Bloc","m"],
+								  ["Ligue","f"],
+								  ["Concordat","m"],
+								  ["Génération","f"]
+								]
+							},
+							"bloc2":{
+								"all": ["du mouvement"],
+								"exg": ["anticapitaliste","populaire","ouvrier","alternatif","antiimpérialiste","communiste","radical","citoyen","solidaire","unitaire"],
+								"g": ["moderne","social-démocrate","européen","progressiste","citoyen","socialiste"],
+								"centre": ["radical","fédéral","progressiste","centriste","indépendant","démocrate","écologiste","humaniste","démocrate","citoyen","réformiste","réformateur","libéral"],
+								"ecolo": ["écologiste"],
+								"droite": ["républicain","gaulliste","majoritaire","populaire","chrétien"],
+								"exd": ["français","national","identitaire","gaulois","traditionnel","populaire","catholique","laïc","bonapartiste"],
+								"div": ["chasseur","hédoniste","breton","polynésien","anti-impôts"]
+							},
+							"bloc3":{
+								"exg": ["pour une vraie gauche","des travailleurs","pour le changement","autonome","révolutionnaire","libertaire"],
+								"g": ["pour le changement","pour demain"],
+								"centre": ["21e siècle","pour l'Europe","pour les territoires","pour une nouvelle donne"],
+								"ecolo": ["pour la terre","pour l'environnement","21e siècle","pour demain"],
+								"droite": ["pour la République","pour la Nation","libéral","pour les valeurs","pour la liberté"],
+								"exd": ["pour la France","pour la nation","d'union nationale","pour le peuple","pour la cohésion nationale","d'action","pour les valeurs"],
+								"div": ["du plaisir","pour les légalisations","de la cause animale","de libération nationale","indépendant","pour l'amour","des contribuables"]
+							},
+							"bloc4":{
+								"all": ["d'abord","dans l'action","en avant","vers l'avenir","","",""]
+							}
+						}
+
+						var feminins = {
+						  "anticapitaliste": "",
+						  "populaire": "",
+						  "ouvrier": "ouvrière",
+						  "alternatif": "",
+						  "antiimpérialiste": "",
+						  "communiste": "",
+						  "radical": "radicale",
+						  "solidaire": "",
+						  "unitaire": "",
+						  "moderne": "",
+						  "social-démocrate": "",
+						  "européen": "européenne",
+						  "progressiste": "",
+						  "socialiste": "",
+						  "radical": "radicale",
+						  "fédéral": "fédérale",
+						  "progressiste": "",
+						  "centriste": "",
+						  "indépendant": "indépendante",
+						  "démocrate": "",
+						  "écologiste": "",
+						  "humaniste": "",
+						  "démocrate": "",
+						  "réformateur": "réformatrice",
+						  "libéral": "libérale",
+						  "écologiste": "",
+						  "républicain": "républicaine",
+						  "gaulliste": "",
+						  "majoritaire": "",
+						  "populaire": "",
+						  "chrétien": "chrétienne",
+						  "français": "française",
+						  "national": "nationale",
+						  "identitaire": "",
+						  "gaullois": "gaulloise",
+						  "traditionnel": "traditionnelle",
+						  "populaire": "",
+						  "catholique": "",
+						  "laïc": "laïque",
+						  "bonapartiste": "",
+						  "chasseur": "chasseuse",
+						  "hédoniste": "",
+						  "breton": "bretonne",
+						  "polynésien": "polynésienne",
+						  "anti-impôts": ""
+						}
+
+						couleurs = {
+							"exg": "#9C090F",
+							"g": "#F96996",
+							"ecolo": "#80B904",
+							"div": "#A2A9AE",
+							"centre": "#FB6B02",
+							"droite": "#2C59A8 ",
+							"exd": "#04103F"
+						}
+
+						var bloc1 = [], bloc2 = [], bloc3 = [], bloc4 = [], bloc1_choisi, bloc2_choisi, bloc3_choisi, bloc4_choisi, genre;
+						looperAll("bloc1")
+						looperAll("bloc2")
+						looperAll("bloc3")
+						looperAll("bloc4");
+
+
+
+						function looperAll(val){
+							if(data[val]["all"]) $.each(data[val]["all"],function(i,d){
+
+								if($.isArray(d)) eval(val).push([d[0],d[1]])
+								else eval(val).push(d)
+							})
+						}
+
+						function looper(val){
+							if(data["bloc1"][val]) $.each(data["bloc1"][val],function(j,e){
+								bloc1.push([e[0],e[1]])
+							})
+							if(data["bloc2"][val]) $.each(data["bloc2"][val],function(j,e){
+								bloc2.push(e)
+							})
+							if(data["bloc3"][val]) $.each(data["bloc3"][val],function(j,e){
+								bloc3.push(e)
+							})
+							if(data["bloc4"][val]) $.each(data["bloc4"][val],function(j,e){
+								bloc4.push(e)
+							})
+						}
+
+						$.each(selection,function(i,d){
+							looper(d)
+						})
+
+						hasard = Math.floor(Math.random()*bloc1.length);
+						bloc1_choisi = bloc1[hasard][0]
+						if(bloc1[hasard][1] == "m") { genre = 0 }
+						else { genre = 1 }
+						bloc2_choisi = randomise(bloc2)
+						bloc3_choisi = randomise(bloc3)
+						bloc4_choisi = randomise(bloc4)
+
+						/*adresseurl = adresseoriginale = window.parent.location.href; */
+
+						adresseurl = "http://www.lemonde.fr/les-decodeurs/article/2014/10/24/comme-le-ps-l-ump-ou-le-fn-generez-votre-nom-de-parti_4512206_4355770.html"
+
+						function encoding(val){
+							val = val.replace(/#/g, '%23'); 
+				            val = val.replace(/ /g, '+');
+				            val = val.replace(/\(/g, '%28');
+				            val = val.replace(/\)/g, '%29');  
+				            return val;
+						}     
+			            adresseurl = encoding(adresseurl); 
+			            adressefb = adresseurl.replace(/\//g, '%2F');
+            			adressefb = adressefb.replace(/:/g, '%3A');
+			            nom = bloc1_choisi+' '+randomise(bloc2)+' '+randomise(bloc3)+' '+randomise(bloc4);
+
+						$("#parti").html('<p class="tt4_capital">'+nom+'</p><p class="mgt16"><iframe allowtransparency=\"true\" frameborder=\"0\" scrolling=\"no\" src=\"https://platform.twitter.com/widgets/tweet_button.html?url='+adresseurl+'&text=Mon parti : %22'+nom+'%22. Toi aussi %23nommetonparti avec les %40decodeurs&related=decodeurs&lang=fr&count=horizontal\" style=\"width:95px; height:20px; float:left;\"></iframe><iframe src=\"//www.facebook.com/plugins/like.php?href='+adressefb+'&amp;width&amp;layout=standard&amp;action=like&amp;show_faces=false&amp;share=false&amp;height=80&amp;appId=531696896847126\" scrolling=\"no\" frameborder=\"0\" style=\"border:none; overflow:hidden; height:30px; width:280px; float:left;\" allowTransparency=\"true\"></iframe></p>')
+						$("#parti").show("fade")
+						$("#retry").show("fade")
+					
+						if(selection.length == 1) $("#parti").css("background-color",couleurs[selection[0]])
+							else $("#parti").css("background-color","#28beaa")
+
+
+
+						function randomise(val){
+							choix = val[Math.floor(Math.random()*val.length)];
+						
+							if(feminins[choix] && genre == 1) { return feminins[choix] }
+							else { return choix  }
+						}
+	
+				}
+			
+
+			  /*  $( document ).tooltip({
+			    	show:  { effect: "fade", duration: 0 },
+			    	hide:  { effect: "fade", duration: 0 },
+			    	track: true,
+			    	items: "",
+			    	tooltipClass: "",
+			    	position: { my: 'left+30 top', at: 'right+10 center' },
+			    	content: function(){
+			    		
+			    	}
+			    });*/
+		
+
+    	</script>
+    	
+	</body>
+</html>

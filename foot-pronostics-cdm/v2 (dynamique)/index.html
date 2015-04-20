@@ -1,0 +1,565 @@
+<!DOCTYPE>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Il n'est pas trop tard : pronostiquez la suite de la Coupe du monde</title>
+
+	<link href="css/lemonde.css" rel="stylesheet" type="text/css">
+	<link href="css/mycss.css" rel="stylesheet" type="text/css">
+  <link href="css/decodeurs.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="css/jquery-ui.css" />
+	<link rel="stylesheet" type="text/css" href="http://s1.lemde.fr/medias/web/css/fonts.css"/>
+
+	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+	<script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
+	<script src="http://d3js.org/d3.v3.min.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/class.Gselper.js"></script>
+
+	<script src="js/canvas2image.js"></script>
+
+
+  
+</head>
+<body>	
+<div id="articleBody" class="alpha omega">
+	
+   <div class="clearfix englobeur">
+   		<div id="matchs">
+   			
+   			<div id="decodeurs1"><a href="http://www.lemonde.fr/les-decodeurs/" href="_blank" title="Les Décodeurs"></a></div>
+   			<p class="tt2">Mes pronostics <img src="img/logo-cdm.png"> avec <em>Le Monde</em></p>
+   			<p class="tt2_capital">Les poules</p>
+   			<p class="info tt6">Pour chacun des <span>61</span> matchs de poule restants, cliquez sur le résultat que vous pronostiquez. Le tableau sera mis à jour quotidiennement avec les derniers résultats, pour vous permettre de parier sur la suite de la compétition.</p> 
+
+   		</div>
+   		<div id="resultat_poules"></div>
+   		<div id="tableau_final" class="tt5_capital">
+   			<div id="overlay2" class="tt3_capital"><p>Votre tableau a été ouvert dans une fenêtre pop up. Si cela n'a pas fonctionné, <a href="">cliquez ici pour le télécharger</a>.</p></div>
+			<p class="tt2_capital">Le tableau final</p>
+			<div id="remonter" class="tt4_capital">Remonter aux poules</div>
+			<div id="legende_huitiemes">1/8 finale</div>
+			<div id="legende_quarts">1/4 finale</div>
+			<div id="legende_demies">1/2 finale</div>
+			<div id="legende_finale">Finale</div>
+			<div id="etoile_1"></div>
+			<div id="etoile_2"></div>
+			<div id="imprimer">
+				<p>J'ai terminé !<br>Télécharger mon tableau</p>
+			</div>
+			<div id="decodeurs2"><a href="http://www.lemonde.fr/les-decodeurs/" href="_blank" title="Les Décodeurs"></a></div>
+   			<div id="huitiemes" class="phase">
+   				<div id="match8_1"><div></div><div></div></div>
+   				<div id="match8_2"><div></div><div></div></div>
+   				<div id="match8_3"><div></div><div></div></div>
+   				<div id="match8_4"><div></div><div></div></div>
+   				<div id="match8_5"><div></div><div></div></div>
+   				<div id="match8_6"><div></div><div></div></div>
+   				<div id="match8_7"><div></div><div></div></div>
+   				<div id="match8_8"><div></div><div></div></div>
+   			</div>
+   			<div id="post_huitiemes">
+   				<div></div>
+   				<div></div>
+   				<div></div>
+   				<div></div>
+   			</div>
+   			<div id="post_post_huitiemes">
+   				<div></div>
+   				<div></div>
+   				<div></div>
+   				<div></div>
+   			</div>
+   			<div id="quarts" class="phase">
+   				<div id="match4_1"><div></div><div></div></div>
+   				<div id="match4_2"><div></div><div></div></div>
+   				<div id="match4_3"><div></div><div></div></div>
+   				<div id="match4_4"><div></div><div></div></div>
+   			</div>
+   			<div id="post_quarts">
+   				<div></div>
+   				<div></div>
+   			</div>
+   			<div id="post_post_quarts">
+   				<div></div>
+   				<div></div>
+   			</div>
+   			<div id="demies" class="phase">
+   				<div id="match2_1" class="englobing"><div></div><div></div></div>
+   				<div id="match1_1" class="englobing">Petite finale<div></div><div></div></div>
+   				<div id="match2_2" class="englobing"><div></div><div></div></div>
+   			</div>
+   			<div id="post_demies">
+   				<div class="vide"></div>
+   				
+   				<div class="vide"></div>
+   			</div>
+
+   			
+   			<div id="finale" class="phase">
+   				<div id="match1_2"><div></div><div></div></div>
+   			</div>
+
+   		</div>
+   </div>
+
+</div>
+
+
+   <div id="html2canvas"></div>
+
+	<script type="text/javascript" src="js/html2canvas.js"></script>
+    <script>
+
+$(function () {
+
+
+
+    // Récupération des données avec Gselper
+
+    var donnees = [];
+    var restants = 0;
+
+    // Création de l'instance de Gselper
+    var doc = new Gselper({
+
+        // Identifiant du document
+        key: "1WnleCK7zmA5KJL4m1Wy0znJe7g0MRPPitJoaCzx2wNo",
+        // Le worksheet du document
+        worksheet: "od6",
+
+        // La fonction à appeler lorsque le document est chargé
+        onComplete: function(data) {
+
+        
+            // parcourir le document ligne après ligne
+            $.each(doc.get(), function(i, line) {
+
+            	donnees[i] = []
+            	donnees[i].push(Number(line.id),line.groupe,Number(line.pays1),Number(line.pays2))
+            	if(isNaN(line.resultat)) { donnees[i].push("null"); restants++; }
+            	else donnees[i].push(Number(line.resultat))
+        		
+      
+            
+            });
+        	
+           
+           init(donnees,restants)
+             
+        }
+    });
+   })
+
+function init(matchs,restants){
+
+
+    // 0 = victoire du premier // 1 = nul // 2 = victoire du second
+/*var matchs = [
+  [0,"a",0,1,"0"],
+  [1,"a",2,3,"0"],
+  [2,"a",0,2,"null"],
+  [3,"a",3,1,"null"],
+  [4,"a",1,2,"null"],
+  [5,"a",3,0,"null"],
+  [6,"b",4,5,"2"],
+  [7,"b",6,7,"0"],
+  [8,"b",7,5,"null"],
+  [9,"b",4,6,"null"],
+  [10,"b",7,4,"null"],
+  [11,"b",5,6,"null"],
+  [12,"c",8,9,"0"],
+  [13,"c",10,11,"0"],
+  [14,"c",8,10,"null"],
+  [15,"c",11,9,"null"],
+  [16,"c",11,8,"null"],
+  [17,"c",9,10,"null"],
+  [18,"d",12,13,"2"],
+  [19,"d",14,15,"2"],
+  [20,"d",12,14,"null"],
+  [21,"d",15,13,"null"],
+  [22,"d",15,12,"null"],
+  [23,"d",13,14,"null"],
+  [24,"e",16,17,"0"],
+  [25,"e",18,19,"0"],
+  [26,"e",16,18,"null"],
+  [27,"e",19,17,"null"],
+  [28,"e",19,16,"null"],
+  [29,"e",17,18,"null"],
+  [30,"f",20,21,"0"],
+  [31,"f",22,23,"null"],
+  [32,"f",20,22,"null"],
+  [33,"f",23,21,"null"],
+  [34,"f",23,20,"null"],
+  [35,"f",21,22,"null"],
+  [36,"g",24,25,"null"],
+  [37,"g",26,27,"null"],
+  [38,"g",24,26,"null"],
+  [39,"g",27,25,"null"],
+  [40,"g",27,24,"null"],
+  [41,"g",25,26,"null"],
+  [42,"h",28,29,"null"],
+  [43,"h",30,31,"null"],
+  [44,"h",28,30,"null"],
+  [45,"h",31,29,"null"],
+  [46,"h",31,28,"null"],
+  [47,"h",29,30,"null"]
+]*/
+var remplissage = []
+var groupes = ["a","b","c","d","e","f","g","h"]
+var pays = [
+  [0,"Brésil","a",0,0],
+  [1,"Croatie","a",0,0],
+  [2,"Mexique","a",0,0],
+  [3,"Cameroun","a",0,0],
+  [4,"Espagne","b",0,0],
+  [5,"Pays-Bas","b",0,0],
+  [6,"Chili","b",0,0],
+  [7,"Australie","b",0,0],
+  [8,"Colombie","c",0,0],
+  [9,"Grèce","c",0,0],
+  [10,"Côte d'Ivoire","c",0,0],
+  [11,"Japon","c",0,0],
+  [12,"Uruguay","d",0,0],
+  [13,"Costa Rica","d",0,0],
+  [14,"Angleterre","d",0,0],
+  [15,"Italie","d",0,0],
+  [16,"Suisse","e",0,0],
+  [17,"Equateur","e",0,0],
+  [18,"France","e",0,0],
+  [19,"Honduras","e",0,0],
+  [20,"Argentine","f",0,0],
+  [21,"Bosnie","f",0,0],
+  [22,"Iran","f",0,0],
+  [23,"Nigeria","f",0,0],
+  [24,"Allemagne","g",0,0],
+  [25,"Portugal","g",0,0],
+  [26,"Ghana","g",0,0],
+  [27,"USA","g",0,0],
+  [28,"Belgique","h",0,0],
+  [29,"Algérie","h",0,0],
+  [30,"Russie","h",0,0],
+  [31,"Corée","h",0,0]
+]
+
+var tableau_final = [
+  [0,"8_1","a1","b2",0,"4_1-1",8],
+  [1,"8_2","c1","d2",0,"4_1-2",8],
+  [2,"8_3","e1","f2",0,"4_2-1",9],
+  [3,"8_4","g1","h2",0,"4_2-2",9],
+  [4,"8_5","b1","a2",0,"4_3-1",10],
+  [5,"8_6","d1","c2",0,"4_3-2",10],
+  [6,"8_7","f1","e2",0,"4_4-1",11],
+  [7,"8_8","h1","g2",0,"4_4-2",11],
+  [8,"4_1","","",0,"2_1-1",12],
+  [9,"4_2","","",0,"2_1-2",12],
+  [10,"4_3","","",0,"2_2-1",13],
+  [11,"4_4","","",0,"2_2-2",13],
+  [12,"2_1","","",0,"1_2-1",15],
+  [13,"2_2","","",0,"1_2-2",15],
+  [14,"1_1","","",0,"",0],
+  [15,"1_2","","",0,"",0]
+]
+
+
+
+
+$(".info.tt6 span").html(restants)
+
+$.each(groupes, function( index, value ) {
+  $("#matchs").append("<div class=\"groupe\" id=\"groupe"+value+"\"><p class=\"tt6\">Groupe <span class=\"tt3\">"+value.toUpperCase()+"</span></p><p class=\"nul tt5_capital\">Nul</p></div>")
+});
+
+$.each(matchs, function( index, value ) {
+	
+		contenu = "<p class=\"match tt6_capital\" id=\"match"+value[0]+"\"><span data-result=\"0\"";
+		if(value[4] == 0) contenu += " class=\"select\"";
+		contenu+= ">"+pays[value[2]][1]+"</span> <span data-result=\"1\"";
+		if(value[4] == 1) contenu += " class=\"select\"";
+		contenu += ">&nbsp;</span> <span data-result=\"2\""
+		if(value[4] == 2) contenu += " class=\"select\"";
+		contenu +=">"+pays[value[3]][1]+"</span></p>";
+		$("#matchs #groupe"+value[1]).append(contenu);
+
+})
+jouerLesMatchs();
+
+
+
+
+
+$(".match span").click(function(){
+	
+	$(this).parent().children("span").removeClass("select")
+	$(this).addClass("select")
+	match = $(this).parent()[0].id.substring(5);
+
+	matchs[match][4] = Number($(this).attr('data-result'));
+
+	ce_groupe = $(this).parent().parent()[0].id.substring(6);
+	groupe_nbr = groupes.indexOf(ce_groupe)
+	var matchs_du_groupe = [], match_complet = 0;
+	matchs_du_groupe.push(matchs[groupe_nbr*6],matchs[groupe_nbr*6+1],matchs[groupe_nbr*6+2],matchs[groupe_nbr*6+3],matchs[groupe_nbr*6+4],matchs[groupe_nbr*6+5])
+
+	$.each(matchs_du_groupe, function( index, value ) {
+		if(value[4] == "null") match_complet++;
+	})
+
+	if(match_complet == 0) { // Si le groupe a été entièrement renseigné
+		$(this).parent().parent().addClass("full")
+		jouerLesMatchs();
+		egalite(groupe_nbr,ce_groupe); // Vérifier s'il y a une égalité
+	}
+
+
+
+})
+
+function jouerLesMatchs(){
+		$.each(pays, function( index, value ) {
+			value[3] = 0
+		});
+		$.each(matchs, function( index, value ) {
+		  if(value[4] == 0) { // Victoire du premier
+		  		pays[value[2]][3] += 3;
+		  }
+		  else if(value[4] == 1) { // Match nul
+		  		pays[value[2]][3] += 1;
+		  		pays[value[3]][3] += 1;
+		  }
+		  else if(value[4] == 2) { // Victoire du second
+		  		pays[value[3]][3] += 3;
+		  }
+	});
+}
+
+function egalite(groupe_nbr,nom_groupe){
+		var ce_groupe = [];
+	
+		ce_groupe.push(pays[groupe_nbr*4],pays[groupe_nbr*4+1],pays[groupe_nbr*4+2],pays[groupe_nbr*4+3])
+		
+			ce_groupe.sort(function (a,b) {
+			  if (a[3] <= b[3])
+			     return 1;
+			  if (a[3] > b[3])
+			    return -1;
+			  return 0;
+			})
+			var qualifies = [];
+			if(ce_groupe[0][3] == ce_groupe[1][3] && ce_groupe[1][3] == ce_groupe[2][3] && ce_groupe[2][3] == ce_groupe[3][3]){ // Egalité entre les 4
+				$("#groupe"+nom_groupe).append("<div class=\"overlay\"><p class=\"txt5\">Egalité parfaite entre les quatre équipes ! Qui voulez vous qualifier ?</p><ul class=\"tt5_capital\"><li data-pays=\""+ce_groupe[0][0]+"\">"+ce_groupe[0][1]+"</li><li data-pays=\""+ce_groupe[1][0]+"\">"+ce_groupe[1][1]+"</li><li data-pays=\""+ce_groupe[2][0]+"\">"+ce_groupe[2][1]+"</li><li data-pays=\""+ce_groupe[3][0]+"\">"+ce_groupe[3][1]+"</li></ul></div>")
+				
+				$(".overlay ul li").click(function(){
+					qualifies.push(Number($(this).attr("data-pays")))
+					$(this).addClass("select")
+					if(qualifies.length == 2) {
+						pays[qualifies[0]][4] = 1;
+						pays[qualifies[1]][4] = 1;
+						$(this).parent().parent().remove()
+						resultatPoules();
+					}
+
+				})
+			}
+			else if(ce_groupe[0][3] == ce_groupe[1][3] && ce_groupe[1][3] == ce_groupe[2][3]){ // Egalité entre les 4
+				$("#groupe"+nom_groupe).append("<div class=\"overlay\"><p>Egalité parfaite entre les trois premières équipes de la poule ! Qui voulez vous qualifier ?</p><ul><li data-pays=\""+ce_groupe[0][0]+"\">"+ce_groupe[0][1]+"</li><li data-pays=\""+ce_groupe[1][0]+"\">"+ce_groupe[1][1]+"</li><li data-pays=\""+ce_groupe[2][0]+"\">"+ce_groupe[2][1]+"</li></ul></div>")
+				$(".overlay ul li").click(function(){
+					qualifies.push(Number($(this).attr("data-pays")))
+					$(this).addClass("select")
+					if(qualifies.length == 2) {
+						pays[qualifies[0]][4] = 1;
+						pays[qualifies[1]][4] = 1;
+						$(this).parent().parent().remove()
+						resultatPoules();
+					}
+
+				})
+			}
+			else if(ce_groupe[0][3] == ce_groupe[1][3] && ce_groupe[1][3] == ce_groupe[2][3]){ // Egalité entre les 4
+				$("#groupe"+nom_groupe).append("<div class=\"overlay\"><p>Egalité parfaite entre les trois premières équipes de la poule ! Qui voulez vous qualifier ?</p><ul><li data-pays=\""+ce_groupe[0][0]+"\">"+ce_groupe[0][1]+"</li><li data-pays=\""+ce_groupe[1][0]+"\">"+ce_groupe[1][1]+"</li><li data-pays=\""+ce_groupe[2][0]+"\">"+ce_groupe[2][1]+"</li></ul></div>")
+				$(".overlay ul li").click(function(){
+					qualifies.push(Number($(this).attr("data-pays")))
+					$(this).addClass("select")
+					if(qualifies.length == 2) {
+						pays[qualifies[0]][4] = 1;
+						pays[qualifies[1]][4] = 1;
+						$(this).parent().parent().remove()
+						resultatPoules();
+					}
+
+				})
+			}
+			else {
+				resultatPoules();
+			}		
+
+
+
+}
+
+function resultatPoules(){
+	var poules_complet = 0; 
+	$.each(matchs, function( index, value ) {
+		if(value[4] == "null") poules_complet++;
+	})
+	if(poules_complet == 0) { // Si la phase de poule a été entièrement renseignée
+		 $('html, body').animate({scrollTop: $('#resultat_poules').offset().top}, 1000,'easeInOutCubic');
+
+		  var tous_groupes = []
+		$("#resultat_poules").empty()
+		$.each(groupes, function( index, value ) {
+				
+				$("#resultat_poules").append("<div class=\"poule\" id=\"poule"+value+"\"><p class=\"tt3\">"+value+"</p><ol class=\"tt6_capital\"></ol></div>")
+
+				var groupe = [];
+				groupe.push(pays[index*4],pays[index*4+1],pays[index*4+2],pays[index*4+3])
+				groupe.sort(function (a,b) {
+				  if (a[3] < b[3])
+				     return 1;
+				  if (a[3] > b[3])
+				    return -1;
+				if(a[3] == b[3]) 
+					return a[4] < b[4] ? 1 : -1;	 
+				return 0;		
+				})
+				$.each(groupe, function( j, v ) {
+					if(j < 2) $("#resultat_poules #poule"+value+" ol").append("<li class=\"qualifie\"><span>"+eval(j+1)+"</span> "+v[1]+" ("+v[3]+")</li>");
+					else $("#resultat_poules #poule"+value+" ol").append("<li><span>"+eval(j+1)+"</span> "+v[1]+" ("+v[3]+")</li>");
+				})
+				tous_groupes[index] = groupe;
+		});
+		tableauFinal(tous_groupes)
+	}
+}
+
+function tableauFinal(tous_groupes){
+
+
+
+
+
+
+		for(var i=0; i < 8; i++) {
+				premier_gpe = tableau_final[i][2].substring(0,1);
+				premier_classement = tableau_final[i][2].substring(1,2);
+				second_gpe = tableau_final[i][3].substring(0,1);
+				second_classement = tableau_final[i][3].substring(1,2);
+				$("#match8_"+eval(i+1)).html("<div class=\"actif\" data-match=\""+i+"\" data-pays=\""+tous_groupes[groupes.indexOf(premier_gpe)][premier_classement-1][0]+"\">"+tous_groupes[groupes.indexOf(premier_gpe)][premier_classement-1][1]+"</div><div class=\"actif\" data-match=\""+i+"\" data-pays=\""+tous_groupes[groupes.indexOf(second_gpe)][second_classement-1][0]+"\">"+tous_groupes[groupes.indexOf(second_gpe)][second_classement-1][1]+"</div>").effect("slide")
+		}
+
+		$(".phase div div").click(function(){		
+			if($(this).hasClass("actif")) {
+				$(this).parent().children("div").removeClass("select")
+				$(this).addClass("select")
+				tableau_final[$(this).attr("data-match")][4] = Number($(this).attr("data-pays"));
+				var destination = tableau_final[$(this).attr("data-match")][5];
+				
+				
+				// Gestion de la finale et de la petite finale
+				if($(this).attr("data-match") == 12) {
+					$("#match1_2 div:nth-child(1)").attr("data-match","15").html("<img src=\"img/drapeaux/D-"+$(this).attr("data-pays")+".png\">"+pays[$(this).attr("data-pays")][1]).addClass("actif").effect("highlight",{color:"#75c250"})	
+					if($(this).siblings().attr("data-pays")) $("#match1_1 div:nth-child(1)").html(pays[$(this).siblings().attr("data-pays")][1]).addClass("actif").attr("data-match","14").effect("highlight",{color:"#75c250"})	
+					
+				}
+				else if($(this).attr("data-match") == 13) { 
+			
+					$("#match1_2 div:nth-child(2)").attr("data-match","15").html("<img src=\"img/drapeaux/D-"+$(this).attr("data-pays")+".png\">"+pays[$(this).attr("data-pays")][1]).addClass("actif").effect("highlight",{color:"#75c250"})
+					
+					if($(this).siblings().attr("data-pays")) $("#match1_1 div:nth-child(2)").html(pays[$(this).siblings().attr("data-pays")][1]).addClass("actif").attr("data-match","14").effect("highlight",{color:"#75c250"})
+								
+				}
+				
+				// Gestion de la troisième place
+				else if($(this).attr("data-match") == 14) {
+					$(this).siblings().removeClass("victoire")
+					$(this).addClass("victoire")
+				}
+				// Gestion de la victoire
+				else if($(this).attr("data-match") == 15) {
+					$(this).siblings().removeClass("victoire")
+					$(this).addClass("victoire")
+					if($(this).is('#match1_2 div:nth-child(1)')) { $("#etoile_1").show("fade"); $("#etoile_2").hide();  }
+					else { $("#etoile_2").show("fade"); $("#etoile_1").hide(); }
+					
+				}
+				else {
+					$("#match"+destination.substring(0,destination.indexOf("_"))+"_"+destination.substring(destination.indexOf("_")+1,destination.indexOf("-"))+" div:nth-child("+destination.substring(destination.indexOf("-")+1)+")").html(pays[$(this).attr("data-pays")][1]).attr({"data-match":tableau_final[$(this).attr("data-match")][6],"data-pays":$(this).attr("data-pays")}).addClass("actif").effect("highlight",{color:"#75c250"})
+				}
+
+			}
+				
+		})
+
+
+
+
+}
+
+$("#imprimer").click(function(){		
+		$("#imprimer").hide("fade",0,function(){
+			$("#resultat_poules .poule").css("border-radius",0);
+			$("#matchs p.info").css("visibility","hidden")
+			$("#matchs p.tt2").show()
+			$("#matchs p.tt2_capital").hide()
+			$("#matchs p.info").hide()
+			$("#remonter").hide()
+			
+			html2canvas(document.body, {
+							width: 1000,
+						    onrendered: function(canvas) {
+						        $('#html2canvas').append(canvas);
+						        
+								uri = canvas.toDataURL('image/png')
+		
+								window.open(uri,"_blank");
+								$("#overlay2 a")[0].download = "Tableau Coupe du Monde 2014 - Le Monde.png";
+								$("#overlay2 a")[0].href = uri;
+								$("#overlay2 a")[0].href = uri;
+								$("#overlay2 a")[0].target = "_blank";
+
+
+								adresseurl = window.parent.location.href;      
+					            adresseurl = adresseurl.replace(/#/g, '%23'); 
+					            adresseurl = adresseurl.replace(/ /g, '+');
+					            adresseurl = adresseurl.replace(/\(/g, '%28');
+					            adresseurl = adresseurl.replace(/\)/g, '%29');  
+					            adressefb = adresseurl.replace(/\//g, '%2F');
+					            adressefb = adressefb.replace(/:/g, '%3A');
+								$("#overlay2").append("<p class=\"social\"><iframe allowtransparency=\"true\" frameborder=\"0\" scrolling=\"no\" src=\"https://platform.twitter.com/widgets/tweet_button.html?text=Mes%20pronostics%20pour%20la%20%23CDM2014%20avec%20%40lemondefr&url="+adresseurl+"&via=decodeurs&lang=fr&count=horizontal\" style=\"width:95px; height:20px; float:left;\"></iframe><iframe src=\"//www.facebook.com/plugins/like.php?href="+adressefb+"&amp;width&amp;layout=standard&amp;action=like&amp;show_faces=false&amp;share=false&amp;height=80&amp;appId=531696896847126\" scrolling=\"no\" frameborder=\"0\" style=\"border:none; overflow:hidden; height:30px; width:280px; float:left;\" allowTransparency=\"true\"></iframe></p>").append("<p class=\"image\"><img src=\"img/croix.png\"></p>")
+
+								$("#overlay2 .image img").click(function(){
+									$("#overlay2").hide("fade")
+								})
+							
+
+								$('html, body').animate({scrollTop: $('#resultat_poules').offset().top}, 1000,'easeInOutCubic');
+								$("#overlay2").show("fade")
+								$("#remonter").show()
+						        $("#imprimer").show()
+						        $("#resultat_poules .poule").css("border-radius","90px");
+						        $("#matchs p.info").css("visibility","visible")
+						        $("#matchs p.tt2").hide()
+								$("#matchs p.tt2_capital").show()
+								$("#matchs p.info").show()
+						    }
+		});
+		})
+		
+		
+
+})
+
+
+
+$("#remonter").click(function(){
+	$('html, body').animate({scrollTop: $('#matchs').offset().top}, 1000,'easeInOutCubic');
+})
+
+
+
+
+}
+
+</script>
+
+</body>
+</html>

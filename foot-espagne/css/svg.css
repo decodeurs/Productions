@@ -1,0 +1,22 @@
+/* SVG styling */
+svg {
+	width: 960px;
+	height: auto;
+}
+path {
+	stroke: #FFF;
+	stroke-width: 0.3px;
+}
+
+.labels {
+	fill: #aaa;
+	font-weight: 200;
+	letter-spacing: -1px;
+}
+.labels.segment {
+	font-size: 10px;
+}
+
+#chart3 .labels {
+	fill: #555;
+}

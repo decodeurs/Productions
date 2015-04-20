@@ -1,0 +1,756 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title></title>
+	 <link href="css/lemonde.css" media="screen" rel="stylesheet" type="text/css">
+    
+     
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
+   <!--  <link rel="stylesheet" type="text/css" href="http://s1.lemde.fr/bootstrap/www/3d23b8d51dc9a4946fa37b18db59105a.css?m[]=normalize&m[]=fonts&m[]=grille&m[]=base&m[]=header&m[]=footer&m[]=rubrique&m[]=article&m[]=partenaires%2Fpaves&m[]=col_droite&m[]=ticker&m[]=couleurs&m[]=une&m[]=bourse%2Fwidgets&m[]=partenaires%2Fnewsweb%2Fbase&m[]=partenaires%2Fnewsweb%2Fdatabox&m[]=partenaires%2Fnewsweb%2Flivescore_tennis&m[]=partenaires%2Fnewsweb%2Flivescore"> -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+<script src="js/canvas2image.js"></script>
+<script src="js/base64.js"></script>
+
+<script src="js/jquery.jeditable.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="http://canvg.googlecode.com/svn/trunk/rgbcolor.js"></script> 
+<script type="text/javascript" src="http://canvg.googlecode.com/svn/trunk/StackBlur.js"></script>
+<script type="text/javascript" src="http://canvg.googlecode.com/svn/trunk/canvg.js"></script>  
+<script src="js/data3.json"></script>
+
+<script type="text/javascript" src="http://mbostock.github.com/d3/d3.js"></script>
+
+   <style type="text/css">
+    	body {
+    		width:1000px;
+    		
+    	}
+    	#container{
+    		width:1000px;
+    		height: 840px;
+    		background:url(img/fond.png) left top repeat;
+    	}
+    	svg#map {
+    		width:1000px;
+    		height:560px;
+    	}
+    	#carte{
+    		width:526px;
+    		float:left;
+    		z-index:9999;
+    		height:700px;
+    	}
+    	.dept {
+    		width:100px;
+    		height:30px;
+    		margin:10px 30px;
+    		float:left;
+    		overflow:hidden;
+    		border:1px solid black;
+    	}
+    	#sources{
+    		float: right;
+			clear: right;
+			display:none;
+			text-align: right;
+			margin: 10px 10px 0 0;
+			padding: 10px;
+			background: rgba(255,255,255,0.4);
+    	}
+
+    	.dept.q0{background-color:rgb(166,206,227)} .dept.q1{background-color:rgb(31,120,180)} .dept.q2{background-color:rgb(178,223,138)} .dept.q3{background-color:rgb(51,160,44)} .dept.q4{background-color:rgb(251,154,153)} .dept.q5{background-color:rgb(227,26,28)} .dept.q6{background-color:rgb(253,191,111)} .dept.q7{background-color:rgb(255,127,0)} .dept.q8{background-color:rgb(202,178,214)} .dept.q9{background-color:rgb(106,61,154)} .dept.q10{background-color:rgb(255,255,153)} .dept.q11{background-color:rgb(177,89,40)} .dept.q12{background-color:rgb(255,237,111)} .dept.q13{background-color:rgb(251,128,114)} .dept.q14{background-color:rgb(128,177,211)} .dept.q15{background-color:rgb(253,180,98)} .dept.q16{background-color:rgb(179,222,105)} .dept.q17{background-color:rgb(252,205,229)} .dept.q18{background-color:rgb(217,217,217)} .dept.q19{background-color:rgb(188,128,189)} .dept.q20{background-color:rgb(204,235,197)} .dept.q21{background-color:rgb(255,237,111)}
+    	#right{
+    		width:470px;
+    		float:left;
+    		height:720px;
+    	}
+    	#regions{
+    		width:100%;
+    		float:left;
+    		z-index:0;
+    	}
+    	.region{
+    		width:146px;
+    		height:55px;
+    		text-align:center;
+    		padding:5px;
+    		float:left;
+    		background-color: #f8f9fb;
+    		margin:5px;
+    		z-index:-2000;
+    	}
+    	.region p.tt5_capital{
+    		cursor:default;
+    		width:110px;
+    	}
+    	p.tt5_capital.editable:hover:before{
+    		content: '\203A \00A0';
+    	}
+    	p.tt5_capital.editable:hover:after{
+    		content: '\00A0 \2039';
+    	}
+
+    	.rose {
+    		background-color: #FCCDE5;
+    	}
+    	.rouge {
+    		background-color: red;
+    	}
+    	.tooltip{
+    		background:rgba(255,255,255,0.9);
+    		padding:6px;
+    	}
+    	.move {
+    		float:right;
+    		width:20px;
+    		height:20px;
+    		background-color: red;
+    		cursor: all-scroll;
+    	}
+    	.delete {
+    		float:right;
+    		width:20px;
+    		height:20px;
+    		margin:auto 0;
+    		background: url(img/delete.png) left top no-repeat;
+    		cursor: pointer;
+    		padding: 0;
+    	}
+    	#nbr {
+    		background-color: #468847;
+			padding: 0 5px;
+			color: white;
+    	}
+    	.region form input {
+    		width:170px;
+    		float:left;
+    		font-size:10pt;
+    	}
+    	.region p {
+    		clear:left;
+    	}
+
+    	.region.phase2 {
+    		width:225px;
+    		height:auto;
+    		font-weight: bold;
+    	}
+    	.region.phase2 p.departement {
+    		text-align: center;
+    		padding:5px;
+    		background-color:rgba(255,255,255,0.5);
+    		margin: 0 0 5px;
+    		font-weight: normal;
+    	}
+
+    	.region.phase2 .precision {
+    		font-weight:normal;
+    	}
+    	
+    	.region.phase2 .delete{
+    		display:none;
+    	}
+    	.region.phase2 p.tt5_capital{
+    		cursor:pointer;
+    		width:200px;
+    		border-bottom: 1px dotted #666;
+    	}
+    	#col_gauche {
+    		float: left;
+			height: 660px;
+			width:235px;
+    	}
+    	#col_droite {
+    		float: right;
+			height: 660px;
+			width:235px;
+    	}
+    	
+    	#indication {
+    		width:860px;
+    		float:left;
+    		clear:left;
+    		text-align: center;
+    		padding: 10px;
+    		background-color: rgba(255,110,23,0.6);
+    		margin: 10px 0 10px 40px;
+
+    	}
+    	#indication.confirmation{
+    		background-color:#dff0d8;
+    	}
+    	#indication.confirmation a{
+    		color:#468847;
+    		border-bottom:1px dotted #468847;
+    	}
+    	#indication.confirmation a:hover{
+    		color:#333;
+    	}
+    	#indication.confirmation p{
+    		margin:0 0 0px 0;
+    	}
+    	#indication.phase2{
+    			height: 70px;
+    	}
+    	#indication p {
+    		text-align: center;
+    		margin:0 0 0px 0;
+    	}
+    	#indication .btn{
+    		margin:0 10px;
+    	}
+    	#decodeurs {
+    		float: right;
+			width: 50px;
+			height: 50px;
+			margin: 10px 25px 10px 0;
+    	}
+    	#decodeurs img{
+    		width: 50px;
+    	}
+    	#continuez {
+    		display:none;
+    		width:100%;
+    		float:left;
+    		clear:left;
+    	}
+    	.ui-tooltip {
+		    padding: 10px;
+		    border:0;
+		    border-radius:0;
+		    max-width: 160px;
+		    text-align: center;
+		  }
+
+		  #dessous {
+		  	width:1000px;
+		  	height:600px;
+		  }
+		  canvas{
+		  	display:none;
+		  }
+		  .nonvisible{
+		  	visibility: hidden;
+		  	
+		  	text-transform: uppercase;
+		  	font-size: 20px;
+		  }
+		  .libelle_regions {
+		  	font-weight:bold;
+		  }
+		  .plus {
+		  	width:20px;
+		  	height:20px;
+		  	background:url(img/plus.jpg);
+		  	display: block;
+		  	margin:0 90px;
+		  	float:left;
+		  	cursor: pointer;
+		  }
+		   .moins {
+		  	width:20px;
+		  	height:20px;
+		  	background:url(img/moins.jpg);
+		  	display: block;
+		  	margin:0 90px;
+		  	float:left;
+		  	cursor: pointer;
+		  }
+
+		  #depot {
+		  	float:left;
+		  	clear:left;
+		  	width:96%;
+		  	padding:10px;
+		  	background: #f1f5f8;
+			margin: -50px 2% 0 2%;
+			display:none;
+		  }
+		  #depot ul {
+		  	list-style: square;
+		  	margin-left:20px;
+		  }
+    </style>
+</head>
+<body>
+<!-- <p><a id="cliquer">Cliquer</a></p> -->
+<div id="container">
+
+	<div id="indication"><p class="tt5">Si vous deviez redessiner une France avec deux fois moins de régions, <a href="http://www.lemonde.fr/politique/article/2014/04/08/manuel-valls-pour-un-veritable-acte-iii-de-la-decentralisation_4397801_823448.html" target="_blank">comme Manuel Valls le souhaite</a>, comment vous y prendriez-vous ?</p><p class="tt4">&rsaquo;&rsaquo; Commencez par supprimer <span id="nbr">10</span> des 22 régions actuelles :</p></div>
+	<div id="decodeurs"><a href="http://www.lemonde.fr/les-decodeurs"><img src="img/decodeurs.png" alt="Les décodeurs" title="Les décodeurs"></a></div>
+	<div id="carte">
+		<svg id="map"></svg>
+		<div id="depot"></div>
+	</div>
+	<div id="right">
+		
+		<div id="regions">
+
+		</div>
+		
+		<div id="sources"><p>Sources : Insee (<a href="http://www.insee.fr/fr/ppp/bases-de-donnees/recensement/populations-legales/france-departements.asp?annee=2011" target="_blank">population légale 2011</a> et <a href="http://www.insee.fr/fr/themes/tableau.asp?reg_id=99&ref_id=t_2601D" target="_blank">PIB par département 2005</a>).</p></div>
+	</div>
+
+	<div id="dessous">
+		<canvas id="canvas" width="1000px" height="600px"></canvas> 
+		<p><img id="imago" /></p>
+	</div>
+</container>
+
+<script type="text/javascript">
+
+	var tooltip = d3.select("#carte")
+		.append("div")
+		.attr("class", "tooltip")
+		.style("position", "absolute")
+		.style("z-index", "10")
+		.style("visibility", "hidden")
+		.html("tooltip");
+
+
+
+
+		var pib_total = 1696144; var superficie_totale = 544690; var population_totale = 66068827;
+
+
+d3.json("js/data.json", function(fr) {
+	 	
+	 	var drag = d3.behavior.drag()
+		    .on("drag", dragmove)
+		    .on("dragstart", dragstart)
+		    .on("dragend", dragend);
+
+		//CARTE PRINCIPALE
+
+		d3.select("#carte svg#map")
+		.append("g")
+		   .attr("id", "dept")
+		   .selectAll("path")
+		   .data(fr)
+		   .enter().append("path")
+			   .attr("d", function(d){return d.trace})
+			   .attr("id", function(d){return "dept"+d.id})
+			   .attr("class", function(d){return "region"+d.reg})
+			   .attr("fill", function(d){
+	    			return colors[d.reg];
+	    		})
+			   .attr("stroke", "#e9edf0")
+	    		.attr("transform", "translate(0,0)")
+	    		.on("mouseover", function(d){
+	    			d3.select(".tooltip")
+	    				.style("visibility", "visible")
+	    				.html(function(){
+	    					return d.nom+" ("+d.dept+")<br>"+regions[d.reg].nom}); 
+	    		})
+				.on("mousemove", function(e){
+					return tooltip.style("top", (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px");})
+				.on("mouseout", function(){return tooltip.style("visibility", "hidden");});
+		
+
+
+
+		$.each(regions, function(i,d){ // Générer les régions
+					if(i<22) {
+						$("#regions").append("<div class=\"region\" id=\"region"+d.id+"\"><div class=\"delete\" title=\"Supprimer cette région\"></div><p class=\"tt5_capital\">"+d.nom+"</p></div>")
+						$(document).tooltip({
+							items: ".region",
+							position: { my: "center bottom", at: "right top" },
+							content: function(){
+								html = "<p><strong>Départements :</strong></p>";
+								region = $(this)[0].id.substring(6);
+								$.each(fr,function(index,value){
+									if(value.reg == region) {
+										html += "<p>"+value.nom+"</p>"			    				
+									}
+								});
+								return html;
+							}
+						});
+					}
+		})
+
+
+
+		var nbr = 10;
+
+		// Supprimer des régions
+		$('.delete').click(function(){
+					$(this).parent().toggle("")
+					region_supprimee = $(this).parent()[0].id.substring(6);
+					
+					$.each(fr,function(index,value){
+						if(value.reg == region_supprimee) {
+							value.reg = 22;
+							d3.select("#dept"+value.id)
+								.attr("fill",function(){ return colors[value.reg]; });
+							d3.select(".tooltip")
+		    					.html(function(){ 
+		    						return value.nom+"<br>"+regions[value.reg].nom
+		    					});
+		    				
+						}
+					});
+
+					nbr--
+		    		if(nbr == 0) { // Si on a supprimé 12 régions, on passe à la suite
+		    				$("#indication").html("<p class=\"tt4\">&rsaquo;&rsaquo; Bravo ! <a id=\"next\">Cliquez ici pour passer à la deuxième phase</a></p>")
+		    				$("#indication").addClass("confirmation")
+		    				$(".region .tt5_capital").css("width","100%")
+		    				$(".delete").css("display","none")
+		    				$('#next').click(function(){phase2()});
+		    		}
+		    		else {
+		    			$("#nbr").html(nbr)
+		    		}
+		})
+
+		function phase2(){ // Deuxième phase
+					$(document).tooltip({disabled: true});
+					$("#indication").removeClass("confirmation");
+
+					$("#sources").css("display","block");
+					
+					d3.selectAll("path").call(drag);
+
+					$("#continuez").css("display","none")
+					$("#indication").css("display","block").html("<p class=\"tt4\">&rsaquo;&rsaquo; Prenez des départements orphelins sur la carte à gauche et déposez-les dans une boîte de région, sur la droite. Vous pouvez renommer les régions en cliquant sur leur nom.</p>")
+					$("#regions").append("<div id=\"col_gauche\"></div><div id=\"col_droite\"></div>")
+					
+					populate();
+					
+					$('.editable').editable(function(value, settings) { 
+					     
+					     region = $(this).parent()[0].id.substring(6)
+
+					     regions[region].nom = value;
+					    
+					     return(value);
+					  }, { 
+					     type    : 'text',
+					     width: '170',
+					     submit  : 'ok',
+					 });
+		};
+
+		function populate(depoto,regiono) {
+			
+			$(".region").empty();
+			var orphelins = 0;
+			var numero = 0;
+
+			$(".region").each(function(index,value){
+					var toujoursla = 0;
+					// Reconstitution de la région
+						$("#regions #col_gauche").append($("#region"+index))
+						if(numero > 5) {
+							$("#regions #col_droite").append($("#region"+index))
+						}
+
+						if($("#region"+index).css("display") !== "none") numero++;
+						$("#region"+index).addClass("phase2 txt1");
+						$("#region"+index).append("<p class=\"tt5_capital editable\" title=\"Changer le nom de la région\">"+regions[index].nom+"</p>")
+						$("#region"+index).css("background-color",function(){ 
+							couleur = "rgba("+colors[index].substring(4);
+							couleur = couleur.substring(0,couleur.indexOf(")"))+",0.5)";
+							return couleur
+						}).css("border",function(){return "3px solid "+colors[index]})
+
+					// Génération des départements et données socio-économiques
+					$("#region"+index).append("<p class=\"departement\"></p>")
+					igo = 0, yolo = 0;
+					var population_region = 0, superficie_region = 0, chomage_region = 0, pib_region = 0;
+					$.each(fr,function(i,v){
+							if(v.reg == 22) orphelins++;
+							if(v.reg == index) {
+								toujoursla ++;
+								population_region += v.population;
+								superficie_region += v.superficie;
+								chomage_region += v.chomage;
+								pib_region += v.pib;
+								if(igo == 0) { $("#region"+index+" .departement").append("<span title=\""+v.nom+"\">"+v.dept+"</span>") }
+								else { $("#region"+index+" .departement").append(" - <span title=\""+v.nom+"\">"+v.dept+"</span>") }
+								igo++;
+							}
+							
+					})
+					pib_relatif = Math.round(pib_region*100/pib_total);
+					superficie_relative = Math.round(superficie_region*100/superficie_totale);
+					population_relative = Math.round(population_region*100/population_totale);
+					if(index == regiono && depoto == 1 && yolo == 0) {
+						depot(index,population_region,superficie_region,pib_region,pib_relatif,superficie_relative,population_relative);
+						yolo++;
+					}
+					$("#region"+index+"").append("<div class=\"plus\" title=\"En savoir plus sur cette région\"></div><div class=\"infos\"><p>"+thousandsSeparator(population_region)+" habitants ("+population_relative+" % du total)</p><p>"+thousandsSeparator(superficie_region)+" km<sup>2</sup> ("+superficie_relative+" %)</p><p>PIB : "+thousandsSeparator(pib_region)+" millions d'euros ("+pib_relatif+" %)</p>")
+					$(".infos").css("display","none")
+						
+						
+						
+
+						
+
+
+						// Régions vides
+						if(toujoursla == 0) {
+							$("#region"+index).empty()
+							$("#region"+index).append('<p class="tt5_capital editable" title="Changer le nom de la région">Région vide !</p>')
+						}
+
+						function depot(index,population_region,superficie_region,pib_region,superficie_relative,population_relative) {
+							$("#depot").css("display","block")
+							$("#depot").empty()
+							html = "<p class=\"tt3_capital\">&rsaquo;&rsaquo; Votre région "+regions[index].nom+" :</p><ul><li><strong>Départements</strong> : ";
+							var igo = 0;
+							$.each(fr,function(i,v){
+								if(v.reg == index) {
+									if(igo == 0) {html += v.nom}
+									else {html += " - "+v.nom}
+									igo++;
+								}
+							})
+
+							html += "</li><li><strong>Population</strong> : "+thousandsSeparator(population_region)+" habitants (2011) ("+population_relative+" % du total)</li><li><strong>Superficie</strong> : "+thousandsSeparator(superficie_region)+" km<sup>2</sup> ("+superficie_relative+" %)</li><li><strong>PIB</strong> : "+thousandsSeparator(pib_region)+" millions d'euros (2005) ("+pib_relatif+" %)</li></ul>";
+							$("#depot").append(html);
+							$("#depot").effect("highlight");
+						
+						}
+
+			})
+
+
+
+
+
+
+
+			$(".plus").click(function(){
+							if($(this).hasClass("moins")) {
+						
+								$(this).parent().children(".infos").toggle();
+								$(this).removeClass("moins");
+								$(this).attr("title","En savoir plus sur cette région");
+							}
+							else { 
+					
+								$(this).parent().children(".infos").toggle();
+								$(this).addClass("moins");
+								$(this).attr("title","Masquer les informations");
+							}
+			})
+			
+			$('.editable').editable(function(value, settings) { 
+			     region = $(this).parent()[0].id.substring(6)
+			     regions[region].nom = value;
+			     
+			     populate();
+			     return(value);
+			  }, { 
+			     type    : 'text',
+			     width: '170',
+			     submit  : 'ok',
+			 });
+
+						// génération de la légende non visible pour l'export
+			
+			d3.select("#carte svg#map g#dept")
+			   .selectAll(".nonvisible").remove();
+
+			d3.select("#carte svg#map g#dept")
+			   .selectAll("rect")
+			   .data(regions)
+			   .enter().append("rect")
+			   		.filter(function(d) {
+			   			return ($("#region"+d.id).css("display") !== "none")
+			   		})
+				   .attr("width", "20")
+				   .attr("height", "40")
+				   .attr("x", "530")
+				   .attr("class","nonvisible")
+				   .attr("y", function(d,i){return i*44 + 7})
+				   .attr("id", function(d){return "region_"+d.id})
+				   .attr("shape-rendering", "crispEdges")
+				   .attr("display",function(d){
+		    			if(d.id == 22) return "none";
+		    		})
+				   .attr("fill", function(d){
+		    			return colors[d.id];
+		    		});
+				  
+				 
+
+			d3.select("#carte svg#map g#dept")
+				.selectAll("text")
+			    .data(regions)
+				.enter().append("text")
+						.filter(function(d) {
+							
+					   			return ($("#region"+d.id).css("display") !== "none");
+					   		})
+					   .html(function(d){
+						   	return $("#region"+d.id+" p.editable").html()
+						})
+					   .attr("class","nonvisible")
+					   .attr("style","font-size:30px;font-family:'FetteEngschrift',Georgia;")
+					   .attr("x", "570")
+					   .attr("y", function(d,i){return i*44 + 38})
+					   .attr("fill", "#000000");
+
+
+
+			if(orphelins == 0) { // Terminé
+						$("#indication").addClass("confirmation").html("<p class=\"tt3\">Vous avez composé votre France à 12 régions, félicitations ! </p><p><a class=\"btn\" id=\"download_map\">Téléchargez votre carte</a><a class=\"btn\" id=\"open_map\">L'ouvrir dans un nouvel onglet</a> <a class=\"btn\" id=\"reset\">Recommencer à zéro</a> <iframe allowtransparency=\"true\" frameborder=\"0\" scrolling=\"no\" src=\"https://platform.twitter.com/widgets/tweet_button.html?url=http%3A%2F%2Fwww.lemonde.fr%2Fles-decodeurs%2Fvisuel%2F2014%2F04%2F18%2Fet-vous-comment-reduiriez-vous-la-france-a-12-regions_4403491_4355770.html&related=decodeurs&lang=fr&count=horizontal&text=J%27ai%20dessin%C3%A9%20ma%20France%20%C3%A0%2012%20r%C3%A9gions%20avec%20les%20%40decodeurs.%20Et%20vous%20%3F\" style=\"width:100px; height:20px;\"></iframe></p>").effect("highlight");
+
+					$("#reset").click(function(){
+						location.reload();
+					})
+					d3.select("#carte svg#map g#dept")
+						.insert("rect",":first-child")
+						.attr("id","fond")
+						.attr("width", "100%")
+					    .attr("height", "100%")
+					    .attr("fill", "#d4d9db");
+					var svg = $("#map").html();
+					
+					canvg('canvas', svg)
+					uri = canvas.toDataURL('image/png')
+					$("#download_map")[0].download = "carte des régions.png";
+					$("#download_map")[0].href = uri;
+					$("#open_map")[0].href = uri;
+					$("#open_map")[0].target = "_blank";
+
+					d3.select("#fond").remove()
+			}
+
+
+	}
+
+
+	function dragstart(d) {
+		$(".region").removeClass("rouge")
+		position = [0,0]
+		/*d3.event.sourceEvent.stopPropagation(); */// silence other listeners
+		d3.select(".tooltip")
+    		.html(function(){
+    			return "Déposez le département dans la région de votre choix"
+    		});
+		  
+	}
+	var pageX;
+	var pageY;
+	function dragmove(d) {
+		
+			document.body.style.cursor = 'move';
+			d3.select(this).attr("transform", function(d,i){
+				position[0] += d3.event.dx;
+				position[1] += d3.event.dy;
+                return "translate(" + [ position[0],position[1] ] + ")"
+            })
+            .attr("stroke","#ae001e")
+
+			pageX = d3.event.x;
+			pageY = d3.event.y + 90;
+
+			$(".region").each(function(index,value){
+				reg = $("#region"+index)
+				left = reg.position().left - 5;
+				left2 = left + reg.width() + 10;
+				topo = reg.position().top - 5;
+				topo2 = topo + reg.height() + 10;
+				
+				
+		
+				if(pageX >= left && pageX <= left2 && pageY >= topo && pageY <= topo2) {
+					reg.css("border-color",function(){ return colors[d.reg]})
+				}
+				else {
+					reg.css("border-color",function(){ return colors[index]})
+				}
+			})
+
+	}
+
+
+
+	function dragend(d) {
+		document.body.style.cursor = 'default';
+
+		
+	        
+		$(".region").each(function(index,value){
+			reg = $("#region"+index)
+			left = reg.position().left - 5;
+			left2 = left + reg.width() + 10;
+			topo = reg.position().top - 5;
+			topo2 = topo + reg.height() + 10;
+	
+			if(pageX >= left && pageX <= left2 && pageY >= topo && pageY <= topo2) {
+
+				reg.effect("highlight");
+				d.reg = index;
+				populate(1,d.reg);
+				
+			}
+
+			
+
+		})
+		d3.select(this)
+		.attr("stroke", "#e9edf0")
+		.attr("fill",function(){
+	                return colors[d.reg]
+	        })
+		.attr("transform", function(){
+                return "translate(0,0)"
+	        });
+		
+		
+
+		
+	}
+
+	function thousandsSeparator(x) {
+    	return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "&nbsp;");
+	}
+
+
+
+	/*$("#cliquer").click(function(){
+		$("#indication").addClass("confirmation").html("<p class=\"tt3\">Vous avez composé votre France à 12 régions, félicitations ! </p><p><a class=\"btn\" id=\"download_map\">Téléchargez votre carte</a><a class=\"btn\" id=\"open_map\">L'ouvrir dans un nouvel onglet</a> <a class=\"btn\" id=\"reset\">Recommencer à zéro</a> <iframe allowtransparency=\"true\" frameborder=\"0\" scrolling=\"no\" src=\"https://platform.twitter.com/widgets/tweet_button.html?url=http%3A%2F%2Fwww.lemonde.fr%2Fles-decodeurs%2Fvisuel%2F2014%2F04%2F18%2Fet-vous-comment-reduiriez-vous-la-france-a-12-regions_4403491_4355770.html&related=decodeurs&lang=fr&count=horizontal&text=J%27ai%20dessin%C3%A9%20ma%20France%20%C3%A0%2012%20r%C3%A9gions%20avec%20les%20%40decodeurs.%20Et%20vous%20%3F\" style=\"width:100px; height:20px;\"></iframe></p>").effect("highlight");
+
+					$("#reset").click(function(){
+						location.reload();
+					})
+					d3.select("#carte svg#map g#dept")
+						.insert("rect",":first-child")
+						.attr("id","fond")
+						.attr("width", "100%")
+					    .attr("height", "100%")
+					    .attr("fill", "#d4d9db");
+					var svg = $("#map").html();
+					
+					canvg('canvas', svg)
+					uri = canvas.toDataURL('image/png')
+					$("#download_map")[0].download = "carte des régions.png";
+					$("#download_map")[0].href = uri;
+					$("#open_map")[0].href = uri;
+					$("#open_map")[0].target = "_blank";
+
+					d3.select("#fond").remove()
+
+	})
+	*/
+
+	
+	
+	
+
+
+});
+	
+
+
+
+	
+</script>
+</body>
+</html>

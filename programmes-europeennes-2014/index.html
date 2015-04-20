@@ -1,0 +1,818 @@
+
+<!DOCTYPE>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Européennes : tous les partis pensent-ils pareil ?</title>
+	<link href="css/lemonde.css" rel="stylesheet" type="text/css">
+	<link href="css/mycss.css" rel="stylesheet" type="text/css">
+  <link href="css/decodeurs.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="css/jquery-ui.css" />
+	<link rel="stylesheet" type="text/css" href="http://s1.lemde.fr/medias/web/css/fonts.css"/>
+	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+	<script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
+	<script src="http://d3js.org/d3.v3.min.js"></script>
+
+</head>
+<body>	
+	<script src="js/d3tip.js"></script>
+
+<div id="articleBody" class="alpha omega">
+  <div class="container_18">
+      <div class="grid_16 article txt15_140 alpha omega prefix_1 suffix_1">
+        <p>Les discours critiques sur l&rsquo;Europe tendent &agrave; assimiler l&rsquo;Union europ&eacute;enne (UE) &agrave; un grand bloc monolithique qui fixe ses orientations de fa&ccedil;on bureaucratique, sans prendre en compte les choix politiques exprim&eacute;s par les citoyens. Pourtant, pour la premi&egrave;re fois depuis la naissance de l&rsquo;Europe, le pr&eacute;sident de la Commission europ&eacute;enne sera directement issu du r&eacute;sultat des &eacute;lections europ&eacute;ennes du 25 mai.</p>
+        <p>On attendrait donc des cinq grands mouvements politiques en lice (gauche radicale, gauche socialiste, verts, centristes et conservateurs) des prises de position marquantes pour illustrer leurs divergences. A regarder les quelques d&eacute;bats qui ont pour l&rsquo;instant oppos&eacute; leurs candidats (sur <a href="http://fr.euronews.com/2014/04/14/les-candidats-a-la-tete-de-la-commission-debat-euronews/">Euronews</a>, <a href="http://unioneuropeenne.blog.lemonde.fr/2014/04/10/schulz-vs-juncker-demandez-le-programme/">RFI, France 24 ou la t&eacute;l&eacute;vision allemande</a>), c&rsquo;est davantage ce qui les rapproche qui saute aux yeux : sur l&rsquo;Ukraine, la zone euro ou la protection des donn&eacute;es personnelles sur Internet, la difficult&eacute; &agrave; distinguer leurs points de vue.</p>
+        <p>Pour se faire une opinion, Les D&eacute;codeurs ont d&eacute;cortiqu&eacute; les programmes &eacute;lectoraux des cinq principaux candidats &agrave; la Commission europ&eacute;enne &ndash; <strong>Martin Schulz</strong> (Parti socialiste europ&eacute;en, PSE), <strong>Alexis Tsipras</strong> (Parti de la gauche europ&eacute;enne, PGE), <strong>Ska Keller</strong> et <strong>Jos&eacute; Bov&eacute;</strong> (Verts), <strong>Guy Verhofstadt</strong> (Alliance des d&eacute;mocrates et des lib&eacute;raux europ&eacute;ens, ADLE) et <strong>Jean-Claude Juncker</strong> (Parti populaire europ&eacute;en, PPE) &ndash;, ainsi que de l&rsquo;<strong>Alliance européenne pour la Libert&eacute;</strong>, un rassemblement d&rsquo;extr&ecirc;me droite men&eacute; par Marine Le Pen et Geert Wilders qui ne pr&eacute;sente pas officiellement de candidat pour la Commission.</p>
+        <p class="lire">Lire : <a href="http://www.lemonde.fr/international/article/2014/03/12/europeennes-les-principaux-chefs-de-file-de-la-campagne_4381653_3210.html">Commission europ&eacute;enne : qui sont les candidats ?</a></p>
+        <p>Nous avons visualis&eacute; sur le graphique suivant les propositions partag&eacute;es par au moins deux de ces formations sous forme de bulle. Plus une bulle est grosse, plus elle fait consensus. En cliquant sur &laquo;&nbsp;colorer les bulles par th&eacute;matique&nbsp;&raquo;, vous pourrez par exemple constater que c&rsquo;est l&rsquo;&eacute;conomie qui fait le plus consensus parmi les diff&eacute;rents partis, au-del&agrave; des clivages gauche/droite. Les euro-obligations, la r&eacute;forme des march&eacute;s financiers ou l&rsquo;union bancaire sont ainsi soutenues par toutes les formations, &agrave; l&rsquo;exception de l&rsquo;extr&ecirc;me droite.</p>
+      </div>
+    </div>
+		
+
+	<div class="bubbles">
+    <div class="checking">
+          <span class="tt4_capital">Colorer les bulles</span><br />
+          <input type="radio" name="selecteur" id="parti" value="parti" checked onclick="calc(value)" /> <label for="parti" class="txt4"><b>Par parti</b></label><br>
+          <input type="radio" name="selecteur" id="thematique" value="thematique" onclick="calc(value)" /> <label for="thematique" class="txt4"><b>Par thématique</b></label>
+          <div id="legende_thematiques">
+              <ul>
+                <li><span class="eco"></span>Economie</li>
+                <li><span class="inter"></span>International</li>
+                <li><span class="instit"></span>Institutions</li>
+                <li><span class="envir"></span>Environnement</li>
+                <li><span class="immig"></span>Immigration</li>
+                <li><span class="num"></span>Numérique</li>
+                <li><span class="soc"></span>Société</li>
+              </ul>
+
+          </div>
+        </div>
+  </div>
+
+<div class="container_18">
+  <div class="article txt15_140 grid_10 alpha prefix_1 suffix_1">
+     <p>Les &eacute;cologistes et la gauche radicale sont au regard de nos calculs les deux mouvements les plus proches : ils partagent 19 des 45 propositions que nous avons list&eacute;es. Leurs &ldquo;alliances&rdquo; exclusives sont essentiellement bas&eacute;es sur l&rsquo;environnement (taxe carbone, refus des agrocarburants) et l&rsquo;international (refus du trait&eacute; transatlantique Tafta en l&rsquo;&eacute;tat, interdiction des exportations d&rsquo;armes). Les Verts partagent &eacute;galement presque autant de positions avec les lib&eacute;raux-centristes de l&rsquo;ADLE (16) qu&rsquo;avec les socialistes (18).</p>
+<p><span id="docs-internal-guid-12865d03-00d8-f31a-3230-76c4566a42fa">Dans le trio de t&ecirc;te des pr&eacute;tendants &agrave; la Commission, les jeux sont tr&egrave;s serr&eacute;s : le socialiste Martin Schulz partage 15 propositions avec le conservateur Jean-Claude Juncker, et 17 avec le centriste Guy Verhofstadt. Droite et centre partagent &eacute;galement 15 positions communes, de la concurrence fiscale &agrave; la politique budg&eacute;taire, en passant par le renforcement des sanctions contre la Russie dans le dossier ukrainien.</span></p>
+     <h3 class="tt5 intertitre">Les clivages droite/gauche</h3> 
+<p>Les programmes &eacute;lectoraux des formations de gauche (PSE, PGE, Verts) sont les seuls &agrave; insister sur les sujets de soci&eacute;t&eacute;, comme la garantie du droit &agrave; l&rsquo;avortement ou l&rsquo;&eacute;galit&eacute; salariale hommes-femmes. Ces trois formations se rejoignent en outre sur l&rsquo;harmonisation fiscale, alors que la droite et le centre pr&ocirc;nent la concurrence fiscale entre les diff&eacute;rents pays europ&eacute;ens.</p>
+<p>Une coalition se dessine par ailleurs entre la gauche et les centristes sur deux grands dossiers &eacute;conomiques : la taxe sur les transactions financi&egrave;res, que le conservateur Jean-Claude Juncker <a href="http://www.lefigaro.fr/flash-eco/2012/03/27/97002-20120327FILWWW00524-juncker-reserve-sur-la-taxe-tobin.php">est le seul &agrave; critiquer</a> (alors qu&rsquo;il <a href="http://www.lequotidien.lu/l-economie/21325.html">y &eacute;tait favorable en 2011</a>) et l&rsquo;accentuation du combat contre l&rsquo;&eacute;vasion fiscale et les paradis fiscaux.</p>
+<p>De l&rsquo;autre c&ocirc;t&eacute; de l&rsquo;&eacute;chiquier politique, les lib&eacute;raux de l&rsquo;ADLE et les conservateurs du PPE se rejoignent sur la volont&eacute; de d&eacute;velopper la d&eacute;fense europ&eacute;enne ou d&rsquo;unifier le march&eacute; du num&eacute;rique.</p>
+
+      <h3 class="tt5 intertitre">Les rapprochements inattendus</h3> 
+      <p>La gauche radicale et les populistes d&rsquo;extr&ecirc;me droite partagent selon notre d&eacute;compte trois grandes propositions : l&rsquo;instauration de barri&egrave;res pour prot&eacute;ger l&rsquo;&eacute;conomie europ&eacute;enne, la d&eacute;fiance entre la conduite des politiques &eacute;conomiques et budg&eacute;taires par Bruxelles et la volont&eacute; de casser la logique du trait&eacute; de Lisbonne : quand le PGE veut tout simplement &ldquo;d&eacute;truire&rdquo; ce trait&eacute;, qui a accentu&eacute; les pouvoirs de l&rsquo;Union europ&eacute;enne, l&rsquo;Alliance europ&eacute;enne pour la libert&eacute; souhaite reconqu&eacute;rir la souverainet&eacute; nationale des Etats en l&rsquo;amendant.</p>
+<p>Les deux challengers pour la pr&eacute;sidence de la Commission, Guy Verhofstadt et Ska Keller (qui se pr&eacute;sente en ticket avec Jos&eacute; Bov&eacute;), se retrouvent dans leur promesse d&rsquo;imposer la transparence des d&eacute;cisions du conseil des ministres de l&rsquo;Union europ&eacute;enne.</p>
+
+      <h3 class="tt5 intertitre">Les cavaliers seuls</h3> 
+      <p>Le candidat de la droite, Jean-Claude Juncker, est le seul des cinq grands pr&eacute;tendants &agrave; la Commission &agrave; &ecirc;tre <a href="http://www.lefigaro.fr/flash-eco/2012/03/27/97002-20120327FILWWW00524-juncker-reserve-sur-la-taxe-tobin.php">r&eacute;serv&eacute;</a> sur la taxe sur les transactions financi&egrave;res (alors qu&rsquo;il <a href="http://www.lequotidien.lu/l-economie/21325.html">y &eacute;tait favorable en 2011</a>), et &agrave; ne pas se positionner sur la lutte contre l&rsquo;&eacute;vasion fiscale et les paradis fiscaux. L'ancien premier ministre luxembourgeois <a href="http://unioneuropeenne.blog.lemonde.fr/2014/03/17/juncker-le-prochain-president-de-la-commission-sera-soit-schulz-soit-moi/" target="_blank">est souvent accusé d'être un grand défenseur du secret bancaire</a>.</p>
+      <p>Le centriste Guy Verhofstadt est quant &agrave; lui isol&eacute; sur la question du dumping social : au nom des valeurs lib&eacute;rales, il est contre l&rsquo;instauration progressive d&rsquo;un smic europ&eacute;en. Il souhaite &eacute;galement abolir &ldquo;les organes de l&rsquo;UE qui n&rsquo;apportent pas la preuve de leur valeur ajout&eacute;e&rdquo;, mais surtout r&eacute;duire progressivement les subventions agricoles de la PAC &agrave; n&eacute;ant &ndash; en interdisant qu&rsquo;elles soient compens&eacute;es par des subventions nationales.</p>
+      <p>Les Verts, sans surprise, se d&eacute;marquent par leur programme offensif sur la question de l&rsquo;environnement : sortie du nucl&eacute;aire et du charbon, fin des subventions aux &eacute;nergies fossiles, interdiction de la fracturation hydraulique pour le gaz de schiste, refus des OGM, des tests animaux&hellip; Ska Keller et Jos&eacute; Bov&eacute; sont &eacute;galement les seuls &agrave; proposer d&rsquo;abaisser &agrave; 16 ans la majorit&eacute; &eacute;lectorale, des r&egrave;gles plus strictes sur le financement des partis politiques, et que l&rsquo;Europe fasse &ldquo;si&egrave;ge commun&rdquo; dans les principales organisations internationales.</p>
+      <p>La gauche radicale souhaite de son c&ocirc;t&eacute; interdire les lobbies, <a href="http://www.lemonde.fr/europeennes-2014/article/2014/05/07/bruxelles-les-lobbies-a-la-man-uvre_4412747_4350146.html">qui b&eacute;n&eacute;ficient d&rsquo;un poids extr&ecirc;mement important &agrave; Bruxelles</a>, bloquer imm&eacute;diatement les n&eacute;gociations sur <a href="http://www.lemonde.fr/les-decodeurs/article/2014/04/15/il-pourrait-changer-la-face-de-l-europe-le-traite-transatlantique-decode_4399476_4355770.html">le trait&eacute; transatlantique Tafta</a> et couper tous les ponts avec l&rsquo;OTAN. Sur le plan &eacute;conomique, Alexis Tsipras est favorable &agrave; une restructuration des dettes, et veut autoriser la BCE &agrave; pr&ecirc;ter directement de l&rsquo;argent aux Etats &agrave; taux nul ou tr&egrave;s faible.</p>
+      <p><span id="docs-internal-guid-12865d03-00e2-0f5f-ad01-b5098c47a586">Enfin, malgr&eacute; son programme tr&egrave;s minimaliste, l&rsquo;extr&ecirc;me droite populiste se retrouve sur un dossier : le retour aux Etats du contr&ocirc;le de leur politique d&rsquo;immigration, et donc de leurs fronti&egrave;res.</span></p>
+      <p class="lire">Pour tout comprendre au scrutin, regardez notre vidéo : <a href="http://www.lemonde.fr/europeennes-2014/video/2014/05/12/les-elections-europeennes-expliquees-en-patates_4414060_4350146.html" target="_blank">Les élections européennes expliquées en patates</a></p>
+      <p><iframe frameborder="0" width="534" height="270" src="http://www.dailymotion.com/embed/video/x1tq36q" allowfullscreen></iframe></p>
+
+<div class="bg_gris_moyen signature">
+              <ul class="liste_bordure">
+              <li class="clearfix" itemprop="author">
+              <span class="identite">
+              <a href="http://www.lemonde.fr/journaliste/maxime-vaudano/" target="_blank" class="gras">Maxime Vaudano</a>
+              <br><span class="txt_gris_clair">Journaliste au Monde</span>
+
+              </span>
+              <span class="suivre">
+              <strong class="txt1 txt_gris_moyen">Suivre</strong>
+              <a href="http://www.lemonde.fr/journaliste/maxime-vaudano/" class="avatar13x13" target="_blank">Aller sur la page de ce journaliste</a>
+              <a href="https://twitter.com/mvaudano" class="tw13x13" target="_blank">Suivre ce journaliste sur twitter</a>
+              </span>
+              </li>
+              </ul>
+      </div>
+
+
+
+  <aside class="fenetre">
+
+  <p class="tt20">Les données sur lesquelles nous avons travaillé</p>
+    <p class="lire"><a href="https://docs.google.com/spreadsheets/d/16bETjjdw-RUVIXV_ymIw7lmSlEMWf5XH8WmWHPXUAeM/edit?usp=sharing" target="_blank">Cliquez ici</a> pour acc&eacute;der au document structuré rassemblant, thématique par thématique, les principales propositions des six mouvements étudiés</p>
+  <p>Vous pouvez également retourner aux programmes complets des diff&eacute;rents mouvements avec les liens suivants :</p>
+  <ul>
+  <li><a href="http://issuu.com/greenprimary/docs/fr_single_page" target="_blank">Les Verts europ&eacute;ens</a></li>
+  <li><a href="http://www.ivoteliberal.eu/uploads/ALDE_Manifesto_Francais.pdf" target="_blank">L&rsquo;ADLE</a></li>
+  <li><a href="http://issuu.com/eppparty/docs/eppmanifesto_fr" target="_blank">Le PPE</a></li>
+  <li><a href="http://d3n8a8pro7vhmx.cloudfront.net/partyofeuropeansocialists/pages/1/attachments/original/1397230944/110001306_PES_Manifesto_FR.pdf?1397230944" target="_blank">Le PSE</a></li>
+  <li><a href="http://www.european-left.org/sites/default/files/plateforme_complete_fr_-_courte_longue.pdf" target="_blank">Le PGE</a></li>
+   <li><a href="http://www.eurallfree.org/sites/default/files/eaf-manifesto-fr.pdf" target="_blank">L'AEL</a></li>
+  </ul>
+  <p>Les principaux débats télévisés entre les candidats :</p>
+  <ul>
+      <li><a href="http://www.france24.com/fr/20140409-direct-debat-france-24-jean-claude-juncker-martin-schulz-commission-europe-elections/" target="_blank">Martin Schulz et Jean-Claude Juncker sur France 24 et RFI, le 9 avril</a></li>
+      <li><a href="http://fr.euronews.com/2014/04/14/les-candidats-a-la-tete-de-la-commission-debat-euronews/" target="_blank">Euronews, le 28 avril (sans Alexis Tsipras)</a></li>
+      <li><a href="http://www.lcp.fr/videos/reportages/160333-jeudi-15-mai-sur-lcp-debat-entre-les-candidats-a-la-presidence-de-la-commission-europeenne" target="_blank">Le grand débat du 15 mai entre les 5 principaux candidats, diffusé sur LCP</a></li>
+   </ul>  
+      </aside>
+
+
+  </div>
+
+  <div class="grid_6 omega col_droite">
+      
+          <div id="bloc1" class="bloc_base">
+        <h2 class="entete">Les 5 mesures qui font (plus ou moins) consensus</h2>
+        <div class="contenu_bloc_droit txt13_140">
+            <ul>
+            <li>
+            <p><strong>Mise en place d&rsquo;<a href="http://abonnes.lemonde.fr/economie/article/2012/05/23/eurobonds-project-bonds-le-lexique-du-sommet_1705735_3234.html">euro-obligations</a></strong> : tous sauf l&rsquo;extr&ecirc;me droite.</p>
+            </li>
+            <li>
+            <p><strong><a href="http://abonnes.lemonde.fr/economie/article/2014/04/15/le-parlement-europeen-adopte-l-union-bancaire_4401847_3234.html">Union bancaire</a></strong> : tous sauf l&rsquo;extr&ecirc;me droite (la gauche radicale souhaite refonder l&rsquo;union bancaire telle qu&rsquo;elle se dessine), avec &ldquo;une dette g&eacute;r&eacute;e centralement par la Banque centrale europ&eacute;enne [BCE]&rdquo;.</p>
+            </li>
+            <li>
+            <p><strong>Renforcement du pouvoir de la Commission</strong> : tous sauf la gauche radicale.</p>
+            </li>
+            <li>
+            <p><strong>D&eacute;veloppement des technologies innovantes et les &eacute;nergies vertes</strong> : tous sauf l&rsquo;extr&ecirc;me droite.</p>
+            </li>
+            <li>
+            <strong>Taxe sur les transactions financi&egrave;res</strong> : tous sauf la droite et l&rsquo;extr&ecirc;me droite (le centriste Guy Verhofschadt ne l&rsquo;a pas incluse dans son programme, mais <a href="http://www.newdeal4europe.eu/en/home-eng/37-supporters/178-guy-verhofstadt-supports-the-new-deal-4-europe-initiative">a sign&eacute; un texte</a> pr&ocirc;nant son instauration).
+            </li>
+            </ul>
+      </div>
+      </div>
+  </div>
+</div>
+
+</div>
+	<script>
+	
+
+
+tablo = [
+  [0,"Mise en place d'euro-obligations","adle|pge|ppe|pse|verts","eco"],
+  [1,"Union bancaire","adle|pge|ppe|pse|verts","eco"],
+  [2,"Taxe sur les transactions financières","adle|pge|pse|verts","eco"],
+  [3,"Réforme des marchés financiers","adle|pge|ppe|pse|verts","eco"],
+  [4,"Renforcer le pouvoir de la Commission","adle|ppe|pse|verts","instit"],
+  [5,"Renforcer le pouvoir du Parlement européen et des parlements nationaux","adle|pge|pse|verts","instit"],
+  [6,"Promouvoir les technologies innovantes et les énergies vertes","adle|pge|ppe|pse|verts","envir"],
+  [7,"Protéger la liberté de choix des femmes (avortement, contraception)","pge|pse|verts","soc"],
+  [8,"Harmonisation fiscale","pge|pse|verts","eco"],
+  [9,"Faciliter l'accès au crédit des PME","adle|ppe|pse","eco"],
+  [10,"Concurrence fiscale","adle|ppe","eco"],
+  [11,"Règles contraignantes pour l'égalité salariale hommes-femmes","pge|pse|verts","soc"],
+  [12,"Elargir l'initiative citoyenne européenne (ICE) et le recours aux référendums européens","pge|verts","instit"],
+  [13,"Non aux agrocarburants","pge|verts","envir"],
+  [14,"Combattre l'évasion fiscale et les paradis fiscaux","adle|pge|pse|verts","eco"],
+  [15,"Lutter contre le dumping social et mettre en place un salaire minimal européen","pge|ppe|pse|verts","eco"],
+  [16,"Parité à la Commission européenne","adle|pge|pse","instit"],
+  [17,"Transparence des débats et/ou des votes du Conseil des ministres de l'UE","adle|verts","instit"],
+  [18,"Respect de la discipline budgétaire","adle|ppe|pse|verts","eco"],
+  [19,"Protectionnisme économique par la restauration de barrières sociales et environnementales","ael|pge","eco"],
+  [20,"Séparation des activités bancaires ","pge|verts","eco"],
+  [21,"Taxe carbone","pge|verts","envir"],
+  [22,"Renforcer les objectifs de réduction des émissions de CO2","pse|verts","envir"],
+  [23,"Garantir un droit à l'énergie et/ou à l'eau","pge|pse","envir"],
+  [24,"Restreindre ou interdire les rejets à la mer de poissons","adle|verts","envir"],
+  [25,"Favoriser l'accueil des demandeurs d'asile","adle|verts","immig"],
+  [26,"Réformer ou abolir l'agence de surveillance des frontières Frontex","pge|verts","immig"],
+  [27,"Unifier le marché du numérique","adle|ppe","num"],
+  [28,"Mieux protéger les données personnelles","adle|pge|ppe|pse|verts","num"],
+  [29,"Lutter pour la neutralité du net","adle|verts","num"],
+  [30,"Pour le traité d'association avec l'Ukraine","adle|ppe|pse","inter"],
+  [31,"Renforcer les sanctions contre la Russie sur l'Ukraine","adle|ppe|pse","inter"],
+  [32,"Augmenter l'aide au développement","ppe|verts","inter"],
+  [33,"Favorable au traité transatlantique TAFTA","adle|ppe|pse","inter"],
+  [34,"Sceptique ou opposé au traité transatlantique TAFTA","pge|verts","inter"],
+  [35,"Limiter les exportations d'armes par les Européens","pge|verts","inter"],
+  [36,"Développer la défense commune européenne","adle|ppe","inter"],
+  [37,"Poursuivre l'élargissement européen","adle|pse|verts","inter"],
+  [38,"Poursuivre le développement des partenariats à l'Est et en Méditérranée","ppe|pse|verts","inter"],
+  [39,"Rendre le contrôle de l'économie et des budgets aux Etats","ael|pge","eco"],
+  [40,"Lutte contre les violences faites aux femmes","pge|verts","soc"],
+  [41,"Revenir sur les pouvoirs accordés à l'Europe par le traité de Lisbonne","ael|pge","instit"],
+  [42,"Réformer ou supprimer le marché des quotas d'émission de CO2","pge|verts","envir"],
+  [43,"Solidarité entre les Etats-membres pour l'accueil des réfugiés","ppe|pse","immig"],
+  [44,"Refus de l'adhésion de l'Ukraine à l'UE","adle|ppe|pse|verts","inter"]
+]
+centroids = {
+"pge":"280,20",
+"ael" : "690,20",
+"verts": "30,281",
+"ppe": "970,281",
+"pse": "280,570",
+"adle": "690,570",
+// côte à côte
+"adle|ppe": "940,540",
+"pse|verts": "60,540",
+"pge|verts": "60,60",
+"ael|ppe": "940,60",
+"ael|pge": "500,35",
+// Gauche
+"pge|pse": "170,300",
+"pge|pse|verts": "155,300",
+// Gauche-centre
+"adle|pge|pse|verts":"350,250",
+"adle|pse|verts":"350,380",
+"adle|verts":"350,380",
+"adle|pge|pse":"350,220",
+// PSE-Centre-PPE
+"adle|ppe|pse":"600,450",
+// Alliances droite-gauche
+"pge|ppe|pse|verts":"700,230",
+"adle|pge|ppe|pse|verts":"700,230",
+"adle|ppe|pse|verts":"550,230",
+"ppe|verts":"660,300",
+"ppe|pse|verts":"700,300",
+// Tous
+"ael|adle|pge|ppe|pse|verts": "500,300"
+}
+couleurs = {
+"pge":"#9c090f",
+"ael" : "#04103f",
+"verts": "#80b904",
+"ppe": "#2c59a8",
+"pse": "#f96996",
+"adle": "#fb6b02"
+}
+themes = {
+"eco":"#0386C3",
+"instit" : "#285A82",
+"soc": "#28BEAA",
+"envir": "#821400",
+"instit": "#FFC832",
+"immig": "#FF3232",
+"num": "#F09600",
+"inter": "#191919"
+}
+partis = {
+"pge":"Parti de la gauche européenne",
+"ael" : "Alliance européenne pour la liberté",
+"verts": "Verts européens",
+"ppe": "Parti populaire européen",
+"pse": "Parti socialiste européen",
+"adle": "Alliance des démocrates et des libéraux pour l'Europe"
+};
+
+textes = [
+	["Les alliances droite/gauche",510,145],
+	["Socialiste/centre/droite",508,400],
+	["Centre/droite",821,517],
+	["Gauche radicale/extrême-droite", 370,83],
+	/*["Extrême-droite", 425,93],*/
+	["Socialiste/Verts", 21, 512],
+	["Verts/Gauche radicale",21,131],
+	["Gauche/centre",298,175],
+	["Gauche plurielle",100,251]
+];
+
+var margin = {top: 0, right: 0, bottom: 0, left: 0},
+    width = 1000 - margin.left - margin.right,
+    height = 600 - margin.top - margin.bottom;
+
+var n = tablo.length, //NOMBRE
+    padding = 40,
+    radius = d3.scale.sqrt().range(tablo); 
+	p = 0
+
+var nodes = d3.range(n).map(function() {
+
+	//CHERCHER DANS LE TABLEAU
+	p++
+	/*var i = 1 */ //COULEUR
+	var mespoles = [], monCentroid_x = 0, monCentroid_y = 0;
+	array_partis = tablo[p-1][2].split('|').sort()
+	partis_trie = tablo[p-1][2].split('|').sort().join("|")
+  console.log(tablo[p-1][2].split('|').sort())
+	// Si le centroid est déjà défini :
+	if(centroids[partis_trie]) {
+		monCentroid_x = centroids[partis_trie].split(",")[0];
+		monCentroid_y = centroids[partis_trie].split(",")[1];	
+	}
+	// Sinon, on le calcule
+	else {
+		for(var i=0; i < array_partis.length;i++) {
+			monCentroid_x += Number(centroids[array_partis[i]].split(",")[0]);
+			monCentroid_y += Number(centroids[array_partis[i]].split(",")[1]);
+		}
+		monCentroid_x = monCentroid_x/array_partis.length;
+		monCentroid_y = monCentroid_y/array_partis.length;
+		
+	}
+	for(var i=0; i < array_partis.length;i++) {
+			mespoles[i] = array_partis[i];
+	}
+  return {
+    radius: array_partis.length*7,
+    id: p-1,
+    cx: monCentroid_x,
+    cy: monCentroid_y,
+    poles: mespoles,
+    theme: tablo[p-1][3],
+	a : 1,
+	nom: tablo[p-1][1],
+	partis: tablo[p-1][2]
+  };
+});
+
+
+
+
+var force = d3.layout.force()
+    .nodes(nodes)
+    .size([width, height])
+    .gravity(0)
+    .charge(0)
+    .on("tick", tick)
+    .start();
+
+var tooltip = d3.select(".bubbles").insert("div")   
+    .attr("class", "tooltip")               
+    .style("opacity", 0);
+
+var vis = d3.select(".bubbles").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .style("border", "1px solid #ccc")
+	.append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+
+
+var defs = vis.append("defs");
+for(var j=0;j < tablo.length; j++) {
+	array_partis = tablo[j][2].split('|').sort()
+	partis_normalise = array_partis.join("_")
+	
+	if($("#"+partis_normalise)) {
+		var grad = defs.append("linearGradient").attr("id", partis_normalise)
+	              .attr("x1", "0%").attr("x2", "100%").attr("y1", "100%").attr("y2", "0%");
+		for(var k=0; k < array_partis.length;k++) {
+			part1 = (Math.round(1/array_partis.length*100)*k)+0.5
+			part2 = (Math.round(1/array_partis.length*100)*(k+1))-0.5
+			couleur = couleurs[array_partis[k]]
+			grad.append("stop").attr("offset", part1+"%").style("stop-color", couleur);
+			grad.append("stop").attr("offset", part2+"%").style("stop-color", couleur);
+		}
+	}
+}
+
+
+
+/* Initialize tooltip */
+/*tip = d3.tip().attr('class', 'd3-tip').html(function(d) { 
+	array_partis = d.partis.split('|').sort()
+	var html = "<p>"+d.nom+"</p><p>Soutenu par :</p><ul>"
+	for(var i=0; i < array_partis.length;i++) {
+		html += "<li>"+partis[array_partis[i]]+"</li>"
+	}
+	html += "</ul>";
+	return html;
+	 });*/
+
+/* Invoke the tip in the context of your visualization */
+/*vis.call(tip)*/
+
+var circle = vis.selectAll("circle")
+    .data(nodes)
+  .enter().append("circle")
+    .attr("r", function(d) { return d.radius; })
+    .attr("title", function(d) { return d.nom; })
+    .style("stroke","#FFF")
+    .style("stroke-width","3")
+    .style("fill", function(d) { 
+  		partis_normalise = d.partis.split('|').sort().join("_")
+  		return "url(#"+partis_normalise+")";
+    })
+    .call(force.drag)
+    .on('mouseover', function(d){ 
+          
+        // Colorer le contour de la bulle hoverée
+          d3.select(this)
+        		.transition()
+        		.duration(50)
+        		.style("stroke","#ffc600");
+      	
+        // Afficher les lignes de la bulle vers les partis
+      		$.each(d.partis.split('|').sort(), function(i,value) {
+      			vis.insert("line","defs")
+      				.attr({
+      					"x1":d.x,
+      					"y1":d.y,
+      					"x2":Number(centroids[value].split(",")[0]),
+      					"y2":Number(centroids[value].split(",")[1])
+      				})
+      		})
+
+          // Modifier le tooltip
+          tooltip.transition()        
+                      .ease("fade")      
+                      .style("opacity", 1);      
+          tooltip.html(function() { 
+              html = "<h2>"+d.nom+"</h2><p>Proposition soutenue par :</p><ul>";
+              $.each(d.partis.split('|').sort(), function(i,value) {
+
+                html += "<li class=\""+value+"\">"+partis[value]+"</li>";
+              })
+              html += "</ul>";
+              return html;
+            })  
+            .style("left", function(){
+                if(d3.event.pageX < 800) { return (Number(d.cx) + d.radius + 25) + "px" }
+                else { return (Number(d.cx) - 225 - d.radius) + "px" }
+            })
+            .style("top", function(){
+                if(d3.event.pageY > 450) { return (Number(d.cy) - d.radius - $(this).height() - 25) + "px" }
+                else if(d3.event.pageY > 200) { return (Number(d.cy) - d.radius - - 25) + "px" }
+                else { return (Number(d.cy) + 25 + d.radius) + "px" }
+            })     
+                  
+          	$.each(d.poles, function( key, value ) {
+          		$("#pole_"+value+" ellipse").attr({"rx":function(){return Number($("#pole_"+value+" ellipse").attr("rx"))+15},"ry":function(){return Number($("#pole_"+value+" ellipse").attr("ry"))+15}});
+          	})
+    })
+ 	.on('mouseout', function(d){ 
+        tooltip.transition()        
+          .ease("fade")      
+          .style("opacity", 0); 
+
+     		$("line").remove()
+     		d3.select(this)
+        		.transition()
+        		.duration(0)
+        		.style("stroke","#FFF");
+     		$("g#poles ellipse").css({"stroke-width":"0","fill":""})
+     		$("g#poles text").css({"fill":"#FFF"})
+        	
+        	
+        	$("g#poles ellipse.horizontal").attr({"rx":"150","ry":"75"})
+        	$("g#poles ellipse.vertical").attr({"rx":"75","ry":"150"})  	
+  });
+
+
+
+vis.append("g")
+	.attr({
+		"id":"poles"
+	});
+d3.select("#poles").append("g")
+	.attr({
+		"id":"pole_adle"
+	});
+d3.select("#pole_adle").append("ellipse")
+	.attr({
+		"rx":"150",
+		"ry":"75",
+		"cx":"690",
+		"cy":"600",
+		"class":"horizontal",
+		"fill":"#FB6B02"
+	});
+d3.select("#pole_adle").append("text")
+	.text("ADLE")
+	.attr({
+		"x":"690",
+		"y":"570"
+	});
+d3.select("#pole_adle").append("text")
+  .text("(centre/libéraux)")
+  .attr({
+    "class":"small",
+    "x":"690",
+    "y":"590"
+  });
+d3.select("#poles").append("g")
+	.attr({
+		"id":"pole_pse"
+	});
+d3.select("#pole_pse").append("ellipse")
+	.attr({
+		"rx":"150",
+		"ry":"75",
+		"cx":"280",
+		"cy":"600",
+		"class":"horizontal",
+		"fill":"#F96996"
+	});
+d3.select("#pole_pse").append("text")
+	.text("PSE")
+	.attr({
+		"x":"280",
+		"y":"570"
+	});
+d3.select("#pole_pse").append("text")
+  .text("(socialistes)")
+  .attr({
+    "class":"small",
+    "x":"280",
+    "y":"590"
+  });
+d3.select("#poles").append("g")
+	.attr({
+		"id":"pole_ael"
+	});
+d3.select("#pole_ael").append("ellipse")
+	.attr({
+		"rx":"150",
+		"ry":"75",
+		"cx":"690",
+		"cy":"0",
+		"class":"horizontal",
+		"fill":"#04103F"
+	});
+d3.select("#pole_ael").append("text")
+	.text("AEL")
+	.attr({
+		"x":"690",
+		"y":"30"
+	});
+d3.select("#pole_ael").append("text")
+  .text("(extrême-droite)")
+  .attr({
+    "class":"small",
+    "x":"690",
+    "y":"50"
+  });
+d3.select("#poles").append("g")
+	.attr({
+		"id":"pole_pge"
+	});
+d3.select("#pole_pge").append("ellipse")
+	.attr({
+		"rx":"150",
+		"ry":"75",
+		"cx":"280",
+		"cy":"0",
+		"class":"horizontal",
+		"fill":"#9C090F"
+	});
+d3.select("#pole_pge").append("text")
+	.text("PGE")
+	.attr({
+		"x":"280",
+		"y":"30"
+	});
+d3.select("#pole_pge").append("text")
+  .text("(gauche radicale)")
+  .attr({
+    "class":"small",
+    "x":"280",
+    "y":"50"
+  });
+d3.select("#poles").append("g")
+	.attr({
+		"id":"pole_verts"
+	});
+d3.select("#pole_verts").append("ellipse")
+	.attr({
+		"rx":"75",
+		"ry":"150",
+		"cx":"0",
+		"cy":"300",
+		"class":"vertical",
+		"fill":"#80B904",
+    "title":"Les Verts européens"
+	});
+d3.select("#pole_verts").append("text")
+	.text("Verts")
+	.attr({
+		"x":"37.5",
+		"y":"300",
+	});
+d3.select("#pole_verts").append("text")
+  .text("(écolos)")
+  .attr({
+    "class":"small",
+    "x":"37.5",
+    "y":"320"
+  });
+d3.select("#poles").append("g")
+	.attr({
+		"id":"pole_ppe"
+	});
+d3.select("#pole_ppe").append("ellipse")
+	.attr({
+		"rx":"75",
+		"ry":"150",
+		"cx":"1000",
+		"cy":"300",
+		"class":"vertical",
+		"fill":"#2C59A8"
+	});
+d3.select("#pole_ppe").append("text")
+	.text("PPE")
+	.attr({
+		"x":"962.5",
+		"y":"300"
+	});
+d3.select("#pole_ppe").append("text")
+  .text("(droite)")
+  .attr({
+    "class":"small",
+    "x":"962.5",
+    "y":"320"
+  });
+
+vis.append("g")
+	.attr({
+		"id":"textes"
+	});
+
+$.each(textes, function(i,value){
+	d3.select("#textes")
+	.append("text")
+		.text(function(d){
+			return value[0]
+		})
+		.attr({
+		"x":function(d){
+			return value[1]
+		},
+		"y":function(d){
+			return value[2]
+		}
+	})
+});
+
+$.each(textes, function(i,value){
+	d3.select("#textes")
+	.append("text")
+		.html(function(d){
+			return value[0]
+		})
+		.attr({
+		"x":function(d){
+			return value[1]
+		},
+		"y":function(d){
+			return value[2]
+		}
+	})
+});
+
+$("#legende_thematiques").hide();
+var selector = "parti";
+function calc(value){
+	if(document.getElementById("thematique").checked){
+    selector = "thematique";
+		$("#legende_thematiques").show("blind");
+    d3.selectAll("circle")
+		.style("fill", function(d) { 
+			return themes[d.theme]
+    	})
+	}
+	else {
+    selector = "parti";
+    $("#legende_thematiques").hide("blind");
+		d3.selectAll("circle")
+		.style("fill", function(d) { 
+			partis_normalise = d.partis.split('|').sort().join("_")
+			return "url(#"+partis_normalise+")";
+    	})
+	}
+}
+
+$("g#poles g").mouseover(function(i,value){
+  var parti = $(this)[0].id.substring(5);
+    d3.selectAll("circle")
+    .style("fill", function(d) { 
+      if(d.partis.indexOf(parti) >= 0) { return couleurs[parti] }
+      else { return "#d2d6db" }
+      })
+});
+$("g#poles g").mouseout(function(i,value){
+  calc(selector)
+});
+
+
+
+/*function calc(value, id){
+	if(document.getElementById(id).checked){
+		d3.selectAll("circle")
+		.transition()
+		.duration(100)
+		.attr("cx", function(d) { 
+			if (tableau[d.index][2] == value){
+				d.cx = tableau[d.index][6]
+				return d.cx;
+			}
+		})
+		d3.layout.force()
+			.nodes(nodes)
+			.size([width, height])
+			.gravity(0)
+			.charge(10)
+			.on("tick", tick)
+			.start();
+	}
+	else {
+		d3.selectAll("circle")
+		.transition()
+		.duration(100)
+		.attr("cx", function(d) { 
+			if (tableau[d.index][2] == value){
+				d.cx = 1000
+				return d.cx;
+			}
+		})
+		d3.layout.force()
+			.nodes(nodes)
+			.size([width, height])
+			.gravity(0)
+			.charge(10)
+			.on("tick", tick)
+			.start();
+	}
+}
+*/
+
+/*function myfunction(elem){
+	if (elem.is(':checked')){
+		if (elem.val() == "mds"){
+			d3.selectAll("path")
+			.transition()
+			.ease("bounce")
+			.duration(500)
+			.attr("r", function(d) { 
+				d.radius = Math.sqrt(tableau[d.index][3]/Math.PI)*5
+				return d.radius;
+			})
+			d3.layout.force()
+				.nodes(nodes)
+				.size([width, height])
+				.gravity(0)
+				.charge(10)
+				.on("tick", tick)
+				.start();
+				
+		}
+		if (elem.val() == "pib"){
+			d3.selectAll("path")
+			.transition()
+			.ease("bounce")
+			.duration(500)
+			.attr("r", function(d) { 
+				d.radius = Math.sqrt(tableau[d.index][8]/Math.PI)*12
+				return d.radius;
+			})
+			d3.layout.force()
+				.nodes(nodes)
+				.size([width, height])
+				.gravity(0)
+				.charge(10)
+				.on("tick", tick)
+				.start();
+				
+		}
+	}
+}
+*/
+
+function tick(e) {
+  circle
+      .each(gravity(.1 * e.alpha))
+      .each(collide(.2))
+      .attr("cx", function(d) { return d.x; })
+      .attr("cy", function(d) { return d.y; });
+}
+
+// Move nodes toward cluster focus.
+function gravity(alpha) {
+  return function(d) {
+    d.y += (d.cy - d.y) * alpha;
+    d.x += (d.cx - d.x) * alpha;
+  };
+}
+
+// Resolve collisions between nodes.
+function collide(alpha) {
+  var quadtree = d3.geom.quadtree(nodes);
+  return function(d) {
+    var r = d.radius + radius.domain()[1] + padding,
+        nx1 = d.x - r,
+        nx2 = d.x + r,
+        ny1 = d.y - r,
+        ny2 = d.y + r;
+    quadtree.visit(function(quad, x1, y1, x2, y2) {
+      if (quad.point && (quad.point !== d)) {
+        var x = d.x - quad.point.x,
+            y = d.y - quad.point.y,
+            l = Math.sqrt(x * x + y * y),
+            r = d.radius + quad.point.radius + (d.color !== quad.point.color) * padding;
+        if (l < r) {
+          l = (l - r) / l * alpha;
+          d.x -= x *= l;
+          d.y -= y *= l;
+          quad.point.x += x;
+          quad.point.y += y;
+        }
+      }
+      return x1 > nx2
+          || x2 < nx1
+          || y1 > ny2
+          || y2 < ny1;
+    });
+  };
+}
+
+</script>
+</body>
+</html>

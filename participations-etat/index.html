@@ -1,0 +1,454 @@
+﻿<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="css/lemonde.css"></link>
+		<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
+		<link rel="stylesheet" type="text/css" href="//s1.lemde.fr/medias/web/css/fonts.css">
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+		<script src="http://d3js.org/d3.v3.min.js"></script>
+		<script src="http://d3js.org/topojson.v1.min.js"></script>
+		<style>
+			body{
+				background-color: white!important;
+			}
+			svg {
+			 
+			  font: 10px sans-serif;
+			  shape-rendering: crispEdges;
+			}
+			#loading{
+				width: 140px;
+				position: absolute;
+				text-align: center;
+				top: 300px;
+				left: 417px;
+			}
+			#loading p{
+				padding-top: 15px
+			}
+			.global{
+				min-height: 800px;
+			}
+			#infog svg{
+				margin:0 auto;
+			}
+			#change{
+				position: absolute;
+				text-align: center;
+				top: 140px;
+				left: 77px;
+				width: 700px;
+			}
+			#legende2{
+				display:none;
+			}
+			p.btn{
+				margin:0;
+			}
+			#source{
+				position: absolute;
+				text-align: center;
+				top: 140px;
+				right: 10px;
+				width: 160px;
+				border:1px solid #ebebeb;
+			}
+			#select_annees{
+				list-style:none;
+				display: none;
+			}
+			#select_annees li{
+				display:inline;
+			}
+			#selectall{
+				cursor: pointer;
+			}
+			#selectall:before{
+				content: '\203A \00A0';
+			}
+			#selectall:hover{
+				border-bottom: 1px dotted #000;
+			}
+			label{ padding-right:5px; cursor: pointer;}
+		</style>
+	</head>
+	<body>
+		<div class="global clearfix" id="articleBody">
+			<div class="container_18 article">
+				<div class="grid_18 alpha omega">
+						<p class="lire">Lire l'enquête associée à cette datavisualisation : <a href="http://www.lemonde.fr/les-decodeurs/article/2014/11/04/participations-les-mauvais-comptes-de-l-etat-actionnaire_4509167_4355770.html" target="_blank">La grande braderie des participations de l'Etat</a></p>
+				</div>
+				<div class="grid_18 alpha omega">
+					
+					<div id="infog">
+						<div id="loading" class="tt3_capital"><p><img src="img/loader.gif"></p><p>Chargement en cours</p></div>
+						<div id="source" class="txt2 pad8">
+							<p>Source : <a href="https://docs.google.com/spreadsheets/d/1hvPvr7_5Znn3X50X1RHOf7WGWbF6ggj_ILvUXuPtBZk/edit?usp=sharing" target="_blank">compilation des fichiers Recme (répertoire des entreprises contrôlées majoritairement par l'État) de l'Insee entre 1994 et 2012</a>.</p>
+						</div>
+						<div id="change">
+							<div class="txt4" id="legende1">
+								<p>Dans ce graphique sont répertoriées l'ensemble des entreprises majoritairement possédées par la puissance publique, empilées par année. Plus vous descendez, plus les entreprises sont restées longtemps dans le giron de l'Etat.</p>
+							</div>
+							<div class="txt4" id="legende2">
+								<p>Chaque ligne correspond à l'une des 9&nbsp;123 entreprises qui ont été majoritairement possédées par la puissance publique pendant au moins une année depuis 1994. Tout en haut, les lignes continues désignent les entreprises restées le plus longtemps dans le giron de l'Etat. Plus vous descendez, plus elles ont été contrôlées de façon éphémère.<br />Exemple : <a onclick="scroller()">En 1996</a>, l'Etat s'est désengagé des Rouleurs du Cambresis, entreprise de transport du Nord. Il en est redevenu actionnaire majoritaire à partir de 2008.</p>
+							</div>
+							<p class="btn" onclick="reshuffle()">Essayez l'autre visualisation</p>
+							<ul class="mgt16 mgb16" id="select_annees"> 
+								<li>Filtrer les entreprises possédées en...</li>
+								<li><input type="checkbox" id="1994"><label for="1994">1994</label></li> 
+								<li><input type="checkbox" id="1995"><label for="1995">1995</label></li> 
+								<li><input type="checkbox" id="1996"><label for="1996">1996</label></li> 
+								<li><input type="checkbox" id="1997"><label for="1997">1997</label></li> 
+								<li><input type="checkbox" id="1998"><label for="1998">1998</label></li> 
+								<li><input type="checkbox" id="1999"><label for="1999">1999</label></li> 
+								<li><input type="checkbox" id="2000"><label for="2000">2000</label></li> 
+								<li><input type="checkbox" id="2001"><label for="2001">2001</label></li> 
+								<li><input type="checkbox" id="2002"><label for="2002">2002</label></li> 
+								<li><input type="checkbox" id="2003"><label for="2003">2003</label></li> 
+								<li><input type="checkbox" id="2004"><label for="2004">2004</label></li> 
+								<li><input type="checkbox" id="2005"><label for="2005">2005</label></li> 
+								<li><input type="checkbox" id="2006"><label for="2006">2006</label></li> 
+								<li><input type="checkbox" id="2007"><label for="2007">2007</label></li> 
+								<li><input type="checkbox" id="2008"><label for="2008">2008</label></li> 
+								<li><input type="checkbox" id="2009"><label for="2009">2009</label></li> 
+								<li><input type="checkbox" id="2010"><label for="2010">2010</label></li> 
+								<li><input type="checkbox" id="2011"><label for="2011">2011</label></li> 
+								<li><input type="checkbox" id="2012"><label for="2012">2012</label></li> 
+								<li id="selectall">Tout cocher</li>
+				   			</ul>
+				   			
+						</div>
+					</div>
+					<p align="center" ><a class="btn" id="sous-btn" onclick="reshuffle()">Essayez l'autre visualisation</a></p>
+				</div>
+			</div>
+		</div>
+		<script>
+		
+
+/////////////
+var pxjour = 1,
+nbr_entreprises = 9123,
+sens = "empile";
+starter(sens)
+
+$("#selectall").click(function(){
+					if($(this).hasClass("on")){
+						$("input").each(function(){
+							$(this).prop('checked', false)
+						})
+						$(this).text("Tout cocher").removeClass("on")
+					}
+					else{
+						$("input").each(function(){
+							$(this).prop('checked', true)
+						})
+						$(this).text("Tout décocher").addClass("on")
+					}
+					starter()
+})
+
+$("#select_annees input").change(function(){
+	starter()
+})
+
+
+function scroller(){
+
+			//var page = $(this).attr('href'); // Page cible
+		var speed = 100; // Durée de l'animation (en ms)
+		d3.selectAll(".entreprise1004").attr("fill", "#dd3497")
+				.attr("height", function(d, i){ 
+					return eval(5*pxjour) })
+		$('html, body').animate( { 
+				scrollTop: $('.entreprise1004').first().offset().top-100 }, speed ); // Go
+			return false;
+		
+	//$('.entreprise1004').first().scroll()
+}
+function starter(){
+
+
+		d3.select("#infog svg").remove()
+
+		selection = [];
+		$("#select_annees input").each(function(j,e){
+				if(e.checked) selection.push(e.id)
+		})
+		
+		var data,
+		annees = [1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012],
+		sommes = [2712,2635,2513,2508,1782,1653,1589,1567,1611,1491,1305,1142,851,849,880,944,1215,1494,1381];
+
+		d3.json("data.json", function(error, json) {
+		
+			bornes = {}
+			start = 1994
+			end = 2013
+
+			$.each(json,function(i,d){
+				if(d[0] == start && start < end) { bornes[d[0]] = i; start++ }
+			})
+			
+			
+			if(sens == "deplie"){
+				$.each(selection,function(j,e){
+				
+					json = json.filter(function(d,i){
+							return d[4][annees.indexOf(Number(e))] == 1;
+					})		
+		
+				})
+			}
+		
+		
+			
+			var width=974, margin = {top: 10, right: 10, bottom: 10, left: 10};
+			if(sens == "empile") { height = 150+(pxjour)*bornes["1995"];}
+				else { height = 100+pxjour*nbr_entreprises}
+			var svg = d3.select("#infog").append("svg:svg").attr({
+				"width": width,
+				"height": height
+			});
+
+
+			var g2 = svg.append("g").attr("id", "annees").attr("transform",function(){ return"translate("+margin.left+",10)"});
+
+			g2.selectAll("text").data(annees).enter()
+				.append("text")
+				.attr("x", function(d,i){
+					return (i+0.5)*((width - margin.left - margin.right)/annees.length)
+				})
+				.attr("y", function(d,i){
+					return 0
+				})
+				.attr("text-anchor","middle")
+				.attr("fill","#000")
+				.text(function(d, i){
+					return d
+				});
+
+		
+				var g5 = svg.append("g").attr("id", "minigraphe").attr("transform",function(){ 
+					return "translate("+margin.left+",20)"});
+
+				g5.selectAll("rect")
+					.data(sommes)
+					.enter()
+					.append("rect")
+					.attr("x", function(d,i){
+						return i*50
+					})
+					.attr("y", function(d,i){
+						return 70-(d/40)
+					})
+					.attr("width", function(d,i){
+						return "50px"
+					})
+					.attr("height", function(d, i){ 
+						return d/40;
+					})
+					.attr("fill", function(d, i){
+						if(i%2==0) return "rgba(40, 90, 130,0.4)"
+						else return "rgba(3, 134, 195, 0.4)"
+					})
+		
+
+			/*g2.selectAll("line").data(annees).enter()
+				.append("line")
+				.attr("x1", function(d,i){
+					return (i+1)*((width - margin.left - margin.right)/annees.length)-1
+				})
+				.attr("y1", function(d,i){
+					return 0
+				})
+				.attr("x2", function(d,i){
+					return (i+1)*((width - margin.left - margin.right)/annees.length)-1
+				})
+				.attr("y2", function(d,i){
+					return 10
+				})
+				.attr("stroke-width","1")
+				.attr("stroke","#000");*/
+
+
+			var g3 = svg.append("g").attr("id", "sommes").attr("transform",function(){ 
+				return "translate("+margin.left+",110)"
+			});
+
+			g3.selectAll("text").data(sommes).enter()
+				.append("text")
+				.attr("x", function(d,i){
+					return (i+0.5)*((width - margin.left - margin.right)/annees.length)
+				})
+				.attr("y", function(d,i){
+					return 0
+				})
+				.attr("text-anchor","middle")
+				.attr("font-weight","bold")
+				.attr("font-size","9pt")
+				.attr("fill","#000")
+				.text(function(d, i){
+					return d
+				});
+
+			var g4 = svg.append("g").attr("id", "sommes2").attr("transform",function(){ return"translate("+margin.left+",110)"});
+			g4.selectAll("text").data(sommes).enter()
+				.append("text")
+				.attr("x", function(d,i){
+					return (i+0.5)*((width - margin.left - margin.right)/annees.length)
+				})
+				.attr("y", function(d,i){
+					return 12
+				})
+				.attr("text-anchor","middle")
+				.attr("font-weight","bold")
+				.attr("font-size","7pt")
+				.attr("fill","#000")
+				.text(function(d, i){
+					if(i==0 || i ==18) return "entreprises"
+				});
+
+
+			
+			
+			
+
+
+			var g = svg.append("g").attr("id", "entreprises").attr("transform",function(){
+				if(sens == "empile") return"translate("+margin.left+",135)";
+				else return "translate("+Number(margin.left)+",380)"
+			});
+
+			g.selectAll("rect")
+			.data(json)
+			.enter()
+			.append("rect")
+			.attr("x", function(d,i){
+				return annees.indexOf(d[0])*((width - margin.left - margin.right)/annees.length)
+			})
+			.attr("y", function(d,i){
+				if(sens == "empile"){
+					return (bornes[1995] - (i - bornes[d[0]]))*(pxjour) // Endroit
+					// return (i- bornes[d[0]])*(pxjour+1) // Envers 
+				}
+				else {
+					return d[2]*pxjour;
+				}
+				
+			})
+			.attr("class", function(d,i){
+				return "entreprise"+d[2]
+			})
+			.attr("width", function(d,i){
+				return ((width - margin.left - margin.right)/annees.length)+"px"
+			})
+			.attr("height", function(d, i){ 
+				return pxjour+"px"
+			})
+			.attr("fill", function(d, i){
+				if(annees.indexOf(d[0])%2==0) return "rgba(40, 90, 130,0.4)";
+						else return "rgba(3, 134, 195, 0.4)"
+			})
+			.attr("title", function(d,i){
+				return "<span style='font-size:12px'>"+d[1]+"</span>"
+			})
+			.attr("data-annee", function(d, i){
+				return d[0]
+			})
+			.on("mouseover", function(d,i){
+
+				d3.selectAll(".entreprise"+d[2]).attr("fill", "#dd3497")
+				.attr("height", function(d, i){ 
+					return eval(3*pxjour) })
+
+
+
+				d3.select(this)
+					.attr("title", function(d,i){
+						var ans = []
+						d3.selectAll(".entreprise"+d[2]).each(function(e,j) { 
+							ans.push(e[0])
+						});
+					
+					return "<span style='font-size:12px'>"+d[1]+"<br />Contrôlé majoritairement par l'Etat en : "+ans.join(" - ")+"</span>"
+					})
+
+							
+			})
+			.on("mouseout", function(d,i){
+				d3.selectAll(".entreprise"+d[2]).attr("fill",function(i,d){
+		
+					if(annees.indexOf(Number($(this).attr("data-annee")))%2==0) return "rgba(40, 90, 130,0.4)";
+						else return "rgba(3, 134, 195, 0.4)"
+				})
+					.attr("height", function(d, i){ 
+						return pxjour
+					})
+				
+			
+			})
+			.call(function(){
+				setInterval(function(){tailleIframe()}, 2000);
+			})
+			
+
+			
+
+			
+				
+		
+		})
+
+
+
+
+
+	$("#loading").hide("fade")
+
+};
+
+function reshuffle(){
+	$("#loading").show()
+	if(sens == "empile") {
+		sens = "deplie";
+		$("#legende1").hide()
+		$("#legende2").show()
+		$("#select_annees").show()
+	}
+	else  {
+		sens = "empile";
+		$("#legende2").hide()
+		$("#legende1").show()
+		$("#select_annees").hide()
+	}
+	starter(sens)
+}
+
+function tailleIframe()
+{
+	if (top.location != self.document.location)
+		{
+			$(window.parent.document).find('.embed').children('iframe').height($('body').height()+10);
+		}
+}
+    		
+
+    	 $(function() {
+		    $( document ).tooltip({
+		      track:true,
+		      items: "[title]",
+		      show:{duration:0},
+		      hide:{duration:0},
+		      content: function() {
+		        var element = $( this );
+		        if ( element.is( "[title]" ) ) {
+		     		return element.attr( "title" );
+		        }
+		      }
+		    });
+		  });
+
+    	</script>
+	</body>
+</html>

@@ -1,0 +1,63 @@
+.article .lien_ancres {
+      margin: 16px 0;
+      list-style-type: none;
+      font-weight: bold;
+   }
+
+   p.tag {
+      margin-top: 32px
+   }
+
+   .tag span {
+      padding: .3rem .5rem .1rem;
+      color: #fff;
+   }
+
+   .tag .vrai {
+      background-color: #17c638;
+   }
+
+   .tag .faux {
+      background-color: #fe2f2f;
+   }
+
+   .tag .flou {
+      background-color: #0386c3;
+   }
+
+   .tag .oubli {
+      background-color: #16212c;
+   }
+
+   .intertitre {
+      margin: 32px 0 0;
+      font-size: 20px;
+   }
+
+   .chiffre_exergue {
+      float: left;
+      padding: 0 8px 0 0;
+   }
+
+   .encart_retrait_gauche {
+      float: left;
+      margin: 8px 20px 20px -55px;
+   }
+
+   .exergue {
+      display: inline-block;
+      padding: 16px 0;
+      border: dotted #747b83;
+      border-width: 1px 0;
+      text-align: center;
+      color: #747b83;
+   }
+
+   .num_partie h2 {
+      margin: 32px 0 0 16px;
+      font-size: 20px;
+   }
+
+  .num_partie span {
+      font-size: 24px;
+   }

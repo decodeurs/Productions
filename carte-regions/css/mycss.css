@@ -1,0 +1,456 @@
+     body {
+      background-color:white!important;
+     }
+
+      .clear {
+        clear:both;
+      }
+
+      .container {
+        width:1000px;
+        padding:0px 0px;
+        margin:0px auto;
+        position:relative;
+        height:600px;
+        background: #fff;
+        clear: both;
+      }
+    
+      .intro {
+        margin:15px auto;
+      }
+      #loader {
+        position: absolute;
+        top: 200px;
+        left: 0;
+        width: 600px;
+        text-align: center;
+      }
+       #loader p {
+        margin-bottom:15px;
+      }
+      .sidebar {
+        float:right;
+        width:390px;
+        margin-right:5px;
+        margin-top:10px;
+        background: #e4e6e9;
+        border-top: 3px solid #16212c!important;
+      }
+      #soumettre {
+       float: right;
+       margin-right:5px;
+        height: 108px;
+        width: 390px;
+      }
+
+#contrib {
+ float:left;
+ margin-right: 5px;
+ background: #16212c;
+ width: 330px;
+ height:108px;
+    padding: 20px;
+}
+
+#contrib:hover {
+ background: #f09600;
+}
+  
+.ligne_titres {
+  position: relative;
+  height: 65px;
+  width: 270px;
+  margin: 0px;
+  border-bottom: 1px solid #b9c0c5;
+}
+.ligne_titres:after {
+content: " ";
+position: absolute;
+display: block;
+width: 16px;
+height: 10px;
+background-image: url('../img/discussion.png');
+background-repeat: no-repeat;
+bottom: -10px;
+left: 20px;
+}
+.ligne_titres h2 a {
+  color:#fff!important;
+  width:100%;height:100%;
+}
+#contrib:hover .ligne_titres {
+  border-bottom: 1px solid #000;
+}
+#contrib:hover .ligne_titres:after {
+  background-image: url('../img/discussion2.png');
+}
+#contrib:hover .ligne_titres h2 a {
+  color:#000!important;
+}
+
+
+  #decodeurs {
+    width: 55px;
+    float: right;
+    padding-top: 25px;
+  }
+        #decodeurs img {
+width: 50px;
+float: right;
+}
+      .recherche div.champ:hover, .recherche div.champ > input:focus {
+        background-color: white;
+      }
+
+        #resultats {
+          clear:left;
+        }
+        #carte {width:600px;height:540px;float:left;}
+        .box_personne {
+            width: 145px;
+            padding: 2px 0 2px 5px;
+            list-style: none;
+            /*height: auto;
+            float: left;
+            margin-left: 5px;
+            margin-right: 5px;
+            margin-bottom: 15px;
+            cursor: pointer;
+           
+            background-color: #f8f9fb;
+            border: 1px solid #b9c0c5;
+            padding-bottom: 10px;*/
+        }
+        .box_personne p {
+          padding: 0 10px;
+        }
+        .box_personne:hover {
+        background:#eef1f5;
+        /*border-radius:5px;
+        box-shadow:1px 1px 3px #c4c4c4;*/
+       }
+       .box_personne.selectionne, .box_personne:hover {
+          background-color: #ffc89b;
+          cursor: pointer;
+       }
+       
+       .box_personne hr {
+          width:90%;
+       }
+
+       .box_personne.impair {
+          float:right;
+        }
+        .box_personne.pair {
+          float:left;
+        }
+
+       .situation {
+        width: 177px;
+        float: left;
+        text-align: center;
+        margin: 0 0 6px 0px;
+        /*border-radius:3px 3px 0 0;*/
+        padding: 4px;
+        color: #FFF;
+       }
+       .situation.cumul {
+          background-color: #B30000;
+       }
+       .situation.incertain {
+        background-color: #ff6e17;
+       }
+       .situation.promesse {
+          background-color: #59880E;
+       }
+
+       p.candidat, p.parti, p.ville {
+        text-align: center;
+       }
+
+       .mandats, .priorite {
+          font-weight: bold;
+        }
+        .mandats2, .priorite2 {
+          font-size: 8pt;
+          line-height: 8pt;
+        }
+
+       .champ_recherche {
+        float: left;
+        width: 370px;
+        padding: 10px 10px 10px 10px;
+        margin: 0 10px 0 10px;
+       }
+        
+
+        #notule {
+          float:right;
+          width:390px;
+          padding: 10px;
+          margin-right:5px;
+          text-align: left;
+        }
+        #notule .tt3_capital {
+          text-align: center;
+        }
+        #search_box {
+          margin: 0px;
+          height: 28px;
+          width: 190px;
+        }
+
+        form.recherche {
+          margin:10px 0;
+        }
+
+        .featured_services_find {
+            width: 330px;
+float: left;
+margin: 0 20px 10px 20px;
+overflow-y: scroll;
+overflow-x: hidden;
+background: rgba(255,255,255,0.7);
+padding: 10px;
+max-height: 100px;
+        }
+
+        #result_count {
+          /*font-weight: bold;*/
+          padding: 7px 0 0 8px;
+          float: left;
+        }
+
+        #partagesocial {
+          clear:both;
+          padding: 0px 5px;
+          color: rgb(116, 123, 131);
+          font-weight:bold;
+        }
+
+        #partagesocial p {
+		text-align:center;
+          padding: 5px 0 0 0;
+        }
+
+        #raccourcis {
+          width:600px;
+          height:60px;
+          position: absolute;
+bottom: 0;
+left: 0;
+        }
+
+        #raccourcis p.lire {
+          margin: 0px 0px 10px 0;
+          border: 1px solid #e4e6e9;
+        }
+
+        #infos {
+          background: url('http://s1.lemde.fr/medias/web/d046629438b18715f94c4d85542ca8a7/img/sprites/sprite.png') -48px -448px no-repeat;
+          display: inline-block;
+          width: 15px;
+          height: 18px;
+          float:right;
+        }
+
+        #infos a {
+          display:block;
+          width:100%;
+          height:100%;
+        }
+
+        a.outremer {
+          cursor:pointer;
+        }
+
+        a.outremer:hover {
+          font-weight:bold;
+        }
+
+        .effacer {
+          background: url('../img/croix.png') no-repeat right 0px;
+          background-opacity: 0.7;
+          height: 26px;
+          display: inline-block;
+          padding: 0;
+          font-weight: bold;
+          margin-top: 4px;
+          float:right;
+          width:27px;
+        }
+
+        .aucunresultat {
+          margin: 40px;
+        }
+
+        #data {
+          float: right;
+          clear: right;
+          font-weight: bold;
+          padding: 6px 10px 0 0;
+        }
+        #data span {
+          background: url('http://s1.lemde.fr/medias/web/d046629438b18715f94c4d85542ca8a7/img/sprites/sprite.png') no-repeat;
+          display: inline-block;
+          background-position: 0px -131px;
+          text-indent: -9999px;
+          width: 13px;
+          height:10px;
+          margin-right: 5px;
+        }
+
+        #bloc-maj {
+          margin-top:20px;
+          border: solid #eef1f5;
+          border-width: 0 1px 1px;
+          background: #fafbfc;
+        }
+        #bloc-maj .entete {
+          display: block;
+          padding: 8px 16px 6px;
+          border-top: 3px solid #16212c;
+          border-bottom: 1px solid #eef1f5;
+          font-weight: bold;
+        }
+        #bloc-maj p {
+          margin:0;
+        }
+        #bloc1 {
+          top:20px;
+          position: relative;
+        }
+        #repartitionpartis {
+          width:300px;
+          height:330px;
+          margin: 10px auto 0 auto;
+        }
+        #detailps {
+          width:300px;
+          height:280px;
+          margin:10px;
+          float:left;
+        }
+        #legendeps {
+          width:180px;
+          float:right;
+        }
+        #villes {
+          width:300px;
+          height:250px;
+          margin: 10px auto 0 auto;
+        }
+
+        #bloc2 {
+          float:left;
+        }
+    
+        #bloc3 {
+          top: 1050px;
+          position: relative;
+        }
+
+        #bloc4 {
+          top:0px;
+          position: relative;
+          display:none;
+        }
+
+      
+
+        .note {
+          font-size:8pt;
+          text-align: right;
+          font-style: italic;
+          padding:5px 5px 5px 0;
+        }
+
+        #notule .tt3_capital:before {
+          color: #a2a9ae;
+          content: '\203A \203A \00A0';
+          width: 20px;
+        }
+
+#notule ul{
+  text-align: left;
+  margin-top:10px;
+}
+#formulaire{
+  width:968px;
+  margin:15px;
+  height:570px;
+  position: absolute;
+  top:0;
+  left:0;
+  display:none;
+  z-index: 9999;
+  background-color:white;
+  border:1px solid black;
+}
+ 
+
+
+#formulaire #close {
+position:absolute;
+top:25px;
+right:25px;
+cursor: pointer;
+}
+#formulaire #close span{
+    width: 24px;
+    height: 25px;
+    padding-left: 5px;
+    line-height: 26px;
+}
+#formulaire #close:hover {
+  color:#666;
+}
+
+.loupe {
+width: 15px;
+height: 15px;
+margin: 6px 0 0 5px;
+border: 0;
+background: url('http://s1.lemde.fr/medias/web/d046629438b18715f94c4d85542ca8a7/img/sprites/sprite.png') no-repeat -17px -173px;
+text-indent: -9999px;
+font-size: 0;
+color: #f8f9fb;
+float: right;
+}
+
+.recherche div.champ {
+width: 230px;
+margin: 0;
+padding: 2px 5px;
+background-color: #f8f9fb;
+border: 1px solid #d2d6db;
+-webkit-border-radius: 4px;
+-moz-border-radius: 4px;
+border-radius: 4px;
+overflow: hidden;
+float: left;
+}
+
+.recherche input[type="search"] {
+border: 0;
+background: 0;
+width: 165px;
+float: left;
+-webkit-box-sizing: border-box;
+}
+
+.revenir {
+  text-align: center;
+margin: 20px 5px 0 0;
+float: right;
+width: 390px;
+}
+#notule .tt5 {
+  margin-top: 30px;
+}
+.infofirefox {
+  line-height:1.35;
+overflow:hidden;
+white-space:nowrap;
+}

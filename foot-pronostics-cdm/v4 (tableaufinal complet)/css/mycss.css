@@ -1,0 +1,494 @@
+._global, body{
+	width:1000px;
+	height:665px;
+	background-color:white;
+	margin:0!important;
+}
+#canvas{
+	display:none;
+}
+
+.englobeur {
+	width:1000px;
+}
+#articleBody{
+	background: #70c27e!important;
+}
+#html2canvas{
+	display:none;
+}
+#matchs {
+	float: left;
+	clear:left;
+	height:665px;
+}
+#matchs p.tt2_capital, #tableau_final p.tt2_capital{
+	text-align: center;
+	margin-top:20px;
+}
+#matchs p.tt2{
+	background: rgba(255,255,255,0.5);
+	text-align: center;
+	padding: 4px 0;
+	display: none;
+}
+#matchs p.info{
+	padding:10px 120px;
+	text-align: center;
+	color: white;
+}
+.groupe{
+	float: left;
+width: 239px;
+height: 230px;
+margin: 40px 5px 10px 5px;
+position: relative;
+background: #ffffff;
+border-radius: 10px;
+padding: 3px;
+}
+.groupe.full, .groupe.full .tt6 {
+	background:#f2f2e2;
+}
+.groupe .tt6{
+	margin-top: -40px;
+	background: #FFFFFF;
+	border-radius: 5px;
+	padding: 5px 10px;
+	display: inline-block;
+}
+.groupe .tt6 span.tt3{
+	display:inline;
+}
+.groupe .nul {
+	text-align: center;
+}
+.groupe p.match{
+	border-bottom: 1px dashed #c4c6c8;
+	padding: 0 0 3px 0;
+	margin-top: 4px;
+	
+}
+.groupe p.match span{
+	cursor: pointer;
+	height:23px;
+	display:inline-block;
+	background-image:url('../img/bouton_gris.png');
+	background-repeat: no-repeat;
+}
+.groupe p.match span:hover, .groupe p.match span.select{
+	background-image:url('../img/bouton_vert.png');
+	color:#75c250;
+}
+
+.groupe p.match span:nth-child(1){
+	background-position:left top;
+	padding-left:26px;
+	width:100px;
+}
+.groupe p.match span:nth-child(2){
+	background-position:left top;
+	width:23px;
+	
+}
+.groupe p.match span:nth-child(3){
+	background-position:right top;
+	padding-right:26px;
+	text-align: right;
+	width:101px;
+}
+.overlay{
+	width: 239px;
+	height: 230px;
+	border-radius: 10px;
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background-color: #70c27e;
+	color: #FFF;
+	text-align: center;
+	padding: 20px;
+	border: 3px solid white;
+}
+.overlay ul{
+	margin-top:15px;
+}
+.overlay ul li{
+	cursor: pointer;
+}
+.overlay ul li.select{
+	background-color:white;
+	color:#70c27e;
+	padding:7px;
+}
+.overlay ul li:before{
+		content: '\203A \00A0';
+}
+
+#resultat_poules{
+	float: left;
+	clear:left;
+	width:992px;
+	margin:10px auto 20px auto;
+	height:130px;
+}
+#resultat_poules .poule{
+	float: left;
+	width: 138px;
+	height: 130px;
+	background: rgba(210,223,67,0.6);
+	border-radius: 90px;
+	margin-left: -7px;
+	margin-right: -7px;
+}
+#resultat_poules .poule:nth-child(even){
+background: #B7E0BE!important;
+}
+#resultat_poules .poule p.tt3{
+	text-align: center;
+	margin-bottom: 0;
+	text-transform: uppercase;
+}
+#resultat_poules .poule ol{
+	list-style: none;
+	padding: 0 0 0 12px;
+}
+#resultat_poules .poule ol li span{
+	padding: 5px;
+	background: #FFF;
+	border-radius: 90px;
+}
+
+
+#tableau_final {
+	height:495px;
+	background:url('../img/fond.png') left top no-repeat;
+	float:left;
+	clear:left;
+	width:999px;
+	position:relative;
+}
+#descendre{
+	background: url('../img/chevron2.png') 30px 40px no-repeat;
+	padding-bottom: 35px;
+	float: right;
+	width: 145px;
+	text-align: center;
+	display: block;
+	cursor: pointer;
+	margin: 20px 0 0 15px;
+	height: 70px;
+}
+
+#remonter{
+	background: url('../img/chevron.png') 50px top no-repeat;
+	padding-top: 30px;
+	position: absolute;
+	right: 20px;
+	top: -10px;
+	width: 185px;
+	text-align: center;
+	display:block;
+	cursor: pointer;
+}
+
+#legende_huitiemes{
+	text-align: center;
+	height: 20px;
+	position: absolute;
+	left: 20px;
+	top: 25px;
+}
+#legende_quarts{
+	position: absolute;
+top: 180px;
+left: 15px;
+width: 40px;
+text-align: center;
+}
+#legende_demies{
+	position: absolute;
+	top: 290px;
+	left: 130px;
+	width: 40px;
+	text-align: center;
+}
+#legende_finale{
+position: absolute;
+top: 390px;
+left: 180px;
+width: 40px;
+text-align: center;
+}
+#imprimer{
+	width: 190px;
+	text-align: center;
+	position: absolute;
+	right: 30px;
+	bottom: 15px;
+	background: #fff136;
+	padding: 10px 5px;
+	border-radius: 8px;
+	color: #177A25;
+}
+#imprimer:hover{
+	background: #177A25;
+	color: #fff136;
+	display:block;
+	cursor: pointer;
+}
+
+#decodeurs1{
+	width: 74px;
+	height:75px;
+	background:url('../img/decodeurs2.png') left top no-repeat;
+	position: absolute;
+	left: 0;
+	top: 10px;
+	z-index:6000;
+}
+#decodeurs2{
+	width: 74px;
+	height:75px;
+	background:url('../img/decodeurs2.png') left top no-repeat;
+	position: absolute;
+	left: 10px;
+	bottom: 15px;
+}
+
+#decodeurs1 a,#decodeurs2 a{
+	width: 74px;
+	height:75px;
+	display:block;
+	border-bottom:none!important;
+}
+/* #coupe{
+	width:145px;
+	height:160px;
+	display:block;
+	z-index:-10;
+	position:absolute;
+	top:400px;
+	left:450px;
+	background:url('../img/coupe.png') left top no-repeat;
+}
+ */
+ #etoile_1{
+	width:111px;
+	height:95px;
+	display:block;
+	z-index:1;
+	position:absolute;
+	display:none;
+	top: 335px;
+	left: 300px;
+	background:url('../img/etoiles.png') left top no-repeat;
+}
+ #etoile_2{
+	width:111px;
+	height:95px;
+	display:block;
+	z-index:1;
+	position:absolute;
+	display:none;
+	top: 335px;
+	left: 600px;
+	background:url('../img/etoiles.png') left top no-repeat;
+}
+
+#tableau_final div div div{
+	cursor: pointer;
+padding: 4px 5px 4px 25px;
+height: 30px;
+display: inline-block;
+background: url('../img/bouton_gris.png') 3px 3px no-repeat #B7E0BE;
+}
+
+#tableau_final div div div.actif:hover, #tableau_final div div div.select{
+background: url('../img/bouton_vert.png') 3px 3px no-repeat #FFF;
+}
+
+#match1_2 div:nth-child(1) {
+	background: url('../img/bouton_gris.png') right 5px top 3px no-repeat #B7E0BE!important;
+	padding: 4px 25px 4px 5px!important;
+}
+#match1_2 div:nth-child(2) {
+	background: url('../img/bouton_gris.png') 5px 3px no-repeat #B7E0BE!important;
+	padding: 4px 5px 4px 25px!important;
+}
+#match1_2 div:nth-child(1).actif:hover{
+	background: url('../img/bouton_gris.png') right 5px top 3px no-repeat #B7E0BE!important;
+	padding: 4px 25px 4px 5px!important;
+}
+#match1_2 div:nth-child(2).actif:hover{
+	background: url('../img/bouton_gris.png') 5px 3px no-repeat #B7E0BE!important;
+	padding: 4px 5px 4px 25px!important;
+}
+#match1_2 div:nth-child(1).victoire, #match1_2 div:nth-child(1).victoire:hover{
+	background: url('../img/bouton_vert.png') right 5px top 3px no-repeat #fff136!important;
+	padding: 4px 25px 4px 5px!important;
+}
+#match1_2 div:nth-child(2).victoire, #match1_2 div:nth-child(2).victoire:hover{
+	background: url('../img/bouton_vert.png') 5px 3px no-repeat #fff136!important;
+	padding: 4px 5px 4px 25px!important;
+}
+#match1_1 div.victoire, #match1_1 div.victoire:hover{
+	background: url('../img/bouton_vert.png') 3px 3px no-repeat #f4eaa2!important;
+}
+
+
+
+#huitiemes, #post_huitiemes, #post_post_huitiemes, #quarts, #post_quarts, #post_post_quarts, #demies, #petite_finale, #post_petite_finale, #finale {
+	float:left;
+	clear:left;
+	margin: 0 7px 0 8px;
+	width: 984px;
+}
+#huitiemes div, #quarts div, #demies div, #petite_finale div#match1_1, #post_petite_finale div, #finale div{
+	text-align: center;	
+	width: 117px;
+	margin: 5px 3px;
+	float: left;
+}
+#huitiemes div div, #quarts div div, #demies div div, #petite_finale div#match1_1 div, #post_petite_finale div div, #finale div div {
+float: left;
+clear: left;
+margin: 3px 0;
+background-color: white;
+border-radius: 5px;
+padding: 7px;
+width:117px;
+}
+
+#post_huitiemes div, #post_quarts div, #post_demies div, #post_petite_finale div {
+	border-left: 2px solid white;
+	border-right: 2px solid white;
+	border-bottom: 2px solid white;
+	width: 100px;
+	float: left;
+	display: block;
+	height: 16px;
+}
+
+#post_post_huitiemes div, #post_post_quarts div, #post_post_demies div {
+	border-left: 2px solid white;
+	height: 20px;
+	width: 40px;
+	float: left;
+	display: block;
+}
+
+
+
+#post_huitiemes div{
+	margin: 0 73px;
+}
+#post_post_huitiemes div{
+	margin: 0px 83px 0 123px;
+}
+
+
+#quarts div{
+	margin: 0 63px 0 65px;
+}
+#post_quarts div:nth-child(1){
+	width: 240px;
+	margin: 0 100px 0 125px;
+}
+#post_quarts div:nth-child(2){
+	width: 240px;
+margin: 0 100px 0 155px;
+}
+#post_post_quarts div{
+	margin: 0px 205px 0 245px;
+}
+
+
+#demies div.englobing:nth-child(1){
+	margin: 0 0 0 190px;
+}
+#demies div.englobing:nth-child(2){
+	margin: -30px 126px 0 127px;
+}
+#demies div.englobing:nth-child(3){
+	margin: 0 190px 0 0px;
+}
+
+#post_demies div.vide:nth-child(1){
+	width: 120px;
+	margin: 0 0 0 250px;
+	height: 50px;
+	border-left: 2px solid white;
+	border-bottom: 2px solid white;
+	border-right:none;
+}
+#post_demies div.vide:nth-child(2){
+	width: 120px;
+	margin: 0 0px 0 250px;
+	height: 50px;
+	border-right: 2px solid white;
+	border-bottom: 2px solid white;
+	border-left:none;
+}
+
+
+#post_petite_finale div{	
+	height: 40px;
+	margin: 0 370px;
+	width: 260px;
+	border-bottom:none;
+}
+#finale{
+	margin-top: -15px;
+}
+#finale div{
+	margin: 0 202px;
+	width: 580px;
+}
+#finale div div{
+	margin: 0 86px 0 85px;
+clear: none;
+}
+
+
+
+
+#match1_2 div:nth-child(1) img{
+	float: left;
+	margin: -20px 0 0 -65px;
+}
+#match1_2 div:nth-child(2) img{
+	float: right;
+	margin: -20px -65px 0 0;
+}
+
+
+#overlay2{
+	width: 700px;
+	height: 240px;
+	position: absolute;
+	top: 140px;
+	left: 150px;
+	background-color: rgba(255,255,255,0.9);
+	padding: 50px;
+	text-align: center;
+	z-index: 9000;
+	display:none;
+}
+#overlay2 .image{
+	clear:left;
+	padding-top: 20px;
+	text-align: center;
+}
+#overlay2 img{
+	
+	cursor: pointer;
+}
+
+#overlay2 .social{
+	text-align: center;
+	margin: 10px 150px;
+	width: 400px;
+}
+
