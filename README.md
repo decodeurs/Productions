@@ -1,11 +1,13 @@
 # Applications et datavisualisations des Décodeurs
 
 Voici quelques objets interactifs publiés par [les Décodeurs](http://www.lemonde.fr/les-decodeurs/) depuis leur naissance, en février 2014.
+
 Ce code est libre ; vous pouvez le redistribuer ou le modifier suivant les termes de la [GNU General Public License](http://www.gnu.org/licenses/gpl.html) telle que publiée par la Free Software Foundation ; soit la version 3 de la licence, soit (à votre gré) toute version ultérieure.
+
 En revanche, tous les textes, logos et visuels associés aux Décodeurs ou à la marque Le Monde sont protégés par le copyright.
 
 ## [Bullshit bingo](bullshit-bingo) ##
-Bullshit bingo pour suivre (a) les discours à l'Assemblée nationale (b) le foot (c) les soirées électorales
+Bullshit bingo pour suivre (a) les discours à l'Assemblée nationale (b) le foot (c) les soirées électorales.
 
 [>> Discours de politique générale de Manuel Valls](http://www.lemonde.fr/les-decodeurs/visuel/2014/04/08/jouez-au-bingo-du-discours-de-politique-generale-de-manuel-valls_4397625_4355770.html)
 [>> Municipales 2014](http://www.lemonde.fr/les-decodeurs/visuel/2014/03/30/suivez-la-soiree-electorale-avec-le-munibingo_4392304_4355770.html)
@@ -60,12 +62,12 @@ Infographie inspirée d'un article de [Slate.fr](http://www.slate.fr/sports/8718
 ![La domination de l'Espagne sur le football européen](foot-espagne/illustr.png "La domination de l'Espagne sur le football européen")
 
 
-## [Coupe du monde : faites vos pronostics sur la suite de la compétition](foot-pronotics) ##
+## [Coupe du monde : faites vos pronostics sur la suite de la compétition](foot-pronotics-cdm) ##
 Outil de pronostics sur la Coupe du monde 2014 au Brésil avec une mise à jour quotidienne des résultats. Export du tableau avec [canvas2image.js](http://www.nihilogic.dk/labs/canvas2image/)
 
 [>> Voir sur Le Monde.fr](http://www.lemonde.fr/les-decodeurs/visuel/2014/06/14/coupe-du-monde-faites-vos-pronostics-sur-la-suite-de-la-competition_4438319_4355770.html)
 
-![Coupe du monde : faites vos pronostics sur la suite de la compétition](foot-pronotics/illustr.png "Coupe du monde : faites vos pronostics sur la suite de la compétition")
+![Coupe du monde : faites vos pronostics sur la suite de la compétition](foot-pronotics-cdm/illustr.png "Coupe du monde : faites vos pronostics sur la suite de la compétition")
 
 
 ## [La valse des frondeurs au PS](frondeurs-ps) ##
