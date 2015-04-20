@@ -1,5 +1,9 @@
 # Applications et datavisualisations des Décodeurs
 
+Voici quelques objets interactifs publiés par [les Décodeurs](http://www.lemonde.fr/les-decodeurs/) depuis leur naissance, en février 2014.
+Ce code est libre ; vous pouvez le redistribuer ou le modifier suivant les termes de la [GNU General Public License](http://www.gnu.org/licenses/gpl.html) telle que publiée par la Free Software Foundation ; soit la version 3 de la licence, soit (à votre gré) toute version ultérieure.
+En revanche, tous les textes, logos et visuels associés aux Décodeurs ou à la marque Le Monde sont protégés par le copyright.
+
 ## [Bullshit bingo](bullshit-bingo) ##
 Bullshit bingo pour suivre (a) les discours à l'Assemblée nationale (b) le foot (c) les soirées électorales
 
