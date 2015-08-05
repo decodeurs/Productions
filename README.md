@@ -7,7 +7,8 @@ Ce code est libre ; vous pouvez le redistribuer ou le modifier suivant les terme
 En revanche, tous les textes, logos et visuels associés aux Décodeurs ou à la marque Le Monde sont protégés par le copyright.
 
 ## [Carte des têtes de liste aux régionales de 2015](candidats-regionales2015) ##
-Carte interactive mise à jour en temps réel via un Google spreadsheet listant les candidats aux élections régionales de décembre 2015, région par région.
+Carte interactive mise à jour en temps réel via un Google spreadsheet listant les candidats aux élections régionales de décembre 2015, région par région (1000 px de large).
+Version allégée pour intégrer comme widget dans les articles (534px de large) dans [snippet.html](candidats-regionales2015/snippet.html).
 
 [>> Régionales 2015 : la carte des candidats dans votre région](http://www.lemonde.fr/les-decodeurs/visuel/2015/08/05/regionales-2015-la-carte-des-candidats-dans-votre-region_4712776_4355770.html)
 
