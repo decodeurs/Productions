@@ -1,0 +1,285 @@
+ body{
+ 		/* background-color: #FFF!important; */
+				margin:0!important;
+ 	}  
+ 	.global{
+ 		padding:0px!important;
+ 		background-color:rgb(241, 245, 248);
+ 	}
+
+ 	
+
+ 	/**** VOLET DE DROITE ****/
+	#volet{
+		min-height:650px;
+		   width: 644px; 		  
+		    float:left;
+		    display:none;
+		   /*  margin:0 8px 0 0; */
+		   /*  width:auto; */
+	}
+ 	.volet{
+ 		display:none;
+ 		/* height:100%; */
+ 	}
+ 	.infos_region {
+/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#49a1e5+0,285a82+6,285a82+91,49a1e5+100
+background: #49a1e5; Old browsers
+background: -moz-linear-gradient(-65deg,  #49a1e5 0%, #285a82 4%, #285a82 96%, #49a1e5 100%); FF3.6+
+background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#49a1e5), color-stop(4%,#285a82), color-stop(96%,#285a82), color-stop(100%,#49a1e5)); Chrome,Safari4+
+background: -webkit-linear-gradient(-65deg,  #49a1e5 0%,#285a82 4%,#285a82 96%,#49a1e5 100%); Chrome10+,Safari5.1+
+background: -o-linear-gradient(-65deg,  #49a1e5 0%,#285a82 4%,#285a82 96%,#49a1e5 100%); Opera 11.10+
+background: -ms-linear-gradient(-65deg,  #49a1e5 0%,#285a82 4%,#285a82 96%,#49a1e5 100%); IE10+
+background: linear-gradient(135deg,  #49a1e5 0%,#285a82 4%,#285a82 96%,#49a1e5 100%); W3C
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#49a1e5', endColorstr='#49a1e5',GradientType=1 ); IE6-9 fallback on horizontal gradient
+
+ */
+
+ 		 background: #285a82;	 
+ 		color:#fff;
+ 		/* color:rgb(233, 237, 240);
+ 		height:60px;
+ 		border-bottom: 3px solid #d2d6db; */
+ 		margin-bottom:4px;
+ 	}
+ 	.infos_region_noms{
+ 		/* text-transform: uppercase;
+ 		font-weight: bold; */
+ 		font-size:15pt;
+ 		text-align: center;
+ 		margin-bottom: 0!important;
+ 	}
+	.sortant, .candidat{
+		float:left;
+	}
+	.sortants{
+		padding:0 8px 8px;
+	}
+	.sortants strong:not(:first-child):before{
+		content: '\00b7';
+		padding:0 6px;
+	}
+	.candidats{
+		height:auto;
+		/* max-height:520px;  */
+		overflow:hidden;
+	}
+	.candidat{
+		border-width:0 3px;
+		border-style:solid;
+		border-color:rgb(241, 245, 248);
+		/* border-color:rgb(29, 40, 50); 
+		height: 100%; */
+		background: #fff;
+		padding:6px 4px;
+	}
+	.nouvelleligne{
+		margin-top:6px;
+		clear:left;
+		display: flex;
+    	flex-flow: row column;
+	}
+	.nouvelleligne .candidat:first-child{		
+		border-left-width:0px;		
+	}
+	.nouvelleligne .candidat:last-child{
+		border-right-width:0px;
+	}
+	
+	.candidat_texte{
+		padding:7px 5px 0 5px;
+	}
+	.parti{
+		/* height:55px; */		
+		margin-bottom:6px!important;
+		line-height: 130%!important;
+	}
+	/* .parti span:not(:first-child):before{
+		content: '\00b7';
+		padding:0 6px;
+	} */
+	.tooltip_parti[title]{
+		border-bottom:1px dotted #ccc;
+		cursor: pointer;
+	}
+	.center{
+		text-align: center;
+	}
+	.photo{
+		height:130px;
+		text-align: center;
+		background-position:center center;
+		background-repeat:no-repeat;
+		background-size: 100%;
+		vertical-align: bottom;
+	}
+	.helper {
+	    display: inline-block;
+	    height: 100%;
+	    vertical-align: middle;
+	}
+	.photo img{
+		width:auto;
+		vertical-align: middle;
+		max-width:100%;
+		max-height:130px;
+	}
+	.photo_small{
+		float:left;
+		padding:4px -3px;
+	}
+	.nom_candidat{
+	font-size:1.5rem!important;
+  word-wrap: break-word; 
+   -ms-word-break: break-all;
+     word-break: break-all;
+      word-break: break-word;
+      		-webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  -ms-hyphens: auto;
+  -o-hyphens: auto;
+  hyphens: auto;
+  margin:0!important;
+	}
+	.nom_candidat_small{
+		padding-top:5px;
+		
+
+		/* font-weight:bold;
+		font-size: 1.5rem!important; */
+		/* border-top:1px solid #666; 
+		
+		margin-top:10px;*/
+	}
+	/* .nom_candidat_small span{
+		font-weight:normal;
+	} */
+	.nom_candidat_small:before{
+		content: '\203A \00A0';
+	}
+
+	.fade{
+		color:#666!important; 
+	}
+
+	.share_space{
+		height:40px;
+		float:left;
+		clear:left;
+		width:380px;
+		height:30px;
+		margin-left: calc(0.5*(100% - 380px));
+	}
+	
+
+	/* VOLET DE GAUCHE - CARTE */
+
+	
+ 	#carte{ 		
+ 		width: 500px;
+ 		margin: 0 237px;
+ 		/* width: 314px; 
+ 		margin: 0 16px 0 0;*/
+ 		float:left;
+ 		position:relative;
+ 	}
+ 	#carte svg{
+ 		float:left;
+ 		clear:left;
+ 	}
+
+ 	#zoom{
+		position:absolute;
+		left: 0px;
+    	top: 60px;
+    	cursor:pointer;
+    	display:none;
+    	width:30px;
+    	height:30px;
+    	background:url(../img/zoom.png) left top no-repeat;
+    	opacity:0.6;
+	}
+	#zoom:hover{
+		opacity:1;
+	}
+	#zoom.out{
+		background-position: left -30px;
+	}
+	#maj{
+		position: absolute;
+		left:10px;
+		bottom:10px;
+		display:none;
+	}
+
+ 	#carte path{
+ 		stroke-width:.5px;
+ 		stroke:#fff;
+ 		fill:#0386c3;
+ 	}
+ 	#carte path:hover,#carte path.active{
+ 		fill:#285a82;
+ 		cursor:pointer;
+ 	}
+ 	#carte g:hover{
+ 		cursor: pointer;
+ 	}
+ 	#carte g:hover path{
+ 		fill:#285a82;
+ 		cursor:pointer;
+ 	}
+ 	#carte line{
+ 		stroke-width:.5px;
+ 		stroke:#000;
+ 	}
+ 	#carte rect{
+ 		stroke-width:0;
+ 		fill:transparent;
+ 	}
+
+
+
+ 	/* TOOLTIP JQUERYUI */
+
+
+.ui-tooltip {
+    background: #fff!important;
+    color: white;
+    border-radius: 0px!important;
+    box-shadow: 0 0 6px #aaa;
+    border: none!important;
+    padding: 0!important;
+    opacity: 1!important;
+ 	text-align: center;
+}
+.ui-tooltip-content {
+    position: relative!important;
+    padding: 1em!important;    
+}
+.ui-tooltip-content::after {
+    content: '';
+    position: absolute;
+    border-style: solid;
+    display: block;
+    width: 0;
+}
+.top .ui-tooltip-content {
+    max-width:200px;    
+   /*  text-transform: uppercase; */
+}
+.top .ui-tooltip-content::after {
+    bottom: -10px!important;
+    left: calc(50% - 5px)!important;
+    border-color: #fff transparent!important;
+    border-width: 10px 10px 0!important;   
+}
+.topdark .ui-tooltip-content::after {
+    bottom: -10px!important;
+    left: calc(50% - 5px)!important;
+    border-color: #333 transparent!important;
+    border-width: 10px 10px 0!important;   
+}
+.topdark .ui-tooltip-content {
+    max-width:400px;
+    font-weight: bold;
+}

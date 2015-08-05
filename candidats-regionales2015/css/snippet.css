@@ -1,0 +1,237 @@
+ body{
+ 		/* background-color: #FFF!important; */
+				margin:0!important;
+				max-width:500px;
+				background-color:transparent;
+ 	}  
+
+	#articleBody{
+		   /*  border-width: 3px 1px 1px 1px;
+		   border-color: #16212c #eef1f5 #eef1f5 #eef1f5;
+		   border-style: solid ; */
+	}
+	#titre_widget{
+
+		    padding:8px 8px 8px 8px!important;
+	}
+ 	
+
+ 	/**** CANDIDATS ****/
+	#volet{	  
+		    float:left;
+		    width:100%;
+		    /* display:none; */
+		   /*  margin:0 8px 0 0; */
+	}
+ 	.volet{
+ 		max-width:534px;
+ 		display:none; 
+ 		/* height:100%; */
+ 	}
+ 	#region_alsace_-_champagne-ardenne_-_lorraine{
+ 		display:block; /* Affiché par défaut */
+ 	}
+ 	.infos_region{
+ 		
+ 	}
+ 	.infos_region_noms{
+ 		/* text-transform: uppercase;
+ 		font-weight: bold; */
+ 		font-size:15pt;
+ 		text-align: center;
+ 		margin-bottom: 0!important;
+ 	}
+	.sortant, .candidat{
+		float:left;
+	}
+	.sortants ul{
+		list-style:square;
+		margin-left:6px;
+	}
+	.sortants ul li{
+		margin-left:20px;
+	}
+	/* .sortants strong:not(:first-child):before{
+		content: '\00b7';
+		padding:0 6px;
+	} */
+	.candidats{
+		height:auto;
+		/* max-height:520px;  */
+		overflow:hidden;
+	}
+	.candidat{
+		border-bottom:1px solid #ccc;
+		padding:6px 4px;
+		float:left;
+		clear:left;
+		width:100%;
+	}
+	.candidats > p, .sortants > p {
+		border-bottom:1px solid #ccc;
+		padding-left:8px!important;
+	}
+	.sortants > p{
+		margin-bottom: 6px;
+	}
+	.candidat p{
+		padding-left:75px;
+		margin:3px 0;
+	}
+	
+	
+	
+	/* .candidat_texte{
+		padding:7px 5px 0 5px;
+	} */
+	.parti{
+		font-style: italic;
+	}
+	/* .parti span:not(:first-child):before{
+		content: '\00b7';
+		padding:0 6px;
+	} */
+	
+	.center{
+		text-align: center;
+	}
+	.photo{
+		float:left;
+		clear:left;
+		margin-right:10px;
+	}
+	.photo img{
+		width:auto;
+		max-width:65px;
+	}
+	.nom_candidat{
+	font-weight: bold;
+	}
+	.nom_candidat_small{
+		padding-top:5px;
+		
+
+		/* font-weight:bold;
+		font-size: 1.5rem!important; */
+		/* border-top:1px solid #666; 
+		
+		margin-top:10px;*/
+	}
+	/* .nom_candidat_small span{
+		font-weight:normal;
+	} */
+	.nom_candidat_small:before{
+		content: '\203A \00A0';
+		    padding-left: 10px;
+	}
+
+	.fade{
+		color:#666!important; 
+	}
+
+	
+	
+
+	
+	#pied{
+		float:left;
+		clear:left;
+		width:100%;
+	}
+	#maj{
+		text-align: right;
+		font-style: italic;
+		padding:8px 0;
+	}
+	#large{
+		background: #285a82;
+		width:100%;
+		text-align: center;
+	}
+	#large:hover{
+		background: #0386c3;
+	}
+	#large a{
+		display:block;
+		color:#fff;
+		border-bottom: none!important;
+	}
+	#large a span{
+		width: 18px;
+	    height: 19px;
+	    margin: 0px 15px 0 0;
+	    background-position: 0 0;
+	    background: url('../img/external.png') no-repeat;
+    display: inline-block;
+	}
+	#choisir{
+		font-weight: bold;
+		padding-top:8px;
+	}
+	#choisir span{
+		  padding-right:8px;
+	}
+	#select_regions{
+		 	max-width:100%;
+		 	margin-top:8px;
+		   font-size:1.4rem;
+		   	    color: #0386c3;
+    border: 1px solid #0386c3;
+		    font-weight:bold;
+		    padding: 10px;
+		    border-radius: 4px;
+		    -webkit-box-shadow: inset 0 1px 1px rgba(3, 134, 195,.075);
+		    box-shadow: inset 0 1px 1px rgba(3, 134, 195,.075);
+		    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+		    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+		    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+	}
+ 	.center{
+ 		text-align: center;
+ 	}
+
+
+ 	/* TOOLTIP JQUERYUI */
+
+
+.ui-tooltip {
+    background: #fff!important;
+    color: white;
+    border-radius: 0px!important;
+    box-shadow: 0 0 6px #aaa;
+    border: none!important;
+    padding: 0!important;
+    opacity: 1!important;
+ 	text-align: center;
+}
+.ui-tooltip-content {
+    position: relative!important;
+    padding: 1em!important;    
+ 	font-weight: bold;
+}
+.ui-tooltip-content::after {
+    content: '';
+    position: absolute;
+    border-style: solid;
+    display: block;
+    width: 0;
+}
+.top .ui-tooltip-content {
+    max-width:200px;    
+   /*  text-transform: uppercase; */
+}
+.top .ui-tooltip-content::after {
+    bottom: -10px!important;
+    left: calc(50% - 5px)!important;
+    border-color: #fff transparent!important;
+    border-width: 10px 10px 0!important;   
+}
+.topdark .ui-tooltip-content::after {
+    bottom: -10px!important;
+    left: calc(50% - 5px)!important;
+    border-color: #333 transparent!important;
+    border-width: 10px 10px 0!important;   
+}
+.topdark .ui-tooltip-content {
+    max-width:400px;
+}

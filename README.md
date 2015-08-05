@@ -6,6 +6,13 @@ Ce code est libre ; vous pouvez le redistribuer ou le modifier suivant les terme
 
 En revanche, tous les textes, logos et visuels associés aux Décodeurs ou à la marque Le Monde sont protégés par le copyright.
 
+## [Carte des têtes de liste aux régionales de 2015](candidats-regionales2015) ##
+Carte interactive mise à jour en temps réel via un Google spreadsheet listant les candidats aux élections régionales de décembre 2015, région par région.
+
+[>> Régionales 2015 : la carte des candidats dans votre région](http://www.lemonde.fr/les-decodeurs/visuel/2015/08/05/regionales-2015-la-carte-des-candidats-dans-votre-region_4712776_4355770.html)
+
+![Bullshit bingo](candidats-regionales2015/illustr.png "Bullshit bingo")
+
 ## [Bullshit bingo](bullshit-bingo) ##
 Bullshit bingo pour suivre (a) les discours à l'Assemblée nationale (b) le foot (c) les soirées électorales.
 

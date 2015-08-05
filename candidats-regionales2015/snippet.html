@@ -1,0 +1,373 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		
+		 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+		<script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+		
+		<script type="text/javascript" charset="utf-8" src="js/class.Gselper.js"></script>
+		<script src="js/diacritics.js"></script>
+		
+		<script src="js/data.js"></script>
+
+	 <script src="http://d3js.org/d3.v3.min.js"></script> 
+		
+
+		<link rel="stylesheet" type="text/css" href="css/lemonde.css" />
+		<link rel="stylesheet" type="text/css" href="css/decodeurs.css" />
+		<link rel="stylesheet" type="text/css" href="css/snippet.css" />
+		<link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.9.0/themes/base/jquery-ui.css">
+		<!-- <link rel="stylesheet" href="css/jquery-ui.css" /> -->
+		<link rel="stylesheet" type="text/css" href="http://s1.lemde.fr/medias/web/css/fonts.css">
+
+	</head>
+	<body>
+
+
+
+
+		<div id="articleBody" class="clearfix mgt8">
+				<p class="padl8 padb16" id="choisir"><span>Choisir une région :</span><select id="select_regions"></select></p>
+				<div class="clearfix" id="volet">
+					<div id="loading" class="center mgt32 txt5">Chargement en cours...</div>
+				</div>
+				<div id="pied">
+					<p id="maj">Dernière mise à jour : <span></span>.</p>
+					<div id="large" class="pad8 tt4_capital">
+						<p><a href="http://www.lemonde.fr/les-decodeurs/visuel/2015/08/05/regionales-2015-la-carte-des-candidats-dans-votre-region_4712776_4355770.html" target="_blank"><span></span>Voir la carte des candidats en grand format</a></p>
+					</div>
+				</div>
+		
+		</div>
+		
+<script type="text/javascript">
+
+
+		// Pour modifier les données : https://docs.google.com/spreadsheets/d/16RU1Zoz80BNk8e5BeIe9yFX-clQlJEIq27_BUPIursQ/edit#gid=0		
+
+	
+		
+		/*** PARAMETRES ***/
+		var importDonneesGoogleSpreadsheet = true; // Changer cela en false pour charger les données en local via js/data.js.
+		/*****************/
+
+
+		if(importDonneesGoogleSpreadsheet){		
+			
+
+				function firstScrape(){
+						// Création de l'instance de Gselper
+					    var doc = new Gselper({
+					        // Identifiant du document
+					        key: "16RU1Zoz80BNk8e5BeIe9yFX-clQlJEIq27_BUPIursQ",
+					        // Le worksheet du document
+					        worksheet: "od6", // Première feuille (candidats)
+					        // La fonction à appeler lorsque le document est chargé
+					        onComplete: function(data) {
+					        	donnees_candidats = [];
+					            // parcourir le document ligne après ligne
+					            $.each(doc.get(), function(i, line) {
+					            	donnees_candidats.push(line)
+					            });
+					        	deuxiemeScrape();
+					        },
+					        // La fonction à appeler si une erreur survient lors du chargement
+					        onFail: function(data) {
+					            letsGo();
+					        }
+					    });
+				}
+
+				function deuxiemeScrape(){
+					var doc = new Gselper({
+					        // Identifiant du document
+					        key: "16RU1Zoz80BNk8e5BeIe9yFX-clQlJEIq27_BUPIursQ",
+					        // Le worksheet du document
+					        worksheet: "ob9oz5h", // Deuxième feuille (sortants)
+
+					        // La fonction à appeler lorsque le document est chargé
+					        onComplete: function(data) {
+					        	donnees_sortants = [];
+					            // parcourir le document ligne après ligne
+					            $.each(doc.get(), function(i, line) {
+					            	donnees_sortants.push(line)
+					            });
+					        	troisiemeScrape();
+					        },
+					        // La fonction à appeler si une erreur survient lors du chargement
+					        onFail: function(data) {
+					            letsGo();
+					        }
+					    });
+				}
+
+				function troisiemeScrape(){
+					
+					var doc = new Gselper({
+					        // Identifiant du document
+					        key: "16RU1Zoz80BNk8e5BeIe9yFX-clQlJEIq27_BUPIursQ",
+					        // Le worksheet du document
+					        worksheet: "ob75bsu", // Trosième feuille (sortants)
+
+					        // La fonction à appeler lorsque le document est chargé
+					        onComplete: function(data) {
+					        	donnees_etiquettes = [];
+					            // parcourir le document ligne après ligne
+					            $.each(doc.get(), function(i, line) {
+					            	donnees_etiquettes[line["court"]] = line["long"]
+					            });
+					        	quatriemeScrape();
+					        },
+					        // La fonction à appeler si une erreur survient lors du chargement
+					        onFail: function(data) {
+					            letsGo();
+					        }
+					    });
+				}
+
+				function quatriemeScrape(){
+					var doc = new Gselper({
+					        // Identifiant du document
+					        key: "16RU1Zoz80BNk8e5BeIe9yFX-clQlJEIq27_BUPIursQ",
+					        // Le worksheet du document
+					        worksheet: "op1va21", // Quatrième feuille (date de màj)
+
+					        // La fonction à appeler lorsque le document est chargé
+					        onComplete: function(data) {
+
+					            // parcourir le document ligne après ligne
+					            $.each(doc.get(), function(i, line) {
+					            	date_maj = line.date;
+					            });
+					        	letsGo();
+					        },
+					        // La fonction à appeler si une erreur survient lors du chargement
+					        onFail: function(data) {
+					            letsGo();
+					        }
+					 });
+					
+				}
+
+				firstScrape();
+				
+		}
+		else{
+			letsGo()
+		}
+
+		
+	function letsGo(){
+
+				$("#maj span").text(date_maj) // On change la date de mise à jour
+
+			   var sortants = {}, candidats = {}, correspondanceclean = {};
+
+			   // Préparation des descriptifs de régions avec sortants
+			   $.each(donnees_sortants,function(i,d){
+					if(!sortants[d["granderégion"]]){
+						sortants[d["granderégion"]] = [];
+					}
+
+					sortants[d["granderégion"]].push([d["région"],d["nomdusortant"],d["partidusortant"]])
+
+					correspondanceclean[clean(d["granderégion"])] = d["granderégion"];
+				})
+
+			   // Préparation des candidats
+			   $.each(donnees_candidats,function(i,d){
+					if(!candidats[d["région"]]){
+						candidats[d["région"]] = [];
+					}
+					candidats[d["région"]].push(d)
+				})
+
+			   array_regions = [];
+			   $.each(correspondanceclean,function(l,g){
+			   		array_regions.push(l)
+			   })
+			   array_regions.sort()
+			  
+			  $.each(array_regions,function(l,g){
+			  	$("#select_regions").append('<option>'+correspondanceclean[g]+'</option>')
+			  })
+
+			   $.each(sortants,function(i,d){ 
+
+			   		
+
+			   		// Texte des sortants
+			   		pluriel = (d.length > 1) ? "s": "";
+			   		sortants_texte = "<p class='tt5_capital'>Président"+pluriel+" sortant"+pluriel+" :</p><ul>";			   		
+			   		candidats_texte = "";					
+			   		$.each(d,function(j,e){
+			   			sortants_texte += '<li><strong>'+e[1].replace(/\s/g,'&nbsp;')+'</strong>&nbsp;('+((donnees_etiquettes[e[2]]) ? donnees_etiquettes[e[2]] : e[2])+',&nbsp;'+e[0]+')</li>';
+			   		})
+			   		sortants_texte += "</ul>";
+
+			  
+			   		// Texte des candidats
+			   		if(candidats[i]){
+			   			candidats[i].sort(function(a,b){
+			   				if(a["statut"] == "Inconnu" || b["statut"] == "Inconnu") return -1;
+			   				else if(a["candidat1-nom"] < b["candidat1-nom"]) return -1;
+			   				else if(a["candidat1-nom"] > b["candidat1-nom"]) return 1;
+			   				else return 0;
+			   			})
+			   			$.each(candidats[i],function(j,e){
+
+			   				
+			   				partis = '';
+			   				compter = 0;
+			   				$.each(e["parti"].split(" / "),function(k,f){
+			   					if(compter > 0) partis += " &middot; ";
+			   					partis += ((donnees_etiquettes[f] !== undefined) ? donnees_etiquettes[f] : f);
+			   					compter++;
+			   				})
+
+			   				candidats_texte += '<div class="candidat clearfix"> \
+			   					<div class="photo">'+((e["statut"] == "Désigné" || e["statut"] == "Désignée") ? photovide(e["candidat1-photo"]) : ((e["statut"] == "Primaire") ? photovide("primaire") : ((e["statut"] == "Inconnu") ? photovide("inconnu") : photovide())))+'</div> \
+			   					<p class="parti">'+partis+'</p>';
+
+			   				if(e["statut"] == "Désigné" || e["statut"] == "Désignée") { 
+			   					candidats_texte += '<p class="nom_candidat">'+e["candidat1-prenom"]+' '+e["candidat1-nom"]+' \
+			   					<span class="parti_candidat">'+((e["parti"] !== e["candidat1-parti"] && nonvide(e["candidat1-parti"])) ? '('+e["candidat1-parti"]+')' : '')+'</span></p> \
+			   					<p class="bio_candidat">'+e["candidat1-bio"]+'</p>'
+			   				}
+			   				else { // Si le candidat est inconnu
+			   					candidats_texte += '<p class="nom_candidat">'+e["nom-situation"]+'</p>'
+			   					+(nonvide(e["descriptif-situation"]) ? '<p class="mgt8">'+e["descriptif-situation"]+'</p>' : '');
+			   					
+			   					for(var k = 1;k < 3;k++){ // On boucle sur toutes les candidats potentiels (en l'occurrence : 3)
+			   						if(nonvide(e["candidat"+k+"-nom"])) {
+				   						candidats_texte += '<p class="nom_candidat_small">';
+				   					//	candidats_texte += '<img class="photo_small" src="'+photovide(e["candidat 1 : photo"])+'" />';							
+				   						candidats_texte += '<strong>'+e["candidat"+k+"-prenom"]+' '+e["candidat"+k+"-nom"]+'</strong>'+((e["parti"] !== e["candidat"+k+"-parti"] && nonvide(e["candidat"+k+"-parti"])) ? ' ('+e['candidat'+k+'-parti']+')' : '')+' \
+				   						'+((nonvide(e["candidat"+k+"-bio"])) ? ' : '+e["candidat"+k+"-bio"] : "")+'</p>';
+				   					}
+			   					}
+				   					
+
+			   					
+			   				}
+
+			   			
+			   				
+				   			candidats_texte += '</div>'
+				   		})
+				   	}
+				   
+
+					 texte = '<div id=region_'+clean(i)+' class="volet clearfix"> \
+					 	<div class="infos_region"> \
+							<div class="sortants"> \
+								'+sortants_texte+'\
+							</div> \
+						</div> \
+						\
+						<div class="candidats mgt8 clearfix"> \
+							<p class="tt5_capital">Candidats :</p> \
+							'+candidats_texte+' \
+						</div> \
+						\
+					</div>';
+					$("#volet").append(texte)
+				})
+
+				$("#loading").hide()
+				
+				function photovide(photo){
+					
+					if(photo == undefined || photo == "") {
+						return '<img src="img/vide.png" alt="CC BY 3.0/Simple Icons" title="CC BY 3.0/Simple Icons" />';
+					}
+					else if(photo == "inconnu") {
+						return '<img src="img/inconnu.png" alt="CC BY 3.0/Igor Neburov" title="CC BY 3.0/Igor Neburov" />';
+					}
+					else if(photo == "primaire") {
+						return '<img src="img/primaire.png" alt="Primaire" />';
+					}
+					else{
+						photos = photo.split("|"); // Séparer l'url et le crédit
+						return '<img src="'+photos[0]+'" alt="'+photos[1]+'" title="'+photos[1]+'" />';
+					}
+				}
+
+				function nonvide(str){
+					return (str !== null && str !== undefined && str !== "");
+				}
+				
+				if(correspondanceclean[window.location.hash.substring(1)]){
+					$('#select_regions option:nth-child('+eval(1+array_regions.indexOf(window.location.hash.substring(1)))+')').prop('selected', true); // sélectionne la bonne région dans le select si un paramètre est présent dans l'url
+					zoomRegion(window.location.hash.substring(1))
+				}
+				// CLIC SUR LES REGIONS
+				$("select").change(function(){
+					zoomRegion(clean(this.value))					
+				})
+
+				function zoomRegion(region){
+
+					window.location.hash = region;
+					$(".volet").hide();
+					$("#region_"+region).show("fade")			
+				}
+
+					
+
+		
+			    $( document ).tooltip({
+			    	show:  { effect: "fade", duration: 0 },
+			    	hide:  { effect: "fade", duration: 0000000 },
+			    	track: true,
+			    	items: "path,g",
+			    	tooltipClass: "top tt6", // txt4,
+			    	position:{
+			    		my: 'center bottom-20', at: 'center top-40', collision:'none'
+			    	},
+			    	content: function(){
+			    		return correspondanceclean[$(this).attr("id")]
+			    	}
+			    });
+
+			    $( ".tooltip_parti" ).tooltip({
+			    	show:  { effect: "fade", duration: 0 },
+			    	hide:  { effect: "fade", duration: 0000000 },
+			    	track: true,
+			    	tooltipClass: "topdark txt4",
+			    	position:{
+			    		my: 'center bottom-20', at: 'center top-40', collision:'none'
+			    	}
+			    });
+
+			   function clean(str){ // Supprime les majuscules, les accents, les espaces et les apostrophes
+
+			   			return removeDiacritics(str).replace(/\s/g,"_").replace(/\'/g,"_").toLowerCase()
+			   }
+
+			    
+			  
+				
+				function tailleIframe()
+				{
+					if (top.location != self.document.location)
+						{
+							$(window.parent.document).find('.embed').children('iframe').height($('body').height()+10);
+						}
+				}
+
+				function thousandsSeparator(n){
+						    var rx=  /(\d+)(\d{3})/;
+						    return String(n).replace(/^\d+/, function(w){
+						        while(rx.test(w)){
+						            w= w.replace(rx, '$1\&nbsp;$2');
+			        			}
+					        return w;
+					    	});
+				}
+	}
+
+    	</script>
+    	
+	</body>
+</html>
